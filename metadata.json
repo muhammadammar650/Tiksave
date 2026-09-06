@@ -1,0 +1,6 @@
+{
+  "name": "Universal Video Downloader & SEO",
+  "description": "Download videos from TikTok, Instagram, Facebook, and YouTube, plus an AI-powered SEO Hashtag Creator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

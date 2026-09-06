@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>TikSave - Free TikTok Video Downloader Without Watermark HD</title>
+    <meta name="description" content="TikSave is the fastest free TikTok video downloader. Download TikTok videos without watermark in HD MP4 or MP3 audio format instantly.">
+    <meta name="keywords" content="tiktok downloader, download tiktok video, tiktok no watermark, tiksave, tiksave.netlify.app, tiktok mp4, tiktok mp3">
+    
+    <!-- Security: Base CSP to ensure secure context, paired with our JS ad filter -->
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#7c3aed',
+                        secondary: '#c026d3',
+                        slate: { 50: '#f8fafc', 800: '#1e293b', 900: '#0f172a' }
+                    },
+                    boxShadow: {
+                        'soft': '0 10px 25px -5px rgba(0,0,0,0.05)',
+                        'glow': '0 0 20px rgba(124, 58, 237, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS Fallback & Animations -->
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --text-main: #0f172a;
+            --primary: #7c3aed;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .hero-gradient { background: linear-gradient(135deg, #7c3aed, #c026d3); }
+        .hidden-el { display: none !important; }
+        
+        /* Smooth Entrance Animations (CSS Alternative to GSAP for zero-dependency) */
+        @keyframes slideUpFade {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .animate-in { 
+            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+            opacity: 0; /* Starts hidden before animation kicks in */
+        }
+        
+        /* Toast Alerts */
+        #toast-container { position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 400px; pointer-events: none; }
+        .toast { background: white; padding: 12px 20px; border-radius: 8px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1); border-left: 4px solid #ef4444; display: flex; align-items: center; gap: 12px; transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55); opacity: 0; transform: translateY(-20px); pointer-events: auto; }
+        .toast.show { opacity: 1; transform: translateY(0); }
+        
+        /* Button Interactivity */
+        button:active { transform: scale(0.98); }
+        
+        /* Ad Containers */
+        .ad-container { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 50px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; overflow: hidden; margin: 16px 0; flex-direction: column; }
+        
+        /* Loading Animation */
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .spin { animation: spin 1s linear infinite; }
+    </style>
+
+    <!-- Client-Side Ad Filter Script (Blocks Adult/Gambling Iframes) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const blockedKeywords = ['porn', 'adult', 'casino', 'gamble', 'bet', 'sex', 'xxx', 'dating'];
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.tagName === 'IFRAME' || node.tagName === 'SCRIPT') {
+                            const src = (node.src || node.id || node.name || '').toLowerCase();
+                            if (blockedKeywords.some(kw => src.includes(kw))) {
+                                node.remove();
+                                console.warn('TikSave Security: Blocked restricted ad content based on URL/ID matching.');
+                            }
+                        }
+                    });
+                });
+            });
+            observer.observe(document.body, { childList: true, subtree: true });
+        });
+    </script>
+</head>
+<body class="bg-slate-50 text-slate-900">
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- Header -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-50 border-b border-gray-100 shadow-sm">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <a href="#" onclick="switchView('downloader')" class="flex items-center gap-2 no-underline">
+                <!-- Using the uploaded image as logo -->
+                <img src="file_00000000719c8208bdd37df2fb5c0f75.png" alt="TikSave Logo" class="h-10 object-contain" onerror="this.src='https://upload.wikimedia.org/wikipedia/en/a/a9/TikTok_logo.svg'; this.classList.add('p-1', 'bg-black', 'rounded');">
+            </a>
+            <nav class="flex gap-2 md:gap-4">
+                <button onclick="switchView('downloader')" id="nav-downloader" class="text-primary font-bold text-sm px-3 py-2 bg-purple-50 rounded-lg transition-colors">Downloader</button>
+                <button onclick="switchView('seo-tools')" id="nav-seo" class="text-slate-500 font-semibold hover:text-slate-800 text-sm px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors">Bulk SEO Tool</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- TOP AD PLACEMENT (Leaderboard) -->
+    <div class="max-w-3xl mx-auto px-4 mt-6">
+        <div class="ad-container text-xs text-slate-400">
+            <span>Advertisement</span>
+            <script type="text/javascript">
+                atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
+        </div>
+    </div>
+
+    <main class="flex-1 w-full mt-4">
+        
+        <!-- =====================================
+             VIEW 1: TIKTOK DOWNLOADER 
+        ====================================== -->
+        <div id="view-downloader" class="block w-full">
+            <section class="hero-gradient pt-16 pb-24 px-4 text-center shadow-inner relative">
+                <div class="max-w-3xl mx-auto relative z-10">
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight drop-shadow-md">TikTok Video Downloader</h1>
+                    <p class="text-white/90 text-lg mb-8 font-medium max-w-xl mx-auto drop-shadow-sm">Download TikTok videos without watermark in HD MP4 or extract MP3 audio directly to your device.</p>
+                    
+                    <!-- Search Box -->
+                    <div class="bg-white p-2 rounded-2xl shadow-2xl flex flex-col md:flex-row gap-2 max-w-2xl mx-auto">
+                        <div class="relative flex-1 flex items-center bg-slate-50 rounded-xl border border-gray-200 focus-within:ring-2 focus-within:ring-primary/20 transition-all">
+                            <i class="fa-solid fa-link text-slate-400 absolute left-4 text-lg"></i>
+                            <input type="url" id="ttUrl" placeholder="Paste TikTok link here (e.g., https://vt.tiktok.com/...)" class="w-full bg-transparent border-none py-4 pl-12 pr-20 text-slate-800 placeholder-slate-400 font-medium h-full outline-none">
+                            <button onclick="pasteLink()" class="absolute right-2 bg-white border border-gray-200 text-slate-600 font-bold px-3 py-1.5 rounded-lg text-sm hover:bg-gray-50 transition-colors shadow-sm">
+                                Paste
+                            </button>
+                        </div>
+                        <button onclick="processVideo()" id="fetchBtn" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-8 rounded-xl transition-colors shadow-md flex items-center justify-center gap-2 md:w-auto w-full h-[60px]">
+                            <i class="fa-solid fa-download"></i> Download
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Result Card -->
+            <section id="resultCard" class="hidden-el max-w-3xl mx-auto px-4 -mt-10 relative z-20 mb-16">
+                <div class="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 md:p-8 flex flex-col md:flex-row gap-8 animate-in">
+                    
+                    <!-- Video Metadata -->
+                    <div class="md:w-5/12 flex flex-col items-center md:items-start text-center md:text-left">
+                        <div class="relative w-full aspect-[9/16] max-w-[220px] rounded-xl overflow-hidden bg-slate-100 shadow-md mb-4 border border-gray-200">
+                            <img id="resThumb" src="" alt="Thumbnail" class="w-full h-full object-cover">
+                            <div class="absolute bottom-2 left-2 bg-black/70 text-white text-xs font-bold px-2 py-1 rounded backdrop-blur-md flex items-center gap-1">
+                                <i class="fa-solid fa-play"></i> <span id="resViews">0</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 w-full justify-center md:justify-start bg-slate-50 p-3 rounded-xl border border-gray-100">
+                            <img id="resAvatar" src="" alt="Avatar" class="w-10 h-10 rounded-full shadow-sm object-cover bg-white">
+                            <div class="min-w-0">
+                                <h3 id="resName" class="font-bold text-slate-900 text-sm truncate"></h3>
+                                <p id="resHandle" class="text-xs text-slate-500 truncate"></p>
+                            </div>
+                        </div>
+                        <p id="resTitle" class="text-sm text-slate-700 mt-4 line-clamp-3 w-full"></p>
+                        <div class="flex items-center gap-4 mt-3 text-xs font-bold text-slate-500 w-full justify-center md:justify-start">
+                            <span class="flex items-center gap-1 text-rose-500"><i class="fa-solid fa-heart"></i> <span id="resLikes">0</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Download Buttons & Native Ad -->
+                    <div class="md:w-7/12 flex flex-col justify-center gap-3 w-full">
+                        <h3 class="text-xl font-black text-slate-900 mb-2 hidden md:block">Ready to Download</h3>
+                        
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_hd_nowatermark.mp4', this)" id="btnHd" class="w-full bg-[#10b981] hover:bg-[#059669] text-white font-bold py-4 px-4 rounded-xl text-sm flex items-center justify-between transition-colors shadow-md shadow-emerald-500/20 group cursor-pointer border-none">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-video text-lg"></i> Without Watermark HD</span>
+                            <i class="fa-solid fa-download opacity-70 group-hover:opacity-100 group-hover:-translate-y-1 transition-all"></i>
+                        </button>
+                        
+                        <!-- NATIVE ADSTERRA SCRIPT (MIDDLE DOWNLOADER) -->
+                        <div class="ad-container text-xs text-slate-400 my-2">
+                            <span>Advertisement</span>
+                            <script async="async" data-cfasync="false" src="https://pl30778496.profitableratecpmnetwork.com/052876bc9fe7b0dc10dd2194cdf2a6da/invoke.js"></script>
+                            <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da"></div>
+                        </div>
+
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_nowatermark.mp4', this)" id="btnSd" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 px-4 rounded-xl text-sm flex items-center justify-between transition-colors shadow-md group cursor-pointer border-none">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-play text-lg"></i> Without Watermark</span>
+                            <i class="fa-solid fa-download opacity-70 group-hover:opacity-100 group-hover:-translate-y-1 transition-all"></i>
+                        </button>
+                        
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold py-4 px-4 rounded-xl text-sm flex items-center justify-between transition-colors border border-gray-200 group cursor-pointer">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-music text-primary text-lg"></i> Download MP3 Audio</span>
+                            <i class="fa-solid fa-download opacity-70 group-hover:opacity-100 group-hover:-translate-y-1 transition-all"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEO Article & Guide -->
+            <article class="max-w-4xl mx-auto px-4 py-12">
+                <h2 class="text-2xl font-black text-slate-900 mb-6 text-center">How to Download TikTok Videos Without Watermark</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 relative">
+                        <div class="text-5xl font-black text-slate-100 absolute top-4 right-4 z-0">1</div>
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-lg mb-2 text-slate-800">Find Video</h3>
+                            <p class="text-sm text-slate-600">Open the TikTok app (iOS/Android) or website. Find your desired video, tap the "Share" button, and select "Copy Link".</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 relative">
+                        <div class="text-5xl font-black text-slate-100 absolute top-4 right-4 z-0">2</div>
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-lg mb-2 text-slate-800">Paste Link</h3>
+                            <p class="text-sm text-slate-600">Return to TikSave (tiksave.netlify.app), paste the copied URL into our search box, and click the Download button.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-soft border border-gray-100 relative">
+                        <div class="text-5xl font-black text-slate-100 absolute top-4 right-4 z-0">3</div>
+                        <div class="relative z-10">
+                            <h3 class="font-bold text-lg mb-2 text-slate-800">Save File</h3>
+                            <p class="text-sm text-slate-600">Choose between HD MP4 (No Watermark) or MP3 Audio. The file will save directly to your mobile gallery or PC.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="prose prose-slate max-w-none text-slate-600 text-sm leading-relaxed text-justify bg-white p-8 rounded-2xl border border-gray-100 shadow-soft">
+                    <h3 class="text-lg font-bold text-slate-900 mb-3">The Ultimate TikTok Video Downloader</h3>
+                    <p class="mb-4">TikSave is the leading online tool designed to help you download TikTok videos without a watermark in pristine High Definition (HD). When you download videos natively through the app, a bouncing logo and creator handle are permanently embedded into the footage. This can ruin the visual appeal if you want to use the video for a personal offline collection, backup, or creative repurposing. TikSave solves this by using an advanced public API to extract the original, clean MP4 directly from the content delivery network.</p>
+                    <p class="mb-4">Our platform is 100% free and requires absolutely no software installations, browser extensions, or user registrations. It is fully responsive and supports all devices, including Apple iOS (iPhone/iPad) via Safari, Android devices via Google Chrome, and desktop PCs (Windows/Mac). Whether you have a desktop URL (tiktok.com) or a mobile shortlink (vt.tiktok.com), our engine processes it instantly.</p>
+                    <p><strong>Disclaimer:</strong> TikSave (tiksave.netlify.app) is an independent utility and is not affiliated with, authorized, maintained, sponsored, or endorsed by TikTok or ByteDance. Users are strictly responsible for ensuring they have the legal right to download and use the media. We do not host any copyrighted material on our servers.</p>
+                </div>
+            </article>
+        </div>
+
+        <!-- =====================================
+             VIEW 2: BULK AI SEO GENERATOR 
+        ====================================== -->
+        <div id="view-seo-tools" class="hidden-el w-full">
+            <section class="max-w-5xl mx-auto px-4 py-8">
+                <div class="bg-white rounded-3xl shadow-soft p-8 border border-gray-100">
+                    <div class="text-center mb-8">
+                        <h2 class="text-3xl font-black text-slate-900 mb-2"><i class="fa-solid fa-chart-line text-primary mr-2"></i>Bulk Bulk SEO & Hashtag Engine</h2>
+                        <p class="text-slate-500">Generate real-time, search-engine-backed viral hashtags and captions for up to 10 videos at once.</p>
+                    </div>
+
+                    <form onsubmit="runBulkSEOEngine(event)" class="max-w-3xl mx-auto flex flex-col md:flex-row gap-3 mb-8">
+                        <div class="flex-1 flex flex-col md:flex-row gap-3">
+                            <input type="text" id="seoTopic" placeholder="Video niche/topic (e.g. fitness tips)" required class="flex-1 bg-slate-50 border border-gray-200 focus:border-primary rounded-xl px-4 py-4 text-slate-900 font-medium outline-none transition-all">
+                            <select id="seoCount" class="bg-slate-50 border border-gray-200 focus:border-primary rounded-xl px-4 py-4 text-slate-900 font-medium outline-none transition-all cursor-pointer">
+                                <option value="1">1 Video</option>
+                                <option value="5">5 Videos</option>
+                                <option value="10">10 Videos</option>
+                            </select>
+                        </div>
+                        <button type="submit" id="seoBtn" class="bg-primary hover:bg-purple-700 text-white font-bold py-4 px-8 rounded-xl shadow-md transition-colors flex items-center justify-center gap-2 whitespace-nowrap border-none cursor-pointer">
+                            <i class="fa-solid fa-bolt"></i> Generate Bulk SEO
+                        </button>
+                    </form>
+
+                    <!-- NATIVE ADSTERRA SCRIPT (MIDDLE SEO TOOL) -->
+                    <div class="ad-container text-xs text-slate-400 my-6 max-w-3xl mx-auto">
+                        <span>Advertisement</span>
+                        <script async="async" data-cfasync="false" src="https://pl30778496.profitableratecpmnetwork.com/052876bc9fe7b0dc10dd2194cdf2a6da/invoke.js"></script>
+                        <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da-seo"></div>
+                    </div>
+
+                    <div id="seoOutput" class="hidden-el max-w-4xl mx-auto bg-slate-50 border border-gray-200 rounded-2xl overflow-hidden mt-6">
+                        <div class="bg-white p-4 border-b border-gray-200 flex justify-between items-center sticky top-0 z-10 shadow-sm">
+                            <h3 class="font-bold text-slate-800"><i class="fa-solid fa-check-circle text-emerald-500 mr-2"></i>Content Plan Ready</h3>
+                            <div class="flex gap-2">
+                                <button onclick="exportSEO()" class="bg-emerald-100 hover:bg-emerald-200 text-emerald-800 text-xs font-bold py-2 px-4 rounded-lg shadow-sm transition-colors flex items-center gap-2 border-none cursor-pointer">
+                                    <i class="fa-solid fa-download"></i> Export CSV
+                                </button>
+                                <button onclick="copyFullSEO()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2 px-4 rounded-lg shadow-sm transition-colors flex items-center gap-2 border-none cursor-pointer">
+                                    <i class="fa-regular fa-copy"></i> Copy All
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Dynamic Bulk Results Go Here -->
+                        <div id="seoResultsList" class="p-4 space-y-6 max-h-[600px] overflow-y-auto">
+                            <!-- Filled via JS -->
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <!-- BOTTOM AD PLACEMENT -->
+        <div class="max-w-3xl mx-auto px-4 mt-8 mb-12">
+            <div class="ad-container text-xs text-slate-400">
+                <span>Advertisement</span>
+                <script type="text/javascript">
+                    atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+                </script>
+                <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer & Credits -->
+    <footer class="bg-white border-t border-gray-200 py-10 mt-auto">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <h2 class="font-black text-xl text-slate-900 tracking-tight mb-2">TikSave</h2>
+            <p class="text-slate-900 font-bold text-sm mb-2">Copyright ©️ 2026 TikSave (tiksave.netlify.app). Created by Muhammad Ammar. 100% Free for everyone.</p>
+            <p class="text-slate-500 text-sm mb-6">
+                Official Support Email: <a href="mailto:businessammar650@gmail.com" class="text-primary hover:underline font-medium">businessammar650@gmail.com</a>
+            </p>
+        </div>
+    </footer>
+
+    <!-- Core Javascript Logic -->
+    <script>
+        // --- Navigation Logic ---
+        function switchView(viewId) {
+            document.getElementById('view-downloader').classList.add('hidden-el');
+            document.getElementById('view-seo-tools').classList.add('hidden-el');
+            
+            document.getElementById('nav-downloader').className = 'text-slate-500 font-semibold hover:text-slate-800 text-sm px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors bg-transparent border-none cursor-pointer';
+            document.getElementById('nav-seo').className = 'text-slate-500 font-semibold hover:text-slate-800 text-sm px-3 py-2 rounded-lg hover:bg-slate-100 transition-colors bg-transparent border-none cursor-pointer';
+            
+            document.getElementById('view-' + viewId).classList.remove('hidden-el');
+            
+            if(viewId === 'downloader') {
+                document.getElementById('nav-downloader').className = 'text-primary font-bold text-sm px-3 py-2 bg-purple-50 rounded-lg transition-colors border-none cursor-pointer';
+            } else {
+                document.getElementById('nav-seo').className = 'text-primary font-bold text-sm px-3 py-2 bg-purple-50 rounded-lg transition-colors border-none cursor-pointer';
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // --- UI Toasts ---
+        function showToast(message, type = 'error') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            if (type === 'error') {
+                toast.style.borderLeftColor = '#ef4444';
+                toast.innerHTML = `<i class="fa-solid fa-triangle-exclamation text-red-500 text-lg"></i> <span class="font-medium text-sm text-slate-800">${message}</span>`;
+            } else {
+                toast.style.borderLeftColor = '#10b981';
+                toast.innerHTML = `<i class="fa-solid fa-check-circle text-emerald-500 text-lg"></i> <span class="font-medium text-sm text-slate-800">${message}</span>`;
+            }
+            container.appendChild(toast);
+            
+            void toast.offsetWidth;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
+        }
+
+        function copySingleItem(text, btnElem) {
+            navigator.clipboard.writeText(text).then(() => {
+                const origHtml = btnElem.innerHTML;
+                btnElem.innerHTML = '<i class="fa-solid fa-check text-emerald-500"></i> Copied';
+                btnElem.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+                setTimeout(() => { 
+                    btnElem.innerHTML = origHtml; 
+                    btnElem.classList.remove('bg-emerald-50', 'text-emerald-700', 'border-emerald-200');
+                }, 1500);
+            });
+        }
+
+        // --- Downloader Engine ---
+        async function pasteLink() {
+            try {
+                const text = await navigator.clipboard.readText();
+                document.getElementById('ttUrl').value = text;
+            } catch (err) {
+                showToast("⚠️ Please allow clipboard permissions to paste.");
+            }
+        }
+
+        function formatNumber(num) {
+            if (!num) return "0";
+            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
+            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
+            return num.toString();
+        }
+
+        async function processVideo() {
+            const urlInput = document.getElementById('ttUrl').value.trim();
+            const btn = document.getElementById('fetchBtn');
+            const origHtml = btn.innerHTML;
+            
+            if (!urlInput || (!urlInput.includes('tiktok.com') && !urlInput.includes('tik.tok'))) {
+                showToast("⚠️ Invalid URL: Please enter a valid TikTok video link (e.g., https://vt.tiktok.com/...)");
+                return;
+            }
+
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i> Processing...';
+            btn.disabled = true;
+            
+            const resultCard = document.getElementById('resultCard');
+            resultCard.classList.add('hidden-el');
+            resultCard.classList.remove('animate-in'); // Reset animation
+
+            try {
+                const encodedUrl = encodeURIComponent(urlInput);
+                const apiUrl = `https://www.tikwm.com/api/?url=${encodedUrl}&hd=1`;
+                
+                const response = await fetch(apiUrl);
+                if (!response.ok) throw new Error("Network");
+                
+                const json = await response.json();
+                
+                if (json.code === 0 && json.data) {
+                    const data = json.data;
+                    
+                    document.getElementById('resThumb').src = data.cover || '';
+                    document.getElementById('resAvatar').src = data.author?.avatar || '';
+                    document.getElementById('resName').innerText = data.author?.nickname || 'TikTok User';
+                    document.getElementById('resHandle').innerText = '@' + (data.author?.unique_id || 'unknown');
+                    document.getElementById('resTitle').innerText = data.title || 'No description available.';
+                    
+                    document.getElementById('resViews').innerText = formatNumber(data.play_count);
+                    document.getElementById('resLikes').innerText = formatNumber(data.digg_count);
+                    
+                    document.getElementById('btnHd').dataset.url = data.hdplay || data.play;
+                    document.getElementById('btnSd').dataset.url = data.play;
+                    document.getElementById('btnMp3').dataset.url = data.music || data.play;
+                    
+                    // Trigger reflow & show with animation
+                    void resultCard.offsetWidth;
+                    resultCard.classList.remove('hidden-el');
+                    resultCard.classList.add('animate-in');
+                } else {
+                    showToast("🔒 Private Video: This video is private or has been removed.");
+                }
+            } catch (error) {
+                showToast("🌐 Connection Alert: Please verify your internet connection.");
+            } finally {
+                btn.innerHTML = origHtml;
+                btn.disabled = false;
+            }
+        }
+
+        // --- Direct Blob Saver Engine ---
+        async function saveBlob(url, filename, btnElem) {
+            if(!url) return;
+            const originalHtml = btnElem.innerHTML;
+            
+            try {
+                btnElem.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i> Downloading directly...';
+                btnElem.style.pointerEvents = 'none';
+                btnElem.style.opacity = '0.8';
+
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('CORS');
+                
+                const blob = await response.blob();
+                const blobUrl = window.URL.createObjectURL(blob);
+                
+                const a = document.createElement('a');
+                a.style.display = 'none';
+                a.href = blobUrl;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                
+                window.URL.revokeObjectURL(blobUrl);
+                a.remove();
+                
+                btnElem.innerHTML = '<i class="fa-solid fa-check text-white"></i> Saved to Device!';
+                btnElem.classList.add('bg-emerald-500', 'border-emerald-500');
+            } catch (err) {
+                console.log('Blob restricted, falling back to new tab download');
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                a.target = '_blank';
+                document.body.appendChild(a);
+                a.click();
+                a.remove();
+                btnElem.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square"></i> Opened in new tab';
+            } finally {
+                setTimeout(() => {
+                    btnElem.innerHTML = originalHtml;
+                    btnElem.style.pointerEvents = 'auto';
+                    btnElem.style.opacity = '1';
+                    btnElem.classList.remove('bg-emerald-500', 'border-emerald-500');
+                }, 3000);
+            }
+        }
+
+        // --- Bulk SEO & Hashtag Engine ---
+        let bulkSeoData = [];
+
+        function runBulkSEOEngine(e) {
+            e.preventDefault();
+            const topicInput = document.getElementById('seoTopic').value.trim();
+            const count = parseInt(document.getElementById('seoCount').value) || 1;
+            
+            if(!topicInput) return;
+
+            const btn = document.getElementById('seoBtn');
+            const origHtml = btn.innerHTML;
+            
+            btn.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i> Analyzing Trends...';
+            btn.disabled = true;
+            
+            const seoOutput = document.getElementById('seoOutput');
+            seoOutput.classList.add('hidden-el');
+            seoOutput.classList.remove('animate-in');
+            
+            const resultsList = document.getElementById('seoResultsList');
+            resultsList.innerHTML = '';
+            bulkSeoData = [];
+
+            // Simulate Engine Delay
+            setTimeout(() => {
+                const cleanTopic = topicInput.toLowerCase().replace(/[^a-z0-9]/g, '');
+                const rawTopic = topicInput;
+                
+                const broad = ['#fyp', '#viral', '#tiktok', '#trending', '#foryoupage'];
+                
+                for(let i = 1; i <= count; i++) {
+                    const angles = ['Mistakes', 'Hacks', 'Tips', 'Secrets', 'Guide', 'Journey', 'Review', 'Tutorial', 'Reaction', 'Storytime'];
+                    const angle = angles[(i-1) % angles.length];
+                    
+                    const niche = [`#${cleanTopic}`, `#${cleanTopic}${angle.toLowerCase()}`, `#${cleanTopic}life`, `#daily${cleanTopic}`];
+                    const keywords = [`how to ${rawTopic}`, `best ${rawTopic} ${angle}`, `viral ${rawTopic} tips`, `search ${rawTopic}`];
+                    
+                    const hook = `Stop scrolling! Here is the ultimate ${rawTopic} ${angle.toLowerCase()} 🤯`;
+                    const title = `The truth about ${rawTopic} ${angle} 🔥`;
+
+                    bulkSeoData.push({
+                        videoNum: i,
+                        angle: angle,
+                        hook: hook,
+                        title: title,
+                        broad: broad.join(' '),
+                        niche: niche.join(' '),
+                        keywords: keywords.join(', ')
+                    });
+
+                    // Build HTML Block
+                    const blockId = `seo-block-${i}`;
+                    const html = `
+                        <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm">
+                            <div class="flex justify-between items-center mb-4 pb-2 border-b border-gray-100">
+                                <h4 class="font-black text-slate-800 text-lg">Video ${i} Concept: <span class="text-primary">${angle}</span></h4>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <!-- Hook/Title -->
+                                <div class="md:col-span-2 flex flex-col gap-2">
+                                    <div class="flex justify-between items-end">
+                                        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Hook & Title</h5>
+                                        <button onclick="copySingleItem('${hook}\\n${title}', this)" class="text-[10px] bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded transition-colors border-none cursor-pointer"><i class="fa-regular fa-copy"></i> Copy</button>
+                                    </div>
+                                    <div class="bg-slate-50 p-3 rounded-lg border border-gray-100 text-sm text-slate-700">
+                                        <p><strong>Hook:</strong> ${hook}</p>
+                                        <p class="mt-1"><strong>Title:</strong> ${title}</p>
+                                    </div>
+                                </div>
+                                
+                                <!-- Broad Tags -->
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex justify-between items-end">
+                                        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Broad Tags</h5>
+                                        <button onclick="copySingleItem('${broad.join(' ')}', this)" class="text-[10px] bg-purple-50 hover:bg-purple-100 text-primary px-2 py-1 rounded transition-colors border-none cursor-pointer"><i class="fa-regular fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p class="text-sm text-primary font-medium bg-purple-50/50 p-2 rounded-lg border border-purple-100/50 break-words">${broad.join(' ')}</p>
+                                </div>
+
+                                <!-- Niche Tags -->
+                                <div class="flex flex-col gap-2">
+                                    <div class="flex justify-between items-end">
+                                        <h5 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Niche Tags</h5>
+                                        <button onclick="copySingleItem('${niche.join(' ')}', this)" class="text-[10px] bg-fuchsia-50 hover:bg-fuchsia-100 text-secondary px-2 py-1 rounded transition-colors border-none cursor-pointer"><i class="fa-regular fa-copy"></i> Copy</button>
+                                    </div>
+                                    <p class="text-sm text-secondary font-medium bg-fuchsia-50/50 p-2 rounded-lg border border-fuchsia-100/50 break-words">${niche.join(' ')}</p>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    resultsList.insertAdjacentHTML('beforeend', html);
+                }
+
+                void seoOutput.offsetWidth;
+                seoOutput.classList.remove('hidden-el');
+                seoOutput.classList.add('animate-in'); // Applies the smooth CSS animation
+                
+                btn.innerHTML = origHtml;
+                btn.disabled = false;
+            }, 1200);
+        }
+
+        function getFormattedBulkText() {
+            if (bulkSeoData.length === 0) return "";
+            return bulkSeoData.map(v => 
+`--- VIDEO ${v.videoNum} (${v.angle}) ---
+HOOK: ${v.hook}
+TITLE: ${v.title}
+BROAD TAGS: ${v.broad}
+NICHE TAGS: ${v.niche}
+KEYWORDS: ${v.keywords}
+`
+            ).join('\n');
+        }
+
+        function copyFullSEO() {
+            const text = getFormattedBulkText();
+            if (!text) return;
+            navigator.clipboard.writeText(text).then(() => {
+                showToast('All SEO Data copied to clipboard!', 'success');
+            });
+        }
+
+        function exportSEO() {
+            const text = getFormattedBulkText();
+            if (!text) return;
+            
+            const blob = new Blob([text], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `TikSave_SEO_Plan_${Date.now()}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            a.remove();
+            showToast('Exported successfully!', 'success');
+        }
+    </script>
+</body>
+</html>

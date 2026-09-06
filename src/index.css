@@ -1,0 +1,47 @@
+@import "tailwindcss";
+
+@layer base {
+  :root, .bright {
+    --bg-primary: 255 255 255;
+    --bg-secondary: 248 250 252;
+    --text-primary: 15 23 42;
+    --text-secondary: 71 85 105;
+    
+    --border-color: 226 232 240;
+    
+    --accent-start: 124 58 237; /* Purple */
+    --accent-end: 192 38 211;   /* Magenta */
+  }
+  
+  .blue {
+    --bg-primary: 240 249 255; /* Soft blue */
+    --bg-secondary: 224 242 254;
+    --text-primary: 15 23 42;
+    --text-secondary: 51 65 85;
+    
+    --border-color: 186 230 253;
+    
+    --accent-start: 2 132 199;  /* Deep blue */
+    --accent-end: 14 165 233;   /* Light blue */
+  }
+
+  body {
+    background-color: rgb(var(--bg-secondary));
+    color: rgb(var(--text-primary));
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  
+  * {
+    border-color: rgb(var(--border-color));
+  }
+}
+
+.theme-gradient {
+  background: linear-gradient(135deg, rgb(var(--accent-start)), rgb(var(--accent-end)));
+}
+
+.theme-text-gradient {
+  background: linear-gradient(135deg, rgb(var(--accent-start)), rgb(var(--accent-end)));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
