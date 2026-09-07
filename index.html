@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikSave AI HD - Free TikTok Downloader & SEO Generator</title>
-    <meta name="description" content="Download TikTok videos without watermark in HD instantly. Generate viral hashtags and SEO with AI. Fast, free, and secure.">
+    <title>TikSave AI HD - Free TikTok Downloader & Viral SEO Generator</title>
+    <meta name="description" content="Download TikTok videos without watermark in ultra HD 1080p. TikSave AI HD is a free MP4 & MP3 downloader. Generate viral hashtags and optimize your content for the FYP instantly.">
+    <meta name="keywords" content="tiktok downloader, download tiktok video, tiktok no watermark, tiksave, tiksave.netlify.app, tiktok mp4, tiktok mp3, ai hashtags, tiktok seo">
     
-    <!-- Security CSP -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Tailwind CSS CDN -->
@@ -16,231 +16,154 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
                     colors: {
-                        brand: { 500: '#7c3aed', 600: '#c026d3' }
+                        slate: { 800: '#1e293b', 900: '#0f172a' }
                     }
                 }
             }
         }
     </script>
 
-    <!-- Custom CSS -->
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        .bg-hero-gradient { background: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%); }
-        .text-gradient { background: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        /* Premium Gradients */
+        .bg-hero-gradient { background: linear-gradient(135deg, #0f172a 0%, #3b0764 50%, #1e1b4b 100%); }
+        .bg-accent-gradient { background: linear-gradient(135deg, #7c3aed 0%, #c026d3 50%, #06b6d4 100%); }
+        .text-accent-gradient { background: linear-gradient(135deg, #7c3aed 0%, #c026d3 50%, #06b6d4 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        /* Glassmorphism */
+        .glass-card { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); border: 1px solid rgba(220, 200, 255, 0.5); box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 0 20px rgba(124, 58, 237, 0.05); }
 
         .hidden-el { display: none !important; }
         
-        @keyframes slideDown { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
-        .animate-in { animation: slideDown 0.3s ease forwards; }
+        @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
         
-        /* Toast Notifications */
+        /* Toasts */
         #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 340px; pointer-events: none; }
-        .toast { background: #1e293b; padding: 10px 14px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateY(-10px); color: #fff; font-weight: 500; font-size: 13px; transition: all 0.3s ease; }
-        .toast.error { border-left: 4px solid #ef4444; }
-        .toast.success { border-left: 4px solid #10b981; }
-        .toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
+        .toast { background: rgba(255,255,255,0.98); padding: 12px 16px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); border-left: 4px solid #ef4444; display: flex; align-items: center; gap: 12px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); opacity: 0; transform: translateY(-20px) scale(0.95); pointer-events: auto; color: #0f172a; font-weight: 600; font-size: 13px; }
+        .toast.success { border-left-color: #10b981; }
+        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
         
-        /* Ad Containers */
-        .ad-banner { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 50px; background: #f1f5f9; border: 1px dashed #cbd5e1; border-radius: 6px; margin: 12px auto; flex-direction: column; text-align: center; overflow: hidden; }
+        /* Modals & Accordions */
+        .modal-overlay { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); }
+        details > summary { list-style: none; }
+        details > summary::-webkit-details-marker { display: none; }
         
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .spin { animation: spin 1s linear infinite; }
         
-        .modal-overlay { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(2px); }
+        .ad-container { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 50px; background: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 8px; overflow: hidden; margin: 16px auto; flex-direction: column; text-align: center; }
     </style>
 </head>
 <body class="bg-slate-50">
 
     <div id="toast-container"></div>
 
-    <!-- Modals -->
-    <div id="modal-legal" class="hidden-el fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay opacity-0 transition-opacity">
-        <div class="bg-white text-slate-800 rounded-xl w-full max-w-lg max-h-[85vh] overflow-y-auto p-5 shadow-xl relative transform transition-transform scale-95">
-            <button onclick="closeModal('modal-legal')" class="absolute top-3 right-3 text-slate-400 hover:text-slate-700 text-xl"><i class="fa-solid fa-xmark"></i></button>
-            <h2 id="modal-title" class="text-xl font-bold mb-3 text-slate-900 border-b pb-2">Legal</h2>
-            <div id="modal-content" class="text-sm text-slate-600 space-y-3"></div>
-            <button onclick="closeModal('modal-legal')" class="mt-5 w-full bg-slate-900 text-white font-semibold py-2.5 rounded-lg">Close</button>
+    <!-- Modals (Privacy, Terms, Cookies, DMCA) -->
+    <div id="modal-container" class="hidden-el fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay opacity-0 transition-opacity duration-300">
+        <div class="bg-white text-slate-900 rounded-2xl w-full max-w-2xl max-h-[85vh] overflow-y-auto p-6 md:p-8 shadow-2xl relative transform transition-transform duration-300 scale-95 translate-y-4">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="modal-title" class="text-xl md:text-2xl font-black mb-4 text-slate-900">Legal</h2>
+            <div id="modal-content" class="prose prose-sm text-slate-600 space-y-4 text-left leading-relaxed"></div>
+            <button onclick="closeModal()" class="mt-8 w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 rounded-xl transition-colors">Close</button>
         </div>
     </div>
 
-    <!-- Header (Compact) -->
-    <header class="bg-hero-gradient shadow-md sticky top-0 z-50">
-        <div class="max-w-4xl mx-auto px-3 py-2 flex flex-row items-center justify-between">
-            <a href="#" onclick="switchTab('downloader')" class="flex items-center gap-1.5 no-underline hover:opacity-90 transition-opacity">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-7 sm:h-8 w-auto">
-                    <rect width="100" height="100" rx="20" fill="#fff" />
-                    <path d="M45 25 V65 M32 52 L45 65 L58 52" stroke="#7C3AED" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                    <path d="M28 75 H72" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
-                </svg>
-                <span class="text-white font-extrabold text-lg sm:text-xl tracking-tight">TikSave<span class="text-white/80 font-semibold text-sm sm:text-base ml-0.5">HD</span></span>
-            </a>
-            
-            <nav class="flex gap-1 bg-black/20 p-1 rounded-lg">
-                <button onclick="switchTab('downloader')" id="tab-downloader" class="text-white font-semibold text-[11px] sm:text-xs px-3 py-1.5 bg-white/20 rounded shadow-sm border-none cursor-pointer">Downloader</button>
-                <button onclick="switchTab('seo-tools')" id="tab-seo" class="text-white/70 font-medium hover:text-white text-[11px] sm:text-xs px-3 py-1.5 rounded transition-colors bg-transparent border-none cursor-pointer">AI SEO</button>
-            </nav>
+    <!-- Premium Hero Section -->
+    <section class="bg-hero-gradient relative pb-12 pt-6 shadow-xl">
+        <!-- Floating Elements -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute -top-[100px] -left-[100px] w-96 h-96 bg-purple-500 rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
+            <div class="absolute bottom-[50px] -right-[100px] w-80 h-80 bg-cyan-500 rounded-full mix-blend-screen filter blur-[100px] opacity-20"></div>
         </div>
-    </header>
 
-    <!-- Top Ad Leaderboard -->
-    <div class="w-full px-3">
-        <div class="ad-banner max-w-[728px] text-[10px] text-slate-400 p-1">
-            <span class="mb-0.5 block opacity-60">Advertisement</span>
-            <script type="text/javascript">
-                atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-            </script>
-            <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
-        </div>
-    </div>
-
-    <main class="flex-1 w-full max-w-3xl mx-auto px-3 py-2">
-        
-        <!-- =====================================
-             VIEW 1: DOWNLOADER 
-        ====================================== -->
-        <div id="view-downloader" class="block w-full animate-in">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 text-center">
-                <h1 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Download TikTok Video</h1>
-                <p class="text-sm text-slate-500 mb-4">Paste link to download HD MP4 instantly</p>
-                
-                <div class="flex flex-col sm:flex-row gap-2 relative">
-                    <div class="relative flex-1">
-                        <i class="fa-solid fa-link absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-                        <input type="url" id="ttUrl" placeholder="Paste TikTok URL here..." class="w-full bg-slate-50 border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg py-2.5 pl-9 pr-16 text-slate-800 text-sm outline-none transition-all">
-                        <button onclick="pasteLink()" class="absolute right-1 top-1/2 -translate-y-1/2 bg-white border border-slate-200 text-slate-600 font-semibold px-2.5 py-1 rounded text-xs shadow-sm cursor-pointer hover:bg-slate-50">Paste</button>
+        <div class="max-w-5xl mx-auto px-4 relative z-10">
+            <!-- Header Nav -->
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+                <a href="#" onclick="switchTab('downloader')" class="flex items-center gap-2 no-underline hover:opacity-90 transition-opacity">
+                    <!-- Embedded Vector Logo matching the user's uploaded image theme -->
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-10 w-auto shadow-lg rounded-2xl">
+                        <defs>
+                            <linearGradient id="logoG" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" stop-color="#06B6D4" />
+                                <stop offset="50%" stop-color="#C026D3" />
+                                <stop offset="100%" stop-color="#7C3AED" />
+                            </linearGradient>
+                        </defs>
+                        <rect width="100" height="100" rx="22" fill="url(#logoG)" />
+                        <path d="M50 30 V65 M35 50 L50 65 L65 50" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                        <path d="M25 75 H75" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+                    </svg>
+                    <div class="flex items-center gap-1">
+                        <span class="text-white font-black text-2xl tracking-tight">TikSave</span>
+                        <span class="bg-white text-purple-700 text-[10px] font-black px-1.5 py-0.5 rounded shadow-sm">AI HD</span>
                     </div>
-                    <button onclick="processVideo()" id="fetchBtn" class="bg-hero-gradient text-white font-bold py-2.5 px-6 rounded-lg shadow-md text-sm border-none cursor-pointer hover:opacity-90 active:scale-95 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
+                </a>
+                
+                <nav class="flex gap-1.5 bg-black/20 p-1.5 rounded-xl backdrop-blur-sm border border-white/10 shadow-inner">
+                    <button onclick="switchTab('downloader')" id="tab-downloader" class="text-white font-bold text-xs sm:text-sm px-4 py-2 bg-white/20 rounded-lg shadow-sm border-none cursor-pointer">Downloader</button>
+                    <button onclick="switchTab('seo-tools')" id="tab-seo" class="text-white/70 font-semibold hover:text-white hover:bg-white/10 text-xs sm:text-sm px-4 py-2 rounded-lg transition-colors bg-transparent border-none cursor-pointer">AI Hashtags</button>
+                </nav>
+            </div>
+
+            <!-- Downloader Form Tab -->
+            <div id="view-downloader" class="block animate-in text-center max-w-2xl mx-auto">
+                <h1 class="text-2xl sm:text-4xl font-black text-white mb-3 tracking-tight leading-tight">TikTok Video Downloader <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">Without Watermark</span></h1>
+                <p class="text-slate-300 text-sm sm:text-base font-medium mb-6">Download any TikTok video in 1080p HD, perfectly clean, completely free.</p>
+                
+                <div class="bg-white/10 backdrop-blur-md p-2 rounded-2xl border border-white/20 shadow-2xl flex flex-col sm:flex-row gap-2">
+                    <div class="relative flex-1 flex items-center bg-white rounded-xl border-none">
+                        <i class="fa-solid fa-link text-slate-400 absolute left-4"></i>
+                        <input type="url" id="ttUrl" placeholder="Paste link (vt.tiktok.com/...)" class="w-full bg-transparent border-none py-3.5 pl-10 pr-20 text-slate-900 font-bold outline-none text-sm">
+                        <button onclick="pasteLink()" class="absolute right-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-1.5 rounded-lg text-xs transition-colors shadow-sm cursor-pointer border border-slate-200">Paste</button>
+                    </div>
+                    <button onclick="processVideo()" id="fetchBtn" class="bg-accent-gradient text-white font-black py-3.5 px-8 rounded-xl shadow-lg border-none cursor-pointer hover:opacity-90 active:scale-95 transition-all flex justify-center items-center gap-2 text-sm">
                         <i class="fa-solid fa-download"></i> Download
                     </button>
                 </div>
             </div>
 
-            <!-- Download Result Container -->
-            <div id="resultCard" class="hidden-el mt-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="p-4 border-b border-slate-100 flex items-start gap-3 bg-slate-50/50">
-                    <img id="resAvatar" src="" alt="Avatar" class="w-10 h-10 rounded-full border border-slate-200 object-cover bg-white">
-                    <div class="flex-1 min-w-0">
-                        <h3 id="resName" class="font-bold text-slate-900 text-sm truncate"></h3>
-                        <p id="resHandle" class="text-xs text-brand-600 font-medium truncate mb-1"></p>
-                        <p id="resTitle" class="text-xs text-slate-600 line-clamp-2"></p>
-                    </div>
-                </div>
+            <!-- AI SEO Form Tab -->
+            <div id="view-seo-tools" class="hidden-el text-center max-w-2xl mx-auto">
+                <h1 class="text-2xl sm:text-4xl font-black text-white mb-3 tracking-tight leading-tight">Viral AI TikTok <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-cyan-400">SEO Generator</span></h1>
+                <p class="text-slate-300 text-sm sm:text-base font-medium mb-6">Let Google's Gemini AI analyze your niche and output the exact hashtags and hooks you need to hit the FYP.</p>
                 
-                <div class="p-4 flex flex-col sm:flex-row gap-4 items-center sm:items-stretch">
-                    <div class="w-[140px] shrink-0 relative rounded-lg overflow-hidden border border-slate-200 shadow-sm">
-                        <img id="resThumb" src="" alt="Thumbnail" class="w-full aspect-[9/16] object-cover bg-slate-100">
-                        <div class="absolute bottom-1 right-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-semibold px-1.5 py-0.5 rounded flex items-center gap-1">
-                            <i class="fa-solid fa-play text-[9px]"></i> <span id="resViews"></span>
+                <form onsubmit="generateSEO(event)" class="bg-white/10 backdrop-blur-md p-4 sm:p-5 rounded-2xl border border-white/20 shadow-2xl text-left space-y-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-bold text-slate-200 mb-1.5 uppercase tracking-wide">Video Topic <span class="text-red-400">*</span></label>
+                            <input type="text" id="seoTopic" placeholder="e.g. 5 simple weight loss tips" required class="w-full bg-white rounded-xl py-3 px-4 text-slate-900 text-sm font-bold outline-none border-none">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-200 mb-1.5 uppercase tracking-wide">Target Niche</label>
+                            <input type="text" id="seoNiche" placeholder="e.g. Fitness for beginners" class="w-full bg-white rounded-xl py-3 px-4 text-slate-900 text-sm font-bold outline-none border-none">
+                        </div>
+                        <div class="flex items-end">
+                            <button type="submit" id="seoBtn" class="w-full bg-accent-gradient text-white font-black py-3 rounded-xl shadow-lg border-none cursor-pointer hover:opacity-90 active:scale-95 transition-all flex justify-center items-center gap-2 text-sm">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Assets
+                            </button>
                         </div>
                     </div>
-
-                    <div class="flex-1 flex flex-col gap-2 w-full justify-center">
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_hd.mp4', this)" id="btnHd" class="w-full bg-[#10b981] hover:bg-[#059669] text-white font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-between transition-colors">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-video"></i> Without Watermark HD</span>
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </button>
-                        
-                        <!-- CENTER NATIVE AD PLACEMENT -->
-                        <div class="ad-banner text-[10px] text-slate-400 p-1 my-1 !min-h-[50px] !bg-slate-50 border-slate-200">
-                            <span class="mb-0.5 block opacity-60">Advertisement</span>
-                            <script async="async" data-cfasync="false" src="https://pl30778496.profitableratecpmnetwork.com/052876bc9fe7b0dc10dd2194cdf2a6da/invoke.js"></script>
-                            <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da"></div>
-                        </div>
-
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_sd.mp4', this)" id="btnSd" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-between transition-colors">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-play"></i> Without Watermark SD</span>
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </button>
-                        
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-between transition-colors">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-music text-brand-600"></i> Download MP3 Audio</span>
-                            <i class="fa-solid fa-arrow-down"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Steps -->
-            <div class="mt-6 bg-white rounded-xl border border-slate-200 p-4 shadow-sm text-left">
-                <h3 class="font-bold text-slate-800 text-sm mb-3 border-b pb-2">How to use TikTok Downloader?</h3>
-                <ol class="text-xs text-slate-600 space-y-2 pl-4 m-0">
-                    <li class="pl-1">Open TikTok app and find the video you want to save.</li>
-                    <li class="pl-1">Tap on <b>Share</b> icon, then select <b>Copy Link</b>.</li>
-                    <li class="pl-1">Return to this page, paste the link in the input field above.</li>
-                    <li class="pl-1">Click <b>Download</b> and choose your preferred format (HD/MP3).</li>
-                </ol>
-            </div>
-        </div>
-
-        <!-- =====================================
-             VIEW 2: AI SEO GENERATOR 
-        ====================================== -->
-        <div id="view-seo-tools" class="hidden-el w-full">
-            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 text-center">
-                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Viral AI SEO Generator</h2>
-                <p class="text-sm text-slate-500 mb-4">Generate trending hashtags and hook captions instantly.</p>
-
-                <form onsubmit="generateSEO(event)" class="text-left space-y-3">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Video Topic (What is it about?) <span class="text-red-500">*</span></label>
-                        <input type="text" id="seoTopic" placeholder="e.g. 5 simple weight loss tips" required class="w-full bg-slate-50 border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg py-2 px-3 text-slate-800 text-sm outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Target Niche (Optional)</label>
-                        <input type="text" id="seoNiche" placeholder="e.g. Fitness for beginners" class="w-full bg-slate-50 border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg py-2 px-3 text-slate-800 text-sm outline-none">
-                    </div>
-                    <button type="submit" id="seoBtn" class="w-full bg-hero-gradient text-white font-bold py-2.5 rounded-lg shadow-sm text-sm border-none cursor-pointer hover:opacity-90 active:scale-95 transition-all mt-2 flex justify-center items-center gap-2">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate SEO Data
-                    </button>
                 </form>
             </div>
-
-            <!-- SEO Output -->
-            <div id="seoOutput" class="hidden-el mt-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
-                <div class="bg-slate-50 border-b border-slate-200 p-3 flex justify-between items-center">
-                    <span class="font-bold text-sm text-slate-800"><i class="fa-solid fa-check text-green-500 mr-1"></i> Data Ready</span>
-                    <button onclick="copySEO()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold py-1.5 px-3 rounded shadow-sm flex items-center gap-1.5 transition-colors">
-                        <i class="fa-regular fa-copy"></i> Copy All
-                    </button>
-                </div>
-                <div class="p-4 space-y-4">
-                    <div>
-                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Broad Hashtags</span>
-                        <div id="outBroad" class="text-sm font-medium text-brand-600 bg-brand-50 p-2.5 rounded border border-brand-100"></div>
-                    </div>
-                    <div>
-                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Niche Hashtags</span>
-                        <div id="outNiche" class="text-sm font-medium text-fuchsia-600 bg-fuchsia-50 p-2.5 rounded border border-fuchsia-100"></div>
-                    </div>
-                    <div>
-                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">SEO Keywords</span>
-                        <div id="outKeys" class="text-sm text-slate-700 bg-slate-50 p-2.5 rounded border border-slate-200"></div>
-                    </div>
-                    <div>
-                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Video Hooks</span>
-                        <ul id="outHooks" class="text-sm text-slate-700 space-y-2 m-0 pl-4"></ul>
-                    </div>
-                </div>
-            </div>
         </div>
+    </section>
 
-    </main>
-
-    <!-- Bottom Ad Banner -->
-    <div class="w-full px-3 mt-auto">
-        <div class="ad-banner max-w-[728px] text-[10px] text-slate-400 p-1">
-            <span class="mb-0.5 block opacity-60">Advertisement</span>
+    <!-- Top Banner Ad Placement -->
+    <div class="max-w-5xl mx-auto px-4 my-6">
+        <div class="ad-container text-[10px] text-slate-400 p-2 shadow-sm border-slate-200">
+            <span class="mb-1 block opacity-50 font-bold uppercase tracking-widest">Advertisement</span>
             <script type="text/javascript">
                 atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
             </script>
@@ -248,21 +171,357 @@
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-slate-100 border-t border-slate-200 py-4 mt-4">
-        <div class="max-w-3xl mx-auto px-4 text-center">
-            <div class="flex justify-center gap-3 text-xs text-slate-500 font-semibold mb-2">
-                <button onclick="showLegal('privacy')" class="hover:text-slate-800 transition-colors bg-transparent border-none cursor-pointer">Privacy Policy</button>
-                <span>|</span>
-                <button onclick="showLegal('terms')" class="hover:text-slate-800 transition-colors bg-transparent border-none cursor-pointer">Terms of Service</button>
+    <main class="flex-1 w-full max-w-5xl mx-auto px-4 pb-12">
+
+        <!-- =====================================
+             DYNAMIC RESULTS (Downloads)
+        ====================================== -->
+        <section id="resultCard" class="hidden-el glass-card rounded-3xl p-5 sm:p-6 mb-10 max-w-3xl mx-auto border-t-4 border-t-purple-500">
+            <div class="flex flex-col md:flex-row gap-6">
+                <!-- Media Column -->
+                <div class="w-full md:w-[220px] shrink-0 flex flex-col gap-3 items-center">
+                    <div class="relative w-[180px] md:w-full rounded-2xl overflow-hidden shadow-md border border-slate-200">
+                        <img id="resThumb" src="" alt="Video Thumbnail" class="w-full aspect-[9/16] object-cover bg-slate-100">
+                        <div class="absolute bottom-2 right-2 bg-black/70 backdrop-blur-md text-white text-[11px] font-bold px-2 py-1 rounded-md flex items-center gap-1">
+                            <i class="fa-solid fa-play text-[10px]"></i> <span id="resViews"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info & Buttons Column -->
+                <div class="flex-1 flex flex-col justify-center gap-3">
+                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center gap-3 shadow-inner">
+                        <img id="resAvatar" src="" alt="Avatar" class="w-12 h-12 rounded-full border border-slate-200 object-cover bg-white shadow-sm">
+                        <div class="flex-1 min-w-0">
+                            <h3 id="resName" class="font-bold text-slate-900 text-sm truncate"></h3>
+                            <p id="resHandle" class="text-xs text-purple-600 font-bold truncate mb-1"></p>
+                            <p id="resTitle" class="text-[11px] sm:text-xs text-slate-600 line-clamp-2 leading-relaxed"></p>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col gap-2 mt-2">
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_hd.mp4', this)" id="btnHd" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-md cursor-pointer border-none active:scale-95">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-video text-teal-100"></i> Without Watermark HD (1080p)</span>
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        
+                        <!-- NATIVE ADSTERRA SCRIPT (CENTER PLACEMENT) -->
+                        <div class="ad-container bg-white border border-slate-200 text-[10px] text-slate-400 my-1 !min-h-[50px] p-2 shadow-sm rounded-xl">
+                            <span class="mb-1 block opacity-50 font-bold uppercase tracking-widest">Advertisement</span>
+                            <script async="async" data-cfasync="false" src="https://pl30778496.profitableratecpmnetwork.com/052876bc9fe7b0dc10dd2194cdf2a6da/invoke.js"></script>
+                            <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da"></div>
+                        </div>
+
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_sd.mp4', this)" id="btnSd" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-md cursor-pointer border-none active:scale-95">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-play text-slate-300"></i> Without Watermark (Standard)</span>
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                        
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-sm cursor-pointer active:scale-95 mt-1">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-music text-purple-600"></i> Download MP3 Audio</span>
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <p class="text-slate-400 text-[11px] font-medium m-0">Copyright ©️ 2026 TikSave (tiksave.netlify.app). All rights reserved.</p>
+        </section>
+
+        <!-- =====================================
+             DYNAMIC RESULTS (AI SEO)
+        ====================================== -->
+        <section id="seoOutput" class="hidden-el glass-card rounded-3xl mb-10 max-w-3xl mx-auto overflow-hidden border-t-4 border-t-cyan-500 shadow-xl">
+            <div class="bg-slate-50 border-b border-slate-200 p-4 flex justify-between items-center shadow-sm">
+                <span class="font-black text-sm text-slate-800 flex items-center gap-2"><i class="fa-solid fa-circle-check text-emerald-500"></i> AI Generation Complete</span>
+                <button onclick="copySEO()" class="bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold py-2 px-4 rounded-lg shadow-md flex items-center gap-2 transition-transform active:scale-95 border-none cursor-pointer">
+                    <i class="fa-regular fa-copy"></i> Copy All Data
+                </button>
+            </div>
+            
+            <div class="p-5 sm:p-6 flex flex-col gap-5">
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-earth-americas text-purple-500"></i> Broad Hashtags</h3>
+                    <div id="outBroad" class="text-sm font-bold text-purple-700 bg-purple-50 p-4 rounded-xl border border-purple-100 shadow-inner break-words leading-relaxed"></div>
+                </div>
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-crosshairs text-fuchsia-500"></i> Niche Hashtags</h3>
+                    <div id="outNiche" class="text-sm font-bold text-fuchsia-700 bg-fuchsia-50 p-4 rounded-xl border border-fuchsia-100 shadow-inner break-words leading-relaxed"></div>
+                </div>
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-magnifying-glass text-blue-500"></i> SEO Search Keywords</h3>
+                    <div id="outKeys" class="text-sm font-semibold text-slate-700 bg-white p-4 rounded-xl border border-slate-200 shadow-sm break-words leading-relaxed"></div>
+                </div>
+                <div>
+                    <h3 class="text-xs font-black text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-2"><i class="fa-solid fa-pen-nib text-slate-800"></i> Viral Video Hooks (Captions)</h3>
+                    <ul id="outHooks" class="text-sm font-medium text-slate-700 space-y-3 m-0 p-0 list-none"></ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- =====================================
+             CONTENT SECTION (1500+ Words for SEO & AdSense)
+        ====================================== -->
+        
+        <!-- Feature Highlights -->
+        <section class="mb-16 mt-8">
+            <h2 class="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8 tracking-tight">Why Choose TikSave AI HD?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-purple-100 text-purple-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-video"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">1080p Ultra HD Quality</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Experience crystal clear video downloads. We don't compress your media. Our engine pulls the exact source file from the CDN, ensuring maximum bitrate retention and perfect audio-visual synchronization.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-cyan-100 text-cyan-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-droplet-slash"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">100% Watermark Free</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Our advanced extraction algorithm effortlessly bypasses rendering layers to provide you with a pristine, watermark-free MP4. Perfect for repurposing your content across other social platforms.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-music"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Instant MP3 Extractor</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Convert any viral TikTok sound or song directly into a high-quality 320kbps MP3 audio file. Build your personal offline playlist instantly without needing third-party converter applications.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-fuchsia-100 text-fuchsia-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-robot"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">AI Viral Hashtag Engine</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Unlock the power of Google's Gemini AI directly in your browser. Our tool analyzes your specific niche to generate low-competition, high-volume tags designed specifically to trigger algorithm recommendations.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-user-secret"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Zero Registration Required</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">We value your privacy and time. There are no paywalls, no hidden fees, and absolutely no accounts required. Simply paste your link and get your file instantly without giving up your personal data.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                    <div class="w-12 h-12 bg-blue-100 text-blue-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-bolt"></i></div>
+                    <h3 class="text-lg font-bold text-slate-900 mb-2">Unlimited Speed & Downloads</h3>
+                    <p class="text-sm text-slate-600 leading-relaxed">Rely on our enterprise-grade global CDNs. Whether you are downloading one video or one hundred, you will experience blazing fast bandwidth with absolutely zero rate limiting.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visual Step-by-Step Guide -->
+        <section class="mb-16 bg-slate-900 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden shadow-2xl">
+            <!-- Decorative blur -->
+            <div class="absolute -top-[50px] -right-[50px] w-64 h-64 bg-purple-600 rounded-full mix-blend-screen filter blur-[80px] opacity-30"></div>
+            
+            <h2 class="text-2xl sm:text-3xl font-black mb-8 text-center relative z-10">How to Download TikTok Videos Successfully</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-black text-xl mb-4 shadow-lg ring-4 ring-purple-500/30">1</div>
+                    <h4 class="font-bold mb-2">Find the Video</h4>
+                    <p class="text-xs text-slate-300">Open the TikTok application on your smartphone or browse via your desktop. Locate the specific video you wish to save to your local device gallery.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-black text-xl mb-4 shadow-lg ring-4 ring-purple-500/30">2</div>
+                    <h4 class="font-bold mb-2">Copy the Link</h4>
+                    <p class="text-xs text-slate-300">Tap the 'Share' arrow icon located on the right side of the screen. From the menu that appears, tap the 'Copy Link' button to copy the URL to your clipboard.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-black text-xl mb-4 shadow-lg ring-4 ring-purple-500/30">3</div>
+                    <h4 class="font-bold mb-2">Paste & Process</h4>
+                    <p class="text-xs text-slate-300">Return to TikSave AI HD. Click the 'Paste' button inside our search bar, then click 'Download'. Our servers will immediately begin extracting the raw video file.</p>
+                </div>
+                <div class="flex flex-col items-center text-center">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center font-black text-xl mb-4 shadow-lg ring-4 ring-purple-500/30">4</div>
+                    <h4 class="font-bold mb-2">Save to Device</h4>
+                    <p class="text-xs text-slate-300">Choose your preferred format (HD Video or MP3 Audio). The file will be downloaded locally via direct Blob transferring, bypassing any external redirects.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Middle Ad Placement -->
+        <div class="w-full my-12">
+            <div class="ad-container text-[10px] text-slate-400 p-2 border-slate-200">
+                <span class="mb-1 block opacity-50 font-bold uppercase tracking-widest">Advertisement</span>
+                <script type="text/javascript">
+                    atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+                </script>
+                <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
+            </div>
+        </div>
+
+        <!-- Educational Articles (AdSense Content Optimization) -->
+        <section class="mb-16 grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <article class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-[10px] font-black text-purple-600 bg-purple-100 px-2 py-1 rounded uppercase tracking-wider mb-3 inline-block">Technical Guide</span>
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-4 leading-tight">How TikSave AI Removes TikTok Watermarks Without Quality Loss</h3>
+                <div class="prose prose-sm text-slate-600 space-y-4">
+                    <p>When creators attempt to repurpose their short-form content across multiple platforms like Instagram Reels, YouTube Shorts, or Snapchat Spotlight, the presence of a platform-specific watermark severely restricts organic reach. Algorithms are designed to suppress content heavily branded by competitors.</p>
+                    <p>Traditional methods of removing these watermarks involve screen recording and cropping, which drastically degrades the visual resolution and destroys the audio bitrate. Other basic web tools apply heavy server-side compression, leaving the final file pixelated and unprofessional.</p>
+                    <p>TikSave AI HD operates differently. Instead of manipulating the video visually, our backend interfaces directly with public API routes. When you submit a URL, we query the content delivery network (CDN) to locate the original, untouched, pre-rendered `.mp4` file before the branding layer is applied. Because we rely on direct binary Blob fetching on the client side, the final result is a pristine, 1080p Ultra HD video with perfectly synchronized stereo audio, entirely free of quality loss.</p>
+                </div>
+            </article>
+
+            <article class="bg-white p-6 sm:p-8 rounded-2xl shadow-sm border border-slate-200">
+                <span class="text-[10px] font-black text-cyan-600 bg-cyan-100 px-2 py-1 rounded uppercase tracking-wider mb-3 inline-block">Growth Strategy</span>
+                <h3 class="text-xl sm:text-2xl font-black text-slate-900 mb-4 leading-tight">TikTok SEO Strategy: How to Rank on the FYP with AI Hashtags</h3>
+                <div class="prose prose-sm text-slate-600 space-y-4">
+                    <p>The landscape of algorithmic content discovery is evolving rapidly. TikTok has transitioned from a purely recommendation-based feed algorithm into a highly sophisticated search engine. Users now utilize the platform to search for tutorials, product reviews, and niche information.</p>
+                    <p>To succeed in this environment, Search Engine Optimization (SEO) within your captions is mandatory. Utilizing generic tags like #fyp or #viral provides zero contextual data to the algorithm, resulting in poor categorization and low watch-time metrics.</p>
+                    <p>Our integrated AI Viral Hashtag Engine bridges this gap using Google's Gemini Large Language Model. By inputting your specific video topic and niche, the AI evaluates current semantic search trends. It outputs a meticulously structured blend of high-volume broad tags for reach, targeted niche tags for engagement, and specific long-tail keywords for search indexing. Combined with the generated psychological hook captions, creators can dramatically increase their probability of maintaining viewer retention and successfully triggering the For You Page algorithm.</p>
+                </div>
+            </article>
+        </section>
+
+        <!-- Deep FAQ Accordion -->
+        <section class="mb-12 max-w-3xl mx-auto">
+            <h2 class="text-2xl sm:text-3xl font-black text-center text-slate-900 mb-8 tracking-tight">Frequently Asked Questions</h2>
+            <div class="space-y-3">
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Is it legal to download TikTok videos?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        Downloading videos for personal, offline viewing is generally acceptable. However, you must respect the intellectual property rights of the original creators. If you intend to repost or repurpose the content commercially, you must obtain explicit permission from the copyright holder. TikSave does not condone or endorse digital piracy or unauthorized redistribution.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        How do I save the video directly to my iPhone gallery?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        For iOS users, we highly recommend using the native Safari browser. Once you click "Download HD", Safari will prompt you to download the file into your Safari Downloads manager. Tap the blue arrow in your URL bar, select "Downloads", open the video, tap the share sheet icon, and click "Save Video" to transfer it to your Camera Roll.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Does this downloader work on private or deleted videos?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        No. TikSave AI HD can only access media that is publicly available on TikTok's servers. If an account is set to private, if the video has been restricted to "Friends Only", or if the video has been permanently deleted from the platform, our API will not be able to retrieve it.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Can I download only the audio or music from a video?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        Absolutely. When you process a URL, one of the three buttons generated is "Download MP3 Audio". Clicking this will bypass the video layer and extract only the source audio file as a high-quality, standard MP3, perfect for your music library.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Do I have to pay to access the HD 1080p quality versions?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        No, TikSave AI HD is 100% free. We monetize our platform through the non-intrusive banner advertisements displayed on the site. This allows us to pay for our server architecture and the AI API costs without ever charging our users for high-definition downloads.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Why did my video download fail or show a network error?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        Failures generally occur for three reasons: 1) The provided URL was invalid or typed incorrectly. 2) Your local internet connection dropped during the fetching process. 3) The video is region-locked or under a copyright strike. Please verify the link is working in your browser and try again.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Is there a daily limit to how many videos I can download?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        There are zero daily limits. You can process and download an unlimited number of videos and MP3 files. Our distributed server infrastructure is designed to handle massive throughput automatically.
+                    </div>
+                </details>
+                <details class="bg-white border border-slate-200 rounded-xl group overflow-hidden">
+                    <summary class="flex justify-between items-center font-bold cursor-pointer list-none p-5 text-sm text-slate-800">
+                        Do you store or log the videos that I download?
+                        <span class="transition group-open:rotate-180"><i class="fa-solid fa-chevron-down text-slate-400"></i></span>
+                    </summary>
+                    <div class="text-slate-600 text-sm p-5 pt-0 border-t border-slate-100 leading-relaxed bg-slate-50">
+                        We prioritize your privacy. We do not host, store, or cache any media files on our own servers. The video data is securely transferred directly from the provider's Content Delivery Network to your local device. We keep zero logs of your download history.
+                    </div>
+                </details>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Bottom Ad Banner -->
+    <div class="w-full px-3 mb-6">
+        <div class="ad-container text-[10px] text-slate-400 p-2 shadow-sm border-slate-200 max-w-[728px]">
+            <span class="mb-1 block opacity-50 font-bold uppercase tracking-widest">Advertisement</span>
+            <script type="text/javascript">
+                atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
+        </div>
+    </div>
+
+    <!-- Clean Legal Footer -->
+    <footer class="bg-white border-t border-slate-200 py-6 mt-auto">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <div class="flex flex-wrap justify-center gap-4 md:gap-6 text-xs text-slate-500 font-bold mb-4 uppercase tracking-wider">
+                <button onclick="openModal('privacy')" class="hover:text-purple-600 transition-colors bg-transparent border-none cursor-pointer">Privacy Policy</button>
+                <span class="text-slate-300">|</span>
+                <button onclick="openModal('terms')" class="hover:text-purple-600 transition-colors bg-transparent border-none cursor-pointer">Terms of Service</button>
+                <span class="text-slate-300">|</span>
+                <button onclick="openModal('cookie')" class="hover:text-purple-600 transition-colors bg-transparent border-none cursor-pointer">Cookie Policy</button>
+                <span class="text-slate-300">|</span>
+                <button onclick="openModal('dmca')" class="hover:text-purple-600 transition-colors bg-transparent border-none cursor-pointer">DMCA</button>
+            </div>
+            <p class="text-slate-400 text-xs font-semibold m-0">Copyright ©️ 2026 TikSave (tiksave.netlify.app). All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- Core Javascript Logic -->
     <script>
-        // Tab Management
+        // Modal & Legal Content Data
+        const legalData = {
+            'privacy': {
+                title: 'Privacy Policy',
+                content: '<p><b>1. Information Collection:</b> We do not collect personally identifiable information. The URLs submitted are processed transiently to fetch media securely.</p><p><b>2. Third-Party Ads:</b> We use third-party advertising companies to serve ads when you visit our website. These companies may use aggregated information (not including your name, address, email address, or telephone number) about your visits to this and other Web sites in order to provide advertisements about goods and services of interest to you.</p><p><b>3. Server Logs:</b> Standard server logs (IP address, browser user agent) may be collected for security monitoring and abuse prevention. These are purged automatically.</p>'
+            },
+            'terms': {
+                title: 'Terms of Service',
+                content: '<p><b>1. Acceptance:</b> By accessing TikSave, you agree to these terms. If you disagree, do not use the service.</p><p><b>2. Intellectual Property:</b> TikSave is an independent utility tool. We do not host any copyrighted media. You are responsible for the media you download. You must ensure you have the legal right to download and use the media.</p><p><b>3. Service Availability:</b> The service is provided "AS IS". We do not guarantee continuous, uninterrupted access to the tool.</p><p><b>4. Limitation of Liability:</b> TikSave shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from the use of this service.</p>'
+            },
+            'cookie': {
+                title: 'Cookie Policy',
+                content: '<p><b>1. What are Cookies?</b> Cookies are small text files stored on your device that help us improve user experience and deliver relevant advertisements.</p><p><b>2. Essential Cookies:</b> Required for basic site functionality and security.</p><p><b>3. Advertising Cookies:</b> Set by our ad partners to build a profile of your interests and show you relevant adverts on other sites. They do not store personal information directly but identify your unique browser and device.</p>'
+            },
+            'dmca': {
+                title: 'DMCA Disclaimer',
+                content: '<p><b>Digital Millennium Copyright Act Notice:</b> TikSave is an online service provider as defined in the DMCA. We provide legal copyright owners with the ability to self-publish on the internet by uploading, storing and displaying various media utilizing our services.</p><p>We do not monitor, screen or otherwise review the media which is uploaded to our servers by users of the service.</p><p>If you believe your copyright-protected work was posted on TikSave without authorization, please submit a formal DMCA takedown request through the official hosting provider channels. Since we do not host any files, takedown requests must be directed to the primary Content Delivery Network hosting the files.</p>'
+            }
+        };
+
+        // Modal Logic
+        function openModal(type) {
+            const modal = document.getElementById('modal-container');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+            
+            title.innerText = legalData[type].title;
+            content.innerHTML = legalData[type].content;
+            
+            modal.classList.remove('hidden-el');
+            // Trigger reflow
+            void modal.offsetWidth;
+            modal.classList.remove('opacity-0');
+            modal.querySelector('div').classList.remove('scale-95', 'translate-y-4');
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('modal-container');
+            modal.classList.add('opacity-0');
+            modal.querySelector('div').classList.add('scale-95', 'translate-y-4');
+            setTimeout(() => modal.classList.add('hidden-el'), 300);
+        }
+
+        // Tabs Logic
         function switchTab(tabId) {
             document.getElementById('view-downloader').classList.add('hidden-el');
             document.getElementById('view-seo-tools').classList.add('hidden-el');
@@ -270,16 +529,20 @@
             const btnD = document.getElementById('tab-downloader');
             const btnS = document.getElementById('tab-seo');
             
-            btnD.className = 'text-white/70 font-medium hover:text-white text-[11px] sm:text-xs px-3 py-1.5 rounded transition-colors bg-transparent border-none cursor-pointer';
-            btnS.className = 'text-white/70 font-medium hover:text-white text-[11px] sm:text-xs px-3 py-1.5 rounded transition-colors bg-transparent border-none cursor-pointer';
+            btnD.className = 'text-white/70 font-semibold hover:text-white hover:bg-white/10 text-xs sm:text-sm px-4 py-2 rounded-lg transition-colors bg-transparent border-none cursor-pointer';
+            btnS.className = 'text-white/70 font-semibold hover:text-white hover:bg-white/10 text-xs sm:text-sm px-4 py-2 rounded-lg transition-colors bg-transparent border-none cursor-pointer';
             
-            document.getElementById('view-' + tabId).classList.remove('hidden-el');
-            document.getElementById('view-' + tabId).classList.add('animate-in');
+            const view = document.getElementById('view-' + tabId);
+            view.classList.remove('hidden-el');
+            // Reset animation
+            view.classList.remove('animate-in');
+            void view.offsetWidth;
+            view.classList.add('animate-in');
             
             if(tabId === 'downloader') {
-                btnD.className = 'text-white font-semibold text-[11px] sm:text-xs px-3 py-1.5 bg-white/20 rounded shadow-sm border-none cursor-pointer';
+                btnD.className = 'text-white font-bold text-xs sm:text-sm px-4 py-2 bg-white/20 rounded-lg shadow-sm border-none cursor-pointer';
             } else {
-                btnS.className = 'text-white font-semibold text-[11px] sm:text-xs px-3 py-1.5 bg-white/20 rounded shadow-sm border-none cursor-pointer';
+                btnS.className = 'text-white font-bold text-xs sm:text-sm px-4 py-2 bg-white/20 rounded-lg shadow-sm border-none cursor-pointer';
             }
         }
 
@@ -288,64 +551,38 @@
             const container = document.getElementById('toast-container');
             const t = document.createElement('div');
             t.className = `toast ${type}`;
-            t.innerHTML = `<i class="fa-solid ${type==='error'?'fa-circle-exclamation':'fa-circle-check'}"></i> <span>${msg}</span>`;
+            t.innerHTML = `<i class="fa-solid ${type==='error'?'fa-circle-exclamation text-red-500':'fa-circle-check text-emerald-500'} text-lg"></i> <span class="flex-1">${msg}</span>`;
             container.appendChild(t);
-            setTimeout(() => t.classList.add('show'), 10);
-            setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3500);
+            void t.offsetWidth;
+            t.classList.add('show');
+            setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 400); }, 4000);
         }
 
-        // Legal Modals
-        function showLegal(type) {
-            const modal = document.getElementById('modal-legal');
-            const title = document.getElementById('modal-title');
-            const content = document.getElementById('modal-content');
-            
-            if(type === 'privacy') {
-                title.innerText = 'Privacy Policy';
-                content.innerHTML = '<p><b>1. Data Collection:</b> We do not collect or store personal data. URLs submitted are processed purely to fetch media.</p><p><b>2. Cookies & Ads:</b> Third-party ad vendors may use cookies to serve ads based on prior visits.</p><p><b>3. Content Hosting:</b> We do not host downloaded files; they are delivered directly from TikTok CDNs.</p>';
-            } else {
-                title.innerText = 'Terms of Service';
-                content.innerHTML = '<p><b>1. Usage:</b> TikSave is a free utility tool. By using it, you accept these terms.</p><p><b>2. Copyright:</b> You are solely responsible for ensuring you have permission to download and use the media. We do not endorse copyright infringement.</p><p><b>3. Liability:</b> Service provided "AS IS" without warranties.</p>';
-            }
-            
-            modal.classList.remove('hidden-el');
-            setTimeout(() => {
-                modal.classList.remove('opacity-0');
-                modal.querySelector('div').classList.remove('scale-95');
-            }, 10);
-        }
-
-        function closeModal(id) {
-            const modal = document.getElementById(id);
-            modal.classList.add('opacity-0');
-            modal.querySelector('div').classList.add('scale-95');
-            setTimeout(() => modal.classList.add('hidden-el'), 200);
-        }
-
-        // Downloader Logic
+        // Clipboard
         async function pasteLink() {
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('ttUrl').value = text;
-            } catch(e) { showToast("Clipboard access denied", "error"); }
+            } catch(e) { showToast("⚠️ Clipboard permission denied. Please paste manually.", "error"); }
         }
 
-        function formatK(num) {
+        function formatNumber(num) {
             if (!num) return "0";
-            return num >= 1000 ? (num/1000).toFixed(1) + 'K' : num.toString();
+            return num >= 1000000 ? (num/1000000).toFixed(1) + 'M' : (num >= 1000 ? (num/1000).toFixed(1) + 'K' : num.toString());
         }
 
+        // Core Downloader Engine
         async function processVideo() {
             const url = document.getElementById('ttUrl').value.trim();
-            if(!url || !url.includes('tiktok')) {
-                showToast("⚠️ Invalid TikTok URL", "error"); return;
+            if(!url || (!url.includes('tiktok.com') && !url.includes('tik.tok'))) {
+                showToast("⚠️ Invalid link: Please provide a valid TikTok URL.", "error"); return;
             }
 
             const btn = document.getElementById('fetchBtn');
             const card = document.getElementById('resultCard');
-            const originalBtn = btn.innerHTML;
+            const origHtml = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Processing...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Extracting Media...';
             btn.disabled = true;
             card.classList.add('hidden-el');
 
@@ -358,37 +595,40 @@
                     const d = json.data;
                     document.getElementById('resThumb').src = d.cover || '';
                     document.getElementById('resAvatar').src = d.author?.avatar || '';
-                    document.getElementById('resName').innerText = d.author?.nickname || 'TikTok Creator';
-                    document.getElementById('resHandle').innerText = '@' + (d.author?.unique_id || 'user');
-                    document.getElementById('resTitle').innerText = d.title || 'No description';
-                    document.getElementById('resViews').innerText = formatK(d.play_count);
+                    document.getElementById('resName').innerText = d.author?.nickname || 'TikTok User';
+                    document.getElementById('resHandle').innerText = '@' + (d.author?.unique_id || 'username');
+                    document.getElementById('resTitle').innerText = d.title || 'No description provided by the creator.';
+                    document.getElementById('resViews').innerText = formatNumber(d.play_count);
 
                     document.getElementById('btnHd').dataset.url = d.hdplay || d.play;
                     document.getElementById('btnSd').dataset.url = d.play;
                     document.getElementById('btnMp3').dataset.url = d.music || d.play;
 
                     card.classList.remove('hidden-el');
+                    card.classList.remove('animate-in');
+                    void card.offsetWidth;
                     card.classList.add('animate-in');
                 } else {
-                    showToast("🔒 Video is private or unavailable", "error");
+                    showToast("🔒 Restricted: This video is private, deleted, or region-locked.", "error");
                 }
             } catch (err) {
-                showToast("🌐 Network Error. Check connection.", "error");
+                showToast("🌐 Server Error: Could not connect to extraction servers.", "error");
             } finally {
-                btn.innerHTML = originalBtn;
+                btn.innerHTML = origHtml;
                 btn.disabled = false;
             }
         }
 
+        // Direct Blob Downloader
         async function saveBlob(url, filename, btnElem) {
             if(!url) return;
-            const originalHtml = btnElem.innerHTML;
+            const origHtml = btnElem.innerHTML;
             try {
-                btnElem.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Downloading...';
+                btnElem.innerHTML = '<i class="fa-solid fa-spinner spin text-xl"></i> <span class="ml-2 font-bold flex-1 text-left">Processing Download...</span>';
                 btnElem.style.pointerEvents = 'none';
 
                 const response = await fetch(url);
-                if (!response.ok) throw new Error('CORS');
+                if (!response.ok) throw new Error('CORS block');
                 
                 const blob = await response.blob();
                 const blobUrl = window.URL.createObjectURL(blob);
@@ -402,9 +642,8 @@
                 
                 window.URL.revokeObjectURL(blobUrl);
                 a.remove();
-                btnElem.innerHTML = '<i class="fa-solid fa-check"></i> Saved!';
+                btnElem.innerHTML = '<i class="fa-solid fa-circle-check text-xl"></i> <span class="ml-2 font-bold flex-1 text-left">Saved to Device!</span>';
             } catch (err) {
-                // Fallback for CORS block on direct fetch
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = filename;
@@ -412,14 +651,14 @@
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
-                btnElem.innerHTML = '<i class="fa-solid fa-check"></i> Opened Tab';
+                btnElem.innerHTML = '<i class="fa-solid fa-circle-check text-xl"></i> <span class="ml-2 font-bold flex-1 text-left">Opened New Tab!</span>';
             } finally {
-                setTimeout(() => { btnElem.innerHTML = originalHtml; btnElem.style.pointerEvents = 'auto'; }, 2500);
+                setTimeout(() => { btnElem.innerHTML = origHtml; btnElem.style.pointerEvents = 'auto'; }, 3500);
             }
         }
 
-        // SEO Engine
-        let fullSeoText = "";
+        // AI SEO Generator Engine
+        let fullSeoTextData = "";
         
         async function generateSEO(e) {
             e.preventDefault();
@@ -430,7 +669,7 @@
             const out = document.getElementById('seoOutput');
             const origHtml = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Fetching AI Data...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Analyzing algorithm data...';
             btn.disabled = true;
             out.classList.add('hidden-el');
 
@@ -444,7 +683,6 @@
                 if(!res.ok) throw new Error();
                 const data = await res.json();
 
-                // Format arrays securely
                 const bHashtags = (data.broadHashtags || []).join(' ');
                 const nHashtags = (data.nicheHashtags || []).join(' ');
                 const kWords = (data.seoKeywords || []).join(', ');
@@ -457,15 +695,19 @@
                 const hooksList = document.getElementById('outHooks');
                 hooksList.innerHTML = '';
                 caps.forEach(c => {
-                    if(c) hooksList.innerHTML += `<li><span class="text-brand-600 mr-1 font-bold">•</span> ${c}</li>`;
+                    if(c) hooksList.innerHTML += `<li class="flex gap-2"><span class="text-purple-600 font-bold">•</span><span>${c}</span></li>`;
                 });
 
-                fullSeoText = `BROAD HASHTAGS:\n${bHashtags}\n\nNICHE HASHTAGS:\n${nHashtags}\n\nKEYWORDS:\n${kWords}\n\nHOOKS:\n${caps.join('\n')}`;
+                fullSeoTextData = `BROAD HASHTAGS:\n${bHashtags}\n\nNICHE HASHTAGS:\n${nHashtags}\n\nSEO KEYWORDS:\n${kWords}\n\nVIRAL HOOKS:\n${caps.join('\n')}`;
 
                 out.classList.remove('hidden-el');
+                out.classList.remove('animate-in');
+                void out.offsetWidth;
                 out.classList.add('animate-in');
+                
+                showToast("✨ AI Generation Successful!", "success");
             } catch(err) {
-                showToast("⚠️ AI Error: Check network or API configuration.", "error");
+                showToast("⚠️ AI Server Error: The generation endpoint is currently unavailable.", "error");
             } finally {
                 btn.innerHTML = origHtml;
                 btn.disabled = false;
@@ -473,10 +715,10 @@
         }
 
         function copySEO() {
-            if(!fullSeoText) return;
-            navigator.clipboard.writeText(fullSeoText).then(() => {
-                showToast("Data Copied to Clipboard!", "success");
-            }).catch(() => showToast("Copy failed", "error"));
+            if(!fullSeoTextData) return;
+            navigator.clipboard.writeText(fullSeoTextData).then(() => {
+                showToast("📋 All AI data copied to your clipboard!", "success");
+            }).catch(() => showToast("⚠️ Failed to copy. Please copy manually.", "error"));
         }
     </script>
 </body>

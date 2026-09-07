@@ -1,47 +1,42 @@
 exports.handler = async (event, context) => {
-    // Only allow POST requests
+    // CORS Headers for secure cross-origin requests
+    const headers = {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Content-Type",
+        "Access-Control-Allow-Methods": "POST, OPTIONS"
+    };
+
+    // Handle Preflight OPTIONS request
+    if (event.httpMethod === "OPTIONS") {
+        return { statusCode: 200, headers, body: "OK" };
+    }
+
     if (event.httpMethod !== "POST") {
-        return {
-            statusCode: 405,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ error: "Method Not Allowed" })
-        };
+        return { statusCode: 405, headers, body: JSON.stringify({ error: "Method Not Allowed" }) };
     }
 
     try {
         const { topic, niche } = JSON.parse(event.body || "{}");
 
         if (!topic) {
-            return {
-                statusCode: 400,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ error: "Topic is required" })
-            };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: "Topic is required" }) };
         }
 
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
         if (!GEMINI_API_KEY) {
-            console.error("Missing GEMINI_API_KEY environment variable.");
-            return {
-                statusCode: 500,
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ error: "Server Configuration Error: Missing API Key" })
-            };
+            return { statusCode: 500, headers, body: JSON.stringify({ error: "Missing API Key" }) };
         }
 
-        const prompt = `Act as an expert TikTok growth strategist. Generate highly optimized, viral SEO content for a video about "${topic}".
-Target Niche: ${niche || 'General'}
-
-You MUST return the output as a valid JSON object ONLY. Do not include any markdown formatting, backticks, or extra text. Use this exact schema:
+        const prompt = `Act as a TikTok algorithm expert. Return a clean JSON object for topic: "${topic}" and niche: "${niche || 'General'}".
+The JSON MUST strictly follow this structure, with no markdown, no backticks, and no extra text:
 {
-  "broadHashtags": ["#fyp", "#viral", "#trending", ... (8 total)],
-  "nicheHashtags": ["#specific", ... (8 total)],
-  "seoKeywords": ["search term 1", "search term 2", ... (5 total)],
-  "captions": ["Viral Hook 1", "Viral Hook 2", "Viral Hook 3"]
+  "broadHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5", "#tag6", "#tag7", "#tag8"],
+  "nicheHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5", "#tag6", "#tag7", "#tag8"],
+  "seoKeywords": ["keyword 1", "keyword 2", "keyword 3", "keyword 4", "keyword 5"],
+  "captions": ["Catchy viral hook 1", "Catchy viral hook 2", "Catchy viral hook 3"]
 }`;
 
-        // Using Gemini 1.5 Flash API as requested
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
         
         const response = await fetch(apiUrl, {
@@ -61,30 +56,27 @@ You MUST return the output as a valid JSON object ONLY. Do not include any markd
         });
 
         if (!response.ok) {
-            const errText = await response.text();
-            console.error("Gemini API Error:", response.status, errText);
-            throw new Error("Failed to communicate with the AI service.");
+            console.error("Gemini API Error", response.status, await response.text());
+            throw new Error("Failed to fetch from Gemini API");
         }
 
         const data = await response.json();
         const aiResultText = data.candidates[0].content.parts[0].text;
         
-        // Ensure it parses correctly
+        // Ensure it's valid JSON even if the model messes up slightly
         const resultJson = JSON.parse(aiResultText);
 
         return {
             statusCode: 200,
-            headers: {
-                "Content-Type": "application/json",
-            },
+            headers,
             body: JSON.stringify(resultJson)
         };
     } catch (error) {
-        console.error("Function Error:", error);
+        console.error("Function error:", error);
         return {
             statusCode: 500,
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ error: "Internal Server Error during SEO generation." })
+            headers,
+            body: JSON.stringify({ error: "Internal Server Error" })
         };
     }
 };
