@@ -1,35 +1,48 @@
 exports.handler = async (event, context) => {
-    // Only allow POST
+    // Only allow POST requests
     if (event.httpMethod !== "POST") {
-        return { statusCode: 405, body: "Method Not Allowed" };
+        return {
+            statusCode: 405,
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Method Not Allowed" })
+        };
     }
 
     try {
-        const { topic, audience, tone } = JSON.parse(event.body);
+        const { topic, niche } = JSON.parse(event.body || "{}");
 
         if (!topic) {
-            return { statusCode: 400, body: JSON.stringify({ error: "Topic is required" }) };
+            return {
+                statusCode: 400,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Topic is required" })
+            };
         }
 
         const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
         if (!GEMINI_API_KEY) {
-            return { statusCode: 500, body: JSON.stringify({ error: "Missing API Key" }) };
+            console.error("Missing GEMINI_API_KEY environment variable.");
+            return {
+                statusCode: 500,
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ error: "Server Configuration Error: Missing API Key" })
+            };
         }
 
-        const prompt = `Act as an expert TikTok growth strategist. Generate viral SEO content for a video about "${topic}".
-Target audience: ${audience || 'General'}
-Tone: ${tone || 'Viral'}
+        const prompt = `Act as an expert TikTok growth strategist. Generate highly optimized, viral SEO content for a video about "${topic}".
+Target Niche: ${niche || 'General'}
 
-Return a JSON object EXACTLY in this format, with no markdown formatting or other text:
+You MUST return the output as a valid JSON object ONLY. Do not include any markdown formatting, backticks, or extra text. Use this exact schema:
 {
-  "broad": ["#fyp", "#viral", "#trending", ...],
-  "niche": ["#specific", ...],
-  "keywords": ["keyword 1", "keyword 2", ...],
-  "hooks": ["Catchy hook 1", "Catchy hook 2", "Catchy hook 3"]
+  "broadHashtags": ["#fyp", "#viral", "#trending", ... (8 total)],
+  "nicheHashtags": ["#specific", ... (8 total)],
+  "seoKeywords": ["search term 1", "search term 2", ... (5 total)],
+  "captions": ["Viral Hook 1", "Viral Hook 2", "Viral Hook 3"]
 }`;
 
-        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+        // Using Gemini 1.5 Flash API as requested
+        const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
         
         const response = await fetch(apiUrl, {
             method: 'POST',
@@ -48,14 +61,15 @@ Return a JSON object EXACTLY in this format, with no markdown formatting or othe
         });
 
         if (!response.ok) {
-            console.error("Gemini API Error", response.status, await response.text());
-            throw new Error("Failed to fetch from Gemini API");
+            const errText = await response.text();
+            console.error("Gemini API Error:", response.status, errText);
+            throw new Error("Failed to communicate with the AI service.");
         }
 
         const data = await response.json();
-        let aiResultText = data.candidates[0].content.parts[0].text;
+        const aiResultText = data.candidates[0].content.parts[0].text;
         
-        // Ensure it's valid JSON even if the model messes up slightly
+        // Ensure it parses correctly
         const resultJson = JSON.parse(aiResultText);
 
         return {
@@ -66,10 +80,11 @@ Return a JSON object EXACTLY in this format, with no markdown formatting or othe
             body: JSON.stringify(resultJson)
         };
     } catch (error) {
-        console.error("Function error:", error);
+        console.error("Function Error:", error);
         return {
             statusCode: 500,
-            body: JSON.stringify({ error: "Internal Server Error" })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ error: "Internal Server Error during SEO generation." })
         };
     }
 };

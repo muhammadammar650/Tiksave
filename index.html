@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikSave AI HD - Free TikTok Video Downloader</title>
-    <meta name="description" content="TikSave AI HD is the fastest free TikTok video downloader. Download TikTok videos without watermark in HD MP4 or MP3 audio format instantly.">
-    <meta name="keywords" content="tiktok downloader, download tiktok video, tiktok no watermark, tiksave, tiksave.netlify.app, tiktok mp4, tiktok mp3, ai hashtags">
+    <title>TikSave AI HD - Free TikTok Downloader & SEO Generator</title>
+    <meta name="description" content="Download TikTok videos without watermark in HD instantly. Generate viral hashtags and SEO with AI. Fast, free, and secure.">
     
-    <!-- Security: Base CSP to ensure secure context, paired with our JS ad filter -->
+    <!-- Security CSP -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Tailwind CSS CDN -->
@@ -17,18 +16,16 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
     <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
+                    fontFamily: { sans: ['"Inter"', 'sans-serif'] },
                     colors: {
-                        slate: { 800: '#1e293b', 900: '#0f172a' }
+                        brand: { 500: '#7c3aed', 600: '#c026d3' }
                     }
                 }
             }
@@ -37,163 +34,69 @@
 
     <!-- Custom CSS -->
     <style>
-        :root {
-            --bg-body: #0f172a;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-body);
-            color: #ffffff;
-            margin: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; color: #0f172a; margin: 0; display: flex; flex-direction: column; min-height: 100vh; overflow-x: hidden; }
         
-        .bg-custom-gradient { 
-            background: linear-gradient(135deg, #7c3aed 0%, #c026d3 50%, #06b6d4 100%); 
-        }
-        
-        .text-custom-gradient {
-            background: linear-gradient(135deg, #7c3aed 0%, #c026d3 50%, #06b6d4 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 10px 30px -5px rgba(0,0,0,0.3), 0 0 20px rgba(124, 58, 237, 0.15);
-            color: #0f172a;
-        }
+        .bg-hero-gradient { background: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%); }
+        .text-gradient { background: linear-gradient(135deg, #7c3aed 0%, #c026d3 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
 
         .hidden-el { display: none !important; }
         
-        @keyframes slideUpFade {
-            0% { opacity: 0; transform: translateY(30px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-        .animate-in { 
-            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
-        }
+        @keyframes slideDown { 0% { opacity: 0; transform: translateY(-10px); } 100% { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: slideDown 0.3s ease forwards; }
         
-        #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; width: 90%; max-width: 380px; pointer-events: none; }
-        .toast { background: rgba(255,255,255,0.98); padding: 12px 16px; border-radius: 12px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.5); border-left: 5px solid #ef4444; display: flex; align-items: center; gap: 12px; transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); opacity: 0; transform: translateY(-20px) scale(0.95); pointer-events: auto; color: #0f172a; font-weight: 600; font-size: 14px; }
-        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+        /* Toast Notifications */
+        #toast-container { position: fixed; top: 16px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 8px; width: 90%; max-width: 340px; pointer-events: none; }
+        .toast { background: #1e293b; padding: 10px 14px; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); display: flex; align-items: center; gap: 10px; opacity: 0; transform: translateY(-10px); color: #fff; font-weight: 500; font-size: 13px; transition: all 0.3s ease; }
+        .toast.error { border-left: 4px solid #ef4444; }
+        .toast.success { border-left: 4px solid #10b981; }
+        .toast.show { opacity: 1; transform: translateY(0); pointer-events: auto; }
         
-        button:active { transform: scale(0.97); }
-        
-        .ad-container { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 50px; background: rgba(255,255,255,0.05); border: 1px dashed rgba(255,255,255,0.2); border-radius: 8px; overflow: hidden; margin: 16px auto; flex-direction: column; text-align: center; }
-        .ad-container.light { background: #f8fafc; border-color: #cbd5e1; }
+        /* Ad Containers */
+        .ad-banner { display: flex; justify-content: center; align-items: center; width: 100%; min-height: 50px; background: #f1f5f9; border: 1px dashed #cbd5e1; border-radius: 6px; margin: 12px auto; flex-direction: column; text-align: center; overflow: hidden; }
         
         @keyframes spin { 100% { transform: rotate(360deg); } }
         .spin { animation: spin 1s linear infinite; }
-
-        .modal-overlay { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(4px); }
+        
+        .modal-overlay { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(2px); }
     </style>
-
-    <!-- Client-Side Ad Filter Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const blockedKeywords = ['porn', 'adult', 'casino', 'gamble', 'bet', 'sex', 'xxx', 'dating'];
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node.tagName === 'IFRAME' || node.tagName === 'SCRIPT') {
-                            const src = (node.src || node.id || node.name || '').toLowerCase();
-                            if (blockedKeywords.some(kw => src.includes(kw))) {
-                                node.remove();
-                                console.warn('TikSave Security: Blocked restricted ad content.');
-                            }
-                        }
-                    });
-                });
-            });
-            observer.observe(document.body, { childList: true, subtree: true });
-        });
-    </script>
 </head>
-<body class="bg-slate-900">
+<body class="bg-slate-50">
 
     <div id="toast-container"></div>
 
-    <!-- Modals (Privacy & Terms) -->
-    <div id="modal-privacy" class="hidden-el fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay opacity-0 transition-opacity duration-300">
-        <div class="bg-white text-slate-900 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-5 md:p-8 shadow-2xl relative transform transition-transform duration-300 scale-95 translate-y-4">
-            <button onclick="closeModal('modal-privacy')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-xl md:text-2xl font-black mb-4 text-center">Privacy Policy</h2>
-            <div class="prose prose-sm text-slate-600 space-y-4 text-left">
-                <p>Last updated: September 2026</p>
-                <p>Welcome to TikSave AI HD (tiksave.netlify.app). This Privacy Policy explains how we collect, use, and protect your information.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">1. Information We Collect</h3>
-                <p>We do not collect personal identification information. We only process the TikTok video URLs you submit to generate download links.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">2. Third-Party Services & Ads</h3>
-                <p>We use third-party advertising networks to monetize the site. These partners may use cookies to serve personalized ads based on your visit to this and other websites.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">3. Data Storage</h3>
-                <p>We do not host or store any downloaded videos or audio files on our servers. All files are served directly from the provider's Content Delivery Network.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">4. Contact Us</h3>
-                <p>If you have any questions about this Privacy Policy, please contact us at businessammar650@gmail.com.</p>
-            </div>
-            <button onclick="closeModal('modal-privacy')" class="mt-6 md:mt-8 w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition-colors">Close</button>
+    <!-- Modals -->
+    <div id="modal-legal" class="hidden-el fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay opacity-0 transition-opacity">
+        <div class="bg-white text-slate-800 rounded-xl w-full max-w-lg max-h-[85vh] overflow-y-auto p-5 shadow-xl relative transform transition-transform scale-95">
+            <button onclick="closeModal('modal-legal')" class="absolute top-3 right-3 text-slate-400 hover:text-slate-700 text-xl"><i class="fa-solid fa-xmark"></i></button>
+            <h2 id="modal-title" class="text-xl font-bold mb-3 text-slate-900 border-b pb-2">Legal</h2>
+            <div id="modal-content" class="text-sm text-slate-600 space-y-3"></div>
+            <button onclick="closeModal('modal-legal')" class="mt-5 w-full bg-slate-900 text-white font-semibold py-2.5 rounded-lg">Close</button>
         </div>
     </div>
 
-    <div id="modal-terms" class="hidden-el fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay opacity-0 transition-opacity duration-300">
-        <div class="bg-white text-slate-900 rounded-2xl w-full max-w-2xl max-h-[80vh] overflow-y-auto p-5 md:p-8 shadow-2xl relative transform transition-transform duration-300 scale-95 translate-y-4">
-            <button onclick="closeModal('modal-terms')" class="absolute top-4 right-4 text-slate-400 hover:text-slate-800 text-2xl transition-colors"><i class="fa-solid fa-xmark"></i></button>
-            <h2 class="text-xl md:text-2xl font-black mb-4 text-center">Terms of Service</h2>
-            <div class="prose prose-sm text-slate-600 space-y-4 text-left">
-                <p>Last updated: September 2026</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">1. Acceptance of Terms</h3>
-                <p>By accessing and using TikSave AI HD, you agree to be bound by these Terms of Service.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">2. Intellectual Property Rights</h3>
-                <p>TikSave is a utility tool. We respect the intellectual property rights of others. You are solely responsible for the media you download. You must have the creator's permission to download and repurpose their content. We do not endorse piracy or copyright infringement.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">3. Disclaimer of Warranties</h3>
-                <p>The service is provided "AS IS". We do not guarantee continuous, uninterrupted access to the tool as we rely on third-party public APIs.</p>
-                <h3 class="font-bold text-slate-800 text-base md:text-lg">4. Limitation of Liability</h3>
-                <p>TikSave and its creators shall not be liable for any indirect, incidental, or consequential damages resulting from the use of this service.</p>
-            </div>
-            <button onclick="closeModal('modal-terms')" class="mt-6 md:mt-8 w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl transition-colors">Close</button>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header class="bg-[#0f172a]/90 backdrop-blur-xl sticky top-0 z-50 border-b border-white/10 shadow-lg">
-        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3 md:gap-0">
-            <a href="#" onclick="switchView('downloader')" class="flex items-center no-underline hover:opacity-90 transition-opacity justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 460 110" class="h-8 md:h-10 w-auto">
-                  <defs>
-                    <linearGradient id="logoGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stop-color="#7C3AED" />
-                      <stop offset="50%" stop-color="#C026D3" />
-                      <stop offset="100%" stop-color="#06B6D4" />
-                    </linearGradient>
-                  </defs>
-                  <rect x="5" y="5" width="100" height="100" rx="26" fill="url(#logoGlow)" />
-                  <path d="M55 25 V65 M38 48 L55 65 L72 48" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-                  <path d="M32 78 H78" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round"/>
-                  <text x="120" y="70" font-family="'Plus Jakarta Sans', system-ui, sans-serif" font-weight="900" font-size="52" fill="#FFFFFF">
-                    Tik<tspan fill="#C026D3">Save</tspan>
-                  </text>
-                  <rect x="330" y="40" width="85" height="28" rx="10" fill="url(#logoGlow)" />
-                  <text x="372" y="59" font-family="sans-serif" font-weight="800" font-size="13" fill="#FFFFFF" text-anchor="middle">AI HD</text>
+    <!-- Header (Compact) -->
+    <header class="bg-hero-gradient shadow-md sticky top-0 z-50">
+        <div class="max-w-4xl mx-auto px-3 py-2 flex flex-row items-center justify-between">
+            <a href="#" onclick="switchTab('downloader')" class="flex items-center gap-1.5 no-underline hover:opacity-90 transition-opacity">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" class="h-7 sm:h-8 w-auto">
+                    <rect width="100" height="100" rx="20" fill="#fff" />
+                    <path d="M45 25 V65 M32 52 L45 65 L58 52" stroke="#7C3AED" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+                    <path d="M28 75 H72" stroke="#7C3AED" stroke-width="8" stroke-linecap="round"/>
                 </svg>
+                <span class="text-white font-extrabold text-lg sm:text-xl tracking-tight">TikSave<span class="text-white/80 font-semibold text-sm sm:text-base ml-0.5">HD</span></span>
             </a>
-            <nav class="flex gap-2 bg-white/5 p-1 rounded-xl border border-white/10 w-full md:w-auto justify-center">
-                <button onclick="switchView('downloader')" id="nav-downloader" class="flex-1 md:flex-none text-white font-bold text-xs md:text-sm px-4 py-2 bg-white/10 rounded-lg transition-colors border-none cursor-pointer shadow-sm">Downloader</button>
-                <button onclick="switchView('seo-tools')" id="nav-seo" class="flex-1 md:flex-none text-slate-300 font-semibold hover:text-white hover:bg-white/5 text-xs md:text-sm px-4 py-2 rounded-lg transition-colors bg-transparent border-none cursor-pointer">AI SEO Tools</button>
+            
+            <nav class="flex gap-1 bg-black/20 p-1 rounded-lg">
+                <button onclick="switchTab('downloader')" id="tab-downloader" class="text-white font-semibold text-[11px] sm:text-xs px-3 py-1.5 bg-white/20 rounded shadow-sm border-none cursor-pointer">Downloader</button>
+                <button onclick="switchTab('seo-tools')" id="tab-seo" class="text-white/70 font-medium hover:text-white text-[11px] sm:text-xs px-3 py-1.5 rounded transition-colors bg-transparent border-none cursor-pointer">AI SEO</button>
             </nav>
         </div>
     </header>
 
-    <!-- TOP AD PLACEMENT -->
-    <div class="w-full px-4 mt-4 md:mt-6">
-        <div class="ad-container text-xs text-slate-400 border-white/20 max-w-[320px] md:max-w-[728px]">
-            <span class="mb-1 opacity-50 block text-center">Advertisement</span>
+    <!-- Top Ad Leaderboard -->
+    <div class="w-full px-3">
+        <div class="ad-banner max-w-[728px] text-[10px] text-slate-400 p-1">
+            <span class="mb-0.5 block opacity-60">Advertisement</span>
             <script type="text/javascript">
                 atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
             </script>
@@ -201,339 +104,278 @@
         </div>
     </div>
 
-    <main class="flex-1 w-full max-w-6xl mx-auto px-4 mt-2">
+    <main class="flex-1 w-full max-w-3xl mx-auto px-3 py-2">
         
         <!-- =====================================
-             VIEW 1: TIKTOK DOWNLOADER 
+             VIEW 1: DOWNLOADER 
         ====================================== -->
-        <div id="view-downloader" class="block w-full">
-            <section class="pt-6 pb-12 text-center relative">
-                <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-lg h-[300px] bg-custom-gradient rounded-full blur-[100px] opacity-20 pointer-events-none"></div>
+        <div id="view-downloader" class="block w-full animate-in">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 text-center">
+                <h1 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Download TikTok Video</h1>
+                <p class="text-sm text-slate-500 mb-4">Paste link to download HD MP4 instantly</p>
+                
+                <div class="flex flex-col sm:flex-row gap-2 relative">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-link absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+                        <input type="url" id="ttUrl" placeholder="Paste TikTok URL here..." class="w-full bg-slate-50 border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg py-2.5 pl-9 pr-16 text-slate-800 text-sm outline-none transition-all">
+                        <button onclick="pasteLink()" class="absolute right-1 top-1/2 -translate-y-1/2 bg-white border border-slate-200 text-slate-600 font-semibold px-2.5 py-1 rounded text-xs shadow-sm cursor-pointer hover:bg-slate-50">Paste</button>
+                    </div>
+                    <button onclick="processVideo()" id="fetchBtn" class="bg-hero-gradient text-white font-bold py-2.5 px-6 rounded-lg shadow-md text-sm border-none cursor-pointer hover:opacity-90 active:scale-95 transition-all w-full sm:w-auto flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-download"></i> Download
+                    </button>
+                </div>
+            </div>
 
-                <div class="max-w-2xl mx-auto relative z-10 px-2">
-                    <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-4 tracking-tight drop-shadow-lg leading-tight">
-                        Download TikTok<br>
-                        <span class="text-custom-gradient">Without Watermark</span>
-                    </h1>
-                    <p class="text-slate-300 text-sm md:text-base mb-6 font-medium mx-auto drop-shadow-sm max-w-[90%]">Paste any TikTok link to download high-quality HD MP4 videos or MP3 audio.</p>
-                    
-                    <div class="glass-card p-2 md:p-3 rounded-2xl flex flex-col md:flex-row gap-2 max-w-xl mx-auto">
-                        <div class="relative flex-1 flex items-center bg-slate-50/90 rounded-xl border border-slate-200">
-                            <i class="fa-solid fa-link text-slate-400 absolute left-3 md:left-4 text-sm md:text-lg"></i>
-                            <input type="url" id="ttUrl" placeholder="Paste TikTok link (vt.tiktok.com/...)" class="w-full bg-transparent border-none py-3 md:py-4 pl-9 md:pl-12 pr-20 md:pr-24 text-slate-900 placeholder-slate-400 font-bold h-full outline-none text-sm md:text-base">
-                            <button onclick="pasteLink()" class="absolute right-1 md:right-2 bg-white border border-slate-200 text-slate-600 font-bold px-3 py-1.5 md:py-2 rounded-lg text-xs md:text-sm hover:bg-slate-50 shadow-sm cursor-pointer">
-                                Paste
-                            </button>
-                        </div>
-                        <button onclick="processVideo()" id="fetchBtn" class="bg-custom-gradient text-white font-black py-3 md:py-4 px-6 md:px-8 rounded-xl shadow-lg hover:shadow-primary/50 flex items-center justify-center gap-2 text-sm md:text-lg cursor-pointer border-none transition-transform hover:scale-105 active:scale-95">
-                            <i class="fa-solid fa-download"></i> Download
-                        </button>
+            <!-- Download Result Container -->
+            <div id="resultCard" class="hidden-el mt-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-4 border-b border-slate-100 flex items-start gap-3 bg-slate-50/50">
+                    <img id="resAvatar" src="" alt="Avatar" class="w-10 h-10 rounded-full border border-slate-200 object-cover bg-white">
+                    <div class="flex-1 min-w-0">
+                        <h3 id="resName" class="font-bold text-slate-900 text-sm truncate"></h3>
+                        <p id="resHandle" class="text-xs text-brand-600 font-medium truncate mb-1"></p>
+                        <p id="resTitle" class="text-xs text-slate-600 line-clamp-2"></p>
                     </div>
                 </div>
-            </section>
-
-            <!-- Result Card -->
-            <section id="resultCard" class="hidden-el max-w-2xl mx-auto -mt-4 relative z-20 mb-12">
-                <div class="glass-card rounded-3xl p-5 md:p-8 flex flex-col md:flex-row gap-6 animate-in items-center md:items-start text-center md:text-left">
-                    
-                    <div class="w-full md:w-5/12 flex flex-col items-center">
-                        <div class="relative w-[180px] md:w-full aspect-[9/16] rounded-2xl overflow-hidden bg-slate-100 shadow-inner mb-4 border border-slate-200">
-                            <img id="resThumb" src="" alt="Thumbnail" class="w-full h-full object-cover">
-                            <div class="absolute bottom-2 left-2 bg-black/70 text-white text-[10px] md:text-xs font-bold px-2 py-1 rounded backdrop-blur-md flex items-center gap-1 border border-white/10">
-                                <i class="fa-solid fa-play text-primary"></i> <span id="resViews">0</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-3 w-full justify-center md:justify-start bg-slate-50 p-3 rounded-xl border border-slate-100 mx-auto">
-                            <img id="resAvatar" src="" alt="Avatar" class="w-10 h-10 md:w-12 md:h-12 rounded-full shadow-sm object-cover bg-white ring-2 ring-primary/20">
-                            <div class="min-w-0 text-left">
-                                <h3 id="resName" class="font-bold text-slate-900 text-sm md:text-base truncate max-w-[120px] md:max-w-[150px]"></h3>
-                                <p id="resHandle" class="text-xs md:text-sm text-primary font-semibold truncate max-w-[120px] md:max-w-[150px]"></p>
-                            </div>
+                
+                <div class="p-4 flex flex-col sm:flex-row gap-4 items-center sm:items-stretch">
+                    <div class="w-[140px] shrink-0 relative rounded-lg overflow-hidden border border-slate-200 shadow-sm">
+                        <img id="resThumb" src="" alt="Thumbnail" class="w-full aspect-[9/16] object-cover bg-slate-100">
+                        <div class="absolute bottom-1 right-1 bg-black/60 backdrop-blur-sm text-white text-[10px] font-semibold px-1.5 py-0.5 rounded flex items-center gap-1">
+                            <i class="fa-solid fa-play text-[9px]"></i> <span id="resViews"></span>
                         </div>
                     </div>
 
-                    <div class="w-full md:w-7/12 flex flex-col justify-center gap-3">
-                        <p id="resTitle" class="text-xs md:text-sm text-slate-600 mb-2 line-clamp-2 w-full font-medium leading-relaxed bg-slate-50 p-3 rounded-xl border border-slate-100 text-left"></p>
-                        
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_hd_nowatermark.mp4', this)" id="btnHd" class="w-full bg-[#10b981] text-white font-bold py-3.5 md:py-4 px-4 rounded-xl text-sm md:text-base flex items-center justify-between shadow-lg shadow-emerald-500/30 cursor-pointer border-none transition-transform hover:scale-105 active:scale-95">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-video text-emerald-100"></i> No Watermark HD</span>
-                            <i class="fa-solid fa-download opacity-90"></i>
+                    <div class="flex-1 flex flex-col gap-2 w-full justify-center">
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_hd.mp4', this)" id="btnHd" class="w-full bg-[#10b981] hover:bg-[#059669] text-white font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-between transition-colors">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-video"></i> Without Watermark HD</span>
+                            <i class="fa-solid fa-arrow-down"></i>
                         </button>
                         
-                        <!-- NATIVE ADSTERRA SCRIPT (CENTER PLACEMENT) -->
-                        <div class="ad-container light text-[10px] md:text-xs text-slate-400 my-1 shadow-inner min-h-[50px] md:min-h-[60px] p-2">
-                            <span class="mb-1 opacity-60 block">Advertisement</span>
+                        <!-- CENTER NATIVE AD PLACEMENT -->
+                        <div class="ad-banner text-[10px] text-slate-400 p-1 my-1 !min-h-[50px] !bg-slate-50 border-slate-200">
+                            <span class="mb-0.5 block opacity-60">Advertisement</span>
                             <script async="async" data-cfasync="false" src="https://pl30778496.profitableratecpmnetwork.com/052876bc9fe7b0dc10dd2194cdf2a6da/invoke.js"></script>
                             <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da"></div>
                         </div>
 
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_nowatermark.mp4', this)" id="btnSd" class="w-full bg-slate-900 text-white font-bold py-3.5 md:py-4 px-4 rounded-xl text-sm md:text-base flex items-center justify-between shadow-md cursor-pointer border-none transition-transform hover:scale-105 active:scale-95">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-play text-slate-300"></i> No Watermark</span>
-                            <i class="fa-solid fa-download opacity-90"></i>
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_sd.mp4', this)" id="btnSd" class="w-full bg-slate-800 hover:bg-slate-900 text-white font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-between transition-colors">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-play"></i> Without Watermark SD</span>
+                            <i class="fa-solid fa-arrow-down"></i>
                         </button>
                         
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-slate-100 text-slate-800 font-bold py-3.5 md:py-4 px-4 rounded-xl text-sm md:text-base flex items-center justify-between border border-slate-200 cursor-pointer transition-transform hover:scale-105 active:scale-95">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-music text-primary"></i> Download MP3</span>
-                            <i class="fa-solid fa-download opacity-90"></i>
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-white hover:bg-slate-50 text-slate-800 border border-slate-300 font-semibold py-2.5 px-4 rounded-lg text-sm flex items-center justify-between transition-colors">
+                            <span class="flex items-center gap-2"><i class="fa-solid fa-music text-brand-600"></i> Download MP3 Audio</span>
+                            <i class="fa-solid fa-arrow-down"></i>
                         </button>
                     </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- =====================================
-             VIEW 2: ADVANCED AI SEO GENERATOR 
-        ====================================== -->
-        <div id="view-seo-tools" class="hidden-el w-full">
-            <section class="py-8 relative z-10 text-center max-w-2xl mx-auto">
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-tight drop-shadow-md">TikTok Viral <span class="text-custom-gradient">SEO Generator</span></h2>
-                <p class="text-slate-300 text-sm md:text-base mb-6 max-w-[90%] mx-auto">Generate search-engine-backed hashtags, niche tags, and viral hook captions powered by AI.</p>
-
-                <div class="glass-card rounded-3xl p-5 md:p-8 shadow-2xl text-left">
-                    <form onsubmit="runSEOEngine(event)" class="space-y-4 md:space-y-5">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-                            <div class="sm:col-span-2">
-                                <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Video Topic / Niche <span class="text-rose-500">*</span></label>
-                                <input type="text" id="seoTopic" placeholder="e.g. 5 tips for better sleep, funny dog" required class="w-full bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-slate-900 font-bold outline-none transition-all text-sm md:text-base shadow-inner">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Target Audience</label>
-                                <select id="seoAudience" class="w-full bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-slate-900 font-bold outline-none transition-all cursor-pointer shadow-inner appearance-none text-sm md:text-base">
-                                    <option value="Everyone">Broad / Everyone</option>
-                                    <option value="Teens">Gen Z / Teens</option>
-                                    <option value="Professionals">Entrepreneurs / Professionals</option>
-                                    <option value="Fitness">Fitness Enthusiasts</option>
-                                </select>
-                            </div>
-
-                            <div>
-                                <label class="block text-xs md:text-sm font-bold text-slate-700 mb-1.5 uppercase tracking-wide">Content Tone</label>
-                                <select id="seoTone" class="w-full bg-slate-50 border border-slate-200 focus:border-primary focus:ring-2 focus:ring-primary/20 rounded-xl px-4 py-3 text-slate-900 font-bold outline-none transition-all cursor-pointer shadow-inner appearance-none text-sm md:text-base">
-                                    <option value="Viral">🔥 Viral & Trendy</option>
-                                    <option value="Educational">📚 Educational</option>
-                                    <option value="Funny">😂 Comedy / Funny</option>
-                                    <option value="Aesthetic">✨ Aesthetic</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button type="submit" id="seoBtn" class="w-full bg-custom-gradient text-white font-black py-4 rounded-xl shadow-lg flex items-center justify-center gap-2 text-base md:text-lg border-none cursor-pointer mt-2 transition-transform hover:scale-105 active:scale-95">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i> Generate Viral Data
-                        </button>
-                    </form>
-
-                    <!-- SEO Results Container -->
-                    <div id="seoOutput" class="hidden-el mt-8 bg-slate-50 border-2 border-primary/20 rounded-2xl overflow-hidden shadow-inner relative">
-                        <div class="bg-white p-4 border-b border-slate-200 flex justify-between items-center sticky top-0 z-10 shadow-sm">
-                            <h3 class="font-black text-slate-900 text-sm md:text-base flex items-center gap-2"><i class="fa-solid fa-fire text-orange-500"></i> Output Ready</h3>
-                            <button onclick="copyFullSEO()" id="copySeoBtn" class="bg-slate-900 text-white text-xs md:text-sm font-bold py-2 px-3 md:px-4 rounded-lg shadow-md flex items-center gap-1.5 md:gap-2 border-none cursor-pointer transition-transform hover:scale-105 active:scale-95">
-                                <i class="fa-regular fa-copy"></i> Copy All
-                            </button>
-                        </div>
-                        
-                        <div class="p-4 md:p-6 flex flex-col gap-4 md:gap-6">
-                            <div>
-                                <h4 class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5"><i class="fa-solid fa-earth-americas text-primary"></i> Broad Hashtags</h4>
-                                <p id="outBroad" class="text-xs md:text-sm text-primary font-bold bg-purple-100/50 p-3 rounded-xl border border-purple-200 leading-relaxed break-words"></p>
-                            </div>
-                            <div>
-                                <h4 class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5"><i class="fa-solid fa-crosshairs text-secondary"></i> Niche Hashtags</h4>
-                                <p id="outNiche" class="text-xs md:text-sm text-secondary font-bold bg-fuchsia-100/50 p-3 rounded-xl border border-fuchsia-200 leading-relaxed break-words"></p>
-                            </div>
-                            <div>
-                                <h4 class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-2 flex items-center gap-1.5"><i class="fa-solid fa-magnifying-glass text-blue-500"></i> SEO Keywords</h4>
-                                <p id="outKeywords" class="text-xs md:text-sm text-slate-700 font-semibold bg-white p-3 rounded-xl border border-slate-200 shadow-sm leading-relaxed break-words"></p>
-                            </div>
-                            <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm mt-2">
-                                <h4 class="text-[10px] md:text-xs font-bold text-slate-400 uppercase tracking-widest mb-3 flex items-center gap-1.5"><i class="fa-solid fa-pen-nib text-slate-700"></i> Hook Captions</h4>
-                                <ul id="outHooks" class="space-y-3 text-xs md:text-sm text-slate-700 font-medium list-none m-0 p-0">
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
-
-        <!-- =====================================
-             CONTENT SECTIONS (SEO & INFO)
-        ====================================== -->
-        <section class="py-10 text-center">
-            <h2 class="text-2xl md:text-3xl font-black text-white mb-8 tracking-tight">How it Works</h2>
-            <div class="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center">
-                <div class="glass-card p-6 md:p-8 rounded-3xl relative overflow-hidden flex-1 max-w-[320px] mx-auto sm:max-w-none">
-                    <div class="w-12 h-12 md:w-14 md:h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-4 mx-auto shadow-lg"><i class="fa-brands fa-tiktok"></i></div>
-                    <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-900">1. Copy Link</h3>
-                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-medium">Find the video on TikTok, tap the "Share" icon, and select "Copy Link".</p>
-                </div>
-                <div class="glass-card p-6 md:p-8 rounded-3xl relative overflow-hidden flex-1 max-w-[320px] mx-auto sm:max-w-none">
-                    <div class="w-12 h-12 md:w-14 md:h-14 bg-primary text-white rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-4 mx-auto shadow-lg"><i class="fa-solid fa-paste"></i></div>
-                    <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-900">2. Paste Link</h3>
-                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-medium">Return to TikSave AI HD and paste the URL into the search bar.</p>
-                </div>
-                <div class="glass-card p-6 md:p-8 rounded-3xl relative overflow-hidden flex-1 max-w-[320px] mx-auto sm:max-w-none">
-                    <div class="w-12 h-12 md:w-14 md:h-14 bg-[#10b981] text-white rounded-2xl flex items-center justify-center text-xl md:text-2xl mb-4 mx-auto shadow-lg"><i class="fa-solid fa-download"></i></div>
-                    <h3 class="font-bold text-lg md:text-xl mb-2 text-slate-900">3. Download</h3>
-                    <p class="text-xs md:text-sm text-slate-600 leading-relaxed font-medium">Choose HD Video or MP3 Audio. It saves directly to your device.</p>
                 </div>
             </div>
-        </section>
 
-        <!-- BOTTOM AD PLACEMENT -->
-        <div class="w-full px-4 mb-12 relative z-10">
-            <div class="ad-container text-xs text-slate-400 border-white/20 max-w-[320px] md:max-w-[728px] mx-auto">
-                <span class="mb-1 opacity-50 block text-center">Advertisement</span>
-                <script type="text/javascript">
-                    atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
-                </script>
-                <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
+            <!-- Steps -->
+            <div class="mt-6 bg-white rounded-xl border border-slate-200 p-4 shadow-sm text-left">
+                <h3 class="font-bold text-slate-800 text-sm mb-3 border-b pb-2">How to use TikTok Downloader?</h3>
+                <ol class="text-xs text-slate-600 space-y-2 pl-4 m-0">
+                    <li class="pl-1">Open TikTok app and find the video you want to save.</li>
+                    <li class="pl-1">Tap on <b>Share</b> icon, then select <b>Copy Link</b>.</li>
+                    <li class="pl-1">Return to this page, paste the link in the input field above.</li>
+                    <li class="pl-1">Click <b>Download</b> and choose your preferred format (HD/MP3).</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- =====================================
+             VIEW 2: AI SEO GENERATOR 
+        ====================================== -->
+        <div id="view-seo-tools" class="hidden-el w-full">
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-4 sm:p-5 text-center">
+                <h2 class="text-xl sm:text-2xl font-bold text-slate-900 mb-1">Viral AI SEO Generator</h2>
+                <p class="text-sm text-slate-500 mb-4">Generate trending hashtags and hook captions instantly.</p>
+
+                <form onsubmit="generateSEO(event)" class="text-left space-y-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Video Topic (What is it about?) <span class="text-red-500">*</span></label>
+                        <input type="text" id="seoTopic" placeholder="e.g. 5 simple weight loss tips" required class="w-full bg-slate-50 border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg py-2 px-3 text-slate-800 text-sm outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Target Niche (Optional)</label>
+                        <input type="text" id="seoNiche" placeholder="e.g. Fitness for beginners" class="w-full bg-slate-50 border border-slate-300 focus:border-brand-500 focus:ring-1 focus:ring-brand-500 rounded-lg py-2 px-3 text-slate-800 text-sm outline-none">
+                    </div>
+                    <button type="submit" id="seoBtn" class="w-full bg-hero-gradient text-white font-bold py-2.5 rounded-lg shadow-sm text-sm border-none cursor-pointer hover:opacity-90 active:scale-95 transition-all mt-2 flex justify-center items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> Generate SEO Data
+                    </button>
+                </form>
+            </div>
+
+            <!-- SEO Output -->
+            <div id="seoOutput" class="hidden-el mt-4 bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="bg-slate-50 border-b border-slate-200 p-3 flex justify-between items-center">
+                    <span class="font-bold text-sm text-slate-800"><i class="fa-solid fa-check text-green-500 mr-1"></i> Data Ready</span>
+                    <button onclick="copySEO()" class="bg-slate-800 hover:bg-slate-900 text-white text-xs font-semibold py-1.5 px-3 rounded shadow-sm flex items-center gap-1.5 transition-colors">
+                        <i class="fa-regular fa-copy"></i> Copy All
+                    </button>
+                </div>
+                <div class="p-4 space-y-4">
+                    <div>
+                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Broad Hashtags</span>
+                        <div id="outBroad" class="text-sm font-medium text-brand-600 bg-brand-50 p-2.5 rounded border border-brand-100"></div>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Niche Hashtags</span>
+                        <div id="outNiche" class="text-sm font-medium text-fuchsia-600 bg-fuchsia-50 p-2.5 rounded border border-fuchsia-100"></div>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">SEO Keywords</span>
+                        <div id="outKeys" class="text-sm text-slate-700 bg-slate-50 p-2.5 rounded border border-slate-200"></div>
+                    </div>
+                    <div>
+                        <span class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Video Hooks</span>
+                        <ul id="outHooks" class="text-sm text-slate-700 space-y-2 m-0 pl-4"></ul>
+                    </div>
+                </div>
             </div>
         </div>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-[#0f172a] border-t border-white/10 pt-10 md:pt-12 pb-6 mt-auto relative z-10">
-        <div class="max-w-6xl mx-auto px-4 text-center">
-            <div class="flex justify-center gap-4 text-xs md:text-sm text-slate-400 font-semibold mb-6">
-                <button onclick="openModal('modal-privacy')" class="hover:text-white transition-colors bg-transparent border-none cursor-pointer">Privacy Policy</button>
-                <span>•</span>
-                <button onclick="openModal('modal-terms')" class="hover:text-white transition-colors bg-transparent border-none cursor-pointer">Terms of Service</button>
-            </div>
+    <!-- Bottom Ad Banner -->
+    <div class="w-full px-3 mt-auto">
+        <div class="ad-banner max-w-[728px] text-[10px] text-slate-400 p-1">
+            <span class="mb-0.5 block opacity-60">Advertisement</span>
+            <script type="text/javascript">
+                atOptions = { 'key' : '806385e1f249bc700f0b6cafdc2e5706', 'format' : 'iframe', 'height' : 50, 'width' : 320, 'params' : {} };
+            </script>
+            <script type="text/javascript" src="https://crayondrunkcontend.com/806385e1f249bc700f0b6cafdc2e5706/invoke.js"></script>
+        </div>
+    </div>
 
-            <p class="text-slate-300 font-bold text-xs md:text-sm mb-2 max-w-[280px] md:max-w-none mx-auto leading-relaxed">Copyright ©️ 2026 TikSave (tiksave.netlify.app). Created by Muhammad Ammar. 100% Free for everyone.</p>
-            <p class="text-slate-500 text-xs md:text-sm">
-                <i class="fa-solid fa-envelope mr-1"></i> <a href="mailto:businessammar650@gmail.com" class="text-primary hover:text-white hover:underline font-bold transition-colors">businessammar650@gmail.com</a>
-            </p>
+    <!-- Footer -->
+    <footer class="bg-slate-100 border-t border-slate-200 py-4 mt-4">
+        <div class="max-w-3xl mx-auto px-4 text-center">
+            <div class="flex justify-center gap-3 text-xs text-slate-500 font-semibold mb-2">
+                <button onclick="showLegal('privacy')" class="hover:text-slate-800 transition-colors bg-transparent border-none cursor-pointer">Privacy Policy</button>
+                <span>|</span>
+                <button onclick="showLegal('terms')" class="hover:text-slate-800 transition-colors bg-transparent border-none cursor-pointer">Terms of Service</button>
+            </div>
+            <p class="text-slate-400 text-[11px] font-medium m-0">Copyright ©️ 2026 TikSave (tiksave.netlify.app). All rights reserved.</p>
         </div>
     </footer>
 
-    <!-- Core Javascript Logic -->
+    <!-- Scripts -->
     <script>
-        function switchView(viewId) {
+        // Tab Management
+        function switchTab(tabId) {
             document.getElementById('view-downloader').classList.add('hidden-el');
             document.getElementById('view-seo-tools').classList.add('hidden-el');
             
-            const navD = document.getElementById('nav-downloader');
-            const navS = document.getElementById('nav-seo');
+            const btnD = document.getElementById('tab-downloader');
+            const btnS = document.getElementById('tab-seo');
             
-            navD.className = 'flex-1 md:flex-none text-slate-300 font-semibold hover:text-white hover:bg-white/5 text-xs md:text-sm px-4 py-2 rounded-lg transition-colors bg-transparent border-none cursor-pointer';
-            navS.className = 'flex-1 md:flex-none text-slate-300 font-semibold hover:text-white hover:bg-white/5 text-xs md:text-sm px-4 py-2 rounded-lg transition-colors bg-transparent border-none cursor-pointer';
+            btnD.className = 'text-white/70 font-medium hover:text-white text-[11px] sm:text-xs px-3 py-1.5 rounded transition-colors bg-transparent border-none cursor-pointer';
+            btnS.className = 'text-white/70 font-medium hover:text-white text-[11px] sm:text-xs px-3 py-1.5 rounded transition-colors bg-transparent border-none cursor-pointer';
             
-            document.getElementById('view-' + viewId).classList.remove('hidden-el');
-            if(viewId === 'downloader') {
-                navD.className = 'flex-1 md:flex-none text-white font-bold text-xs md:text-sm px-4 py-2 bg-white/10 rounded-lg transition-colors border-none cursor-pointer shadow-sm';
+            document.getElementById('view-' + tabId).classList.remove('hidden-el');
+            document.getElementById('view-' + tabId).classList.add('animate-in');
+            
+            if(tabId === 'downloader') {
+                btnD.className = 'text-white font-semibold text-[11px] sm:text-xs px-3 py-1.5 bg-white/20 rounded shadow-sm border-none cursor-pointer';
             } else {
-                navS.className = 'flex-1 md:flex-none text-white font-bold text-xs md:text-sm px-4 py-2 bg-white/10 rounded-lg transition-colors border-none cursor-pointer shadow-sm';
+                btnS.className = 'text-white font-semibold text-[11px] sm:text-xs px-3 py-1.5 bg-white/20 rounded shadow-sm border-none cursor-pointer';
             }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function showToast(message, type = 'error') {
+        // Toasts
+        function showToast(msg, type = 'error') {
             const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = 'toast';
-            if (type === 'error') {
-                toast.style.borderLeftColor = '#ef4444';
-                toast.innerHTML = `<div class="bg-red-100 p-2 rounded-lg text-red-500"><i class="fa-solid fa-triangle-exclamation"></i></div> <span>${message}</span>`;
-            } else {
-                toast.style.borderLeftColor = '#10b981';
-                toast.innerHTML = `<div class="bg-emerald-100 p-2 rounded-lg text-emerald-500"><i class="fa-solid fa-check-circle"></i></div> <span>${message}</span>`;
-            }
-            container.appendChild(toast);
-            
-            void toast.offsetWidth; 
-            toast.classList.add('show');
-            
-            setTimeout(() => {
-                toast.classList.remove('show');
-                setTimeout(() => toast.remove(), 400);
-            }, 4000);
+            const t = document.createElement('div');
+            t.className = `toast ${type}`;
+            t.innerHTML = `<i class="fa-solid ${type==='error'?'fa-circle-exclamation':'fa-circle-check'}"></i> <span>${msg}</span>`;
+            container.appendChild(t);
+            setTimeout(() => t.classList.add('show'), 10);
+            setTimeout(() => { t.classList.remove('show'); setTimeout(() => t.remove(), 300); }, 3500);
         }
 
-        function openModal(id) {
-            const modal = document.getElementById(id);
+        // Legal Modals
+        function showLegal(type) {
+            const modal = document.getElementById('modal-legal');
+            const title = document.getElementById('modal-title');
+            const content = document.getElementById('modal-content');
+            
+            if(type === 'privacy') {
+                title.innerText = 'Privacy Policy';
+                content.innerHTML = '<p><b>1. Data Collection:</b> We do not collect or store personal data. URLs submitted are processed purely to fetch media.</p><p><b>2. Cookies & Ads:</b> Third-party ad vendors may use cookies to serve ads based on prior visits.</p><p><b>3. Content Hosting:</b> We do not host downloaded files; they are delivered directly from TikTok CDNs.</p>';
+            } else {
+                title.innerText = 'Terms of Service';
+                content.innerHTML = '<p><b>1. Usage:</b> TikSave is a free utility tool. By using it, you accept these terms.</p><p><b>2. Copyright:</b> You are solely responsible for ensuring you have permission to download and use the media. We do not endorse copyright infringement.</p><p><b>3. Liability:</b> Service provided "AS IS" without warranties.</p>';
+            }
+            
             modal.classList.remove('hidden-el');
-            void modal.offsetWidth;
-            modal.classList.remove('opacity-0');
-            modal.querySelector('div').classList.remove('scale-95', 'translate-y-4');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.querySelector('div').classList.remove('scale-95');
+            }, 10);
         }
-        
+
         function closeModal(id) {
             const modal = document.getElementById(id);
             modal.classList.add('opacity-0');
-            modal.querySelector('div').classList.add('scale-95', 'translate-y-4');
-            setTimeout(() => { modal.classList.add('hidden-el'); }, 300);
+            modal.querySelector('div').classList.add('scale-95');
+            setTimeout(() => modal.classList.add('hidden-el'), 200);
         }
 
+        // Downloader Logic
         async function pasteLink() {
             try {
                 const text = await navigator.clipboard.readText();
                 document.getElementById('ttUrl').value = text;
-            } catch (err) {
-                showToast("⚠️ Clipboard access denied. Please paste manually.", "error");
-            }
+            } catch(e) { showToast("Clipboard access denied", "error"); }
         }
 
-        function formatNumber(num) {
+        function formatK(num) {
             if (!num) return "0";
-            if (num >= 1000000) return (num / 1000000).toFixed(1) + 'M';
-            if (num >= 1000) return (num / 1000).toFixed(1) + 'K';
-            return num.toString();
+            return num >= 1000 ? (num/1000).toFixed(1) + 'K' : num.toString();
         }
 
         async function processVideo() {
-            const urlInput = document.getElementById('ttUrl').value.trim();
-            const btn = document.getElementById('fetchBtn');
-            const origHtml = btn.innerHTML;
-            
-            if (!urlInput || (!urlInput.includes('tiktok.com') && !urlInput.includes('tik.tok'))) {
-                showToast("⚠️ Invalid URL: Please enter a valid TikTok video link", "error");
-                return;
+            const url = document.getElementById('ttUrl').value.trim();
+            if(!url || !url.includes('tiktok')) {
+                showToast("⚠️ Invalid TikTok URL", "error"); return;
             }
 
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i> Loading...';
-            btn.disabled = true;
+            const btn = document.getElementById('fetchBtn');
+            const card = document.getElementById('resultCard');
+            const originalBtn = btn.innerHTML;
             
-            const resultCard = document.getElementById('resultCard');
-            resultCard.classList.add('hidden-el');
-            resultCard.classList.remove('animate-in'); 
+            btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Processing...';
+            btn.disabled = true;
+            card.classList.add('hidden-el');
 
             try {
-                const encodedUrl = encodeURIComponent(urlInput);
-                const apiUrl = `https://www.tikwm.com/api/?url=${encodedUrl}&hd=1`;
-                
-                const response = await fetch(apiUrl);
-                if (!response.ok) throw new Error("Network");
-                
-                const json = await response.json();
-                
+                const api = `https://www.tikwm.com/api/?url=${encodeURIComponent(url)}&hd=1`;
+                const res = await fetch(api);
+                const json = await res.json();
+
                 if (json.code === 0 && json.data) {
-                    const data = json.data;
-                    
-                    document.getElementById('resThumb').src = data.cover || '';
-                    document.getElementById('resAvatar').src = data.author?.avatar || '';
-                    document.getElementById('resName').innerText = data.author?.nickname || 'TikTok User';
-                    document.getElementById('resHandle').innerText = '@' + (data.author?.unique_id || 'unknown');
-                    document.getElementById('resTitle').innerText = data.title || 'No description available.';
-                    
-                    document.getElementById('resViews').innerText = formatNumber(data.play_count);
-                    
-                    document.getElementById('btnHd').dataset.url = data.hdplay || data.play;
-                    document.getElementById('btnSd').dataset.url = data.play;
-                    document.getElementById('btnMp3').dataset.url = data.music || data.play;
-                    
-                    void resultCard.offsetWidth;
-                    resultCard.classList.remove('hidden-el');
-                    resultCard.classList.add('animate-in');
+                    const d = json.data;
+                    document.getElementById('resThumb').src = d.cover || '';
+                    document.getElementById('resAvatar').src = d.author?.avatar || '';
+                    document.getElementById('resName').innerText = d.author?.nickname || 'TikTok Creator';
+                    document.getElementById('resHandle').innerText = '@' + (d.author?.unique_id || 'user');
+                    document.getElementById('resTitle').innerText = d.title || 'No description';
+                    document.getElementById('resViews').innerText = formatK(d.play_count);
+
+                    document.getElementById('btnHd').dataset.url = d.hdplay || d.play;
+                    document.getElementById('btnSd').dataset.url = d.play;
+                    document.getElementById('btnMp3').dataset.url = d.music || d.play;
+
+                    card.classList.remove('hidden-el');
+                    card.classList.add('animate-in');
                 } else {
-                    showToast("🔒 Private/Deleted Video: This video is private or unavailable.", "error");
+                    showToast("🔒 Video is private or unavailable", "error");
                 }
-            } catch (error) {
-                showToast("🌐 Network Error: Please check your connection and try again.", "error");
+            } catch (err) {
+                showToast("🌐 Network Error. Check connection.", "error");
             } finally {
-                btn.innerHTML = origHtml;
+                btn.innerHTML = originalBtn;
                 btn.disabled = false;
             }
         }
@@ -541,11 +383,9 @@
         async function saveBlob(url, filename, btnElem) {
             if(!url) return;
             const originalHtml = btnElem.innerHTML;
-            
             try {
-                btnElem.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i> Downloading...';
+                btnElem.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Downloading...';
                 btnElem.style.pointerEvents = 'none';
-                btnElem.style.opacity = '0.8';
 
                 const response = await fetch(url);
                 if (!response.ok) throw new Error('CORS');
@@ -562,9 +402,9 @@
                 
                 window.URL.revokeObjectURL(blobUrl);
                 a.remove();
-                
                 btnElem.innerHTML = '<i class="fa-solid fa-check"></i> Saved!';
             } catch (err) {
+                // Fallback for CORS block on direct fetch
                 const a = document.createElement('a');
                 a.href = url;
                 a.download = filename;
@@ -572,85 +412,71 @@
                 document.body.appendChild(a);
                 a.click();
                 a.remove();
-                btnElem.innerHTML = '<i class="fa-solid fa-arrow-up-right-from-square"></i> Opened Tab';
+                btnElem.innerHTML = '<i class="fa-solid fa-check"></i> Opened Tab';
             } finally {
-                setTimeout(() => {
-                    btnElem.innerHTML = originalHtml;
-                    btnElem.style.pointerEvents = 'auto';
-                    btnElem.style.opacity = '1';
-                }, 3000);
+                setTimeout(() => { btnElem.innerHTML = originalHtml; btnElem.style.pointerEvents = 'auto'; }, 2500);
             }
         }
 
-        let currentSeoText = "";
-
-        async function runSEOEngine(e) {
+        // SEO Engine
+        let fullSeoText = "";
+        
+        async function generateSEO(e) {
             e.preventDefault();
-            const topicInput = document.getElementById('seoTopic').value.trim();
-            const audience = document.getElementById('seoAudience').value;
-            const tone = document.getElementById('seoTone').value;
+            const topic = document.getElementById('seoTopic').value.trim();
+            const niche = document.getElementById('seoNiche').value.trim();
             
-            if(!topicInput) return;
-
             const btn = document.getElementById('seoBtn');
+            const out = document.getElementById('seoOutput');
             const origHtml = btn.innerHTML;
             
-            btn.innerHTML = '<i class="fa-solid fa-circle-notch spin"></i> Generating with AI...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner spin"></i> Fetching AI Data...';
             btn.disabled = true;
-            
-            const seoOutput = document.getElementById('seoOutput');
-            seoOutput.classList.add('hidden-el');
-            seoOutput.classList.remove('animate-in');
+            out.classList.add('hidden-el');
 
             try {
-                // Fetch from our secure Netlify serverless function
-                const response = await fetch('/.netlify/functions/generate-seo', {
+                const res = await fetch('/.netlify/functions/generate-seo', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ topic: topicInput, audience, tone })
+                    body: JSON.stringify({ topic, niche })
                 });
 
-                if (!response.ok) {
-                    throw new Error("Failed to generate SEO");
-                }
+                if(!res.ok) throw new Error();
+                const data = await res.json();
 
-                const data = await response.json();
-                
-                document.getElementById('outBroad').innerText = Array.isArray(data.broad) ? data.broad.join(' ') : (data.broad || '');
-                document.getElementById('outNiche').innerText = Array.isArray(data.niche) ? data.niche.join(' ') : (data.niche || '');
-                document.getElementById('outKeywords').innerText = Array.isArray(data.keywords) ? data.keywords.join(', ') : (data.keywords || '');
-                
+                // Format arrays securely
+                const bHashtags = (data.broadHashtags || []).join(' ');
+                const nHashtags = (data.nicheHashtags || []).join(' ');
+                const kWords = (data.seoKeywords || []).join(', ');
+                const caps = data.captions || [];
+
+                document.getElementById('outBroad').innerText = bHashtags;
+                document.getElementById('outNiche').innerText = nHashtags;
+                document.getElementById('outKeys').innerText = kWords;
+
                 const hooksList = document.getElementById('outHooks');
                 hooksList.innerHTML = '';
-                const hooksArr = Array.isArray(data.hooks) ? data.hooks : [data.hooks];
-                
-                hooksArr.forEach((h, i) => {
-                    if(!h) return;
-                    hooksList.innerHTML += `<li class="flex items-start gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-100"><span class="text-primary font-bold mt-0.5">${i+1}.</span> <span class="flex-1">${h}</span></li>`;
+                caps.forEach(c => {
+                    if(c) hooksList.innerHTML += `<li><span class="text-brand-600 mr-1 font-bold">•</span> ${c}</li>`;
                 });
 
-                currentSeoText = `BROAD TAGS:\n${Array.isArray(data.broad) ? data.broad.join(' ') : data.broad}\n\nNICHE TAGS:\n${Array.isArray(data.niche) ? data.niche.join(' ') : data.niche}\n\nKEYWORDS:\n${Array.isArray(data.keywords) ? data.keywords.join(', ') : data.keywords}\n\nHOOKS:\n${hooksArr.join('\n')}`;
+                fullSeoText = `BROAD HASHTAGS:\n${bHashtags}\n\nNICHE HASHTAGS:\n${nHashtags}\n\nKEYWORDS:\n${kWords}\n\nHOOKS:\n${caps.join('\n')}`;
 
-                void seoOutput.offsetWidth;
-                seoOutput.classList.remove('hidden-el');
-                seoOutput.classList.add('animate-in');
-
-            } catch (error) {
-                console.error(error);
-                showToast("⚠️ AI Error: Ensure GEMINI_API_KEY is configured in Netlify.", "error");
+                out.classList.remove('hidden-el');
+                out.classList.add('animate-in');
+            } catch(err) {
+                showToast("⚠️ AI Error: Check network or API configuration.", "error");
             } finally {
                 btn.innerHTML = origHtml;
                 btn.disabled = false;
             }
         }
 
-        function copyFullSEO() {
-            if (!currentSeoText) return;
-            navigator.clipboard.writeText(currentSeoText).then(() => {
-                showToast('All SEO Data copied to clipboard!', 'success');
-            }).catch(() => {
-                showToast('Failed to copy. Please copy manually.', 'error');
-            });
+        function copySEO() {
+            if(!fullSeoText) return;
+            navigator.clipboard.writeText(fullSeoText).then(() => {
+                showToast("Data Copied to Clipboard!", "success");
+            }).catch(() => showToast("Copy failed", "error"));
         }
     </script>
 </body>
