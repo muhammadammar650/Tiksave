@@ -59,51 +59,42 @@ async function startServer() {
     }
   });
 
-  // Gemini AI SEO Generator
-  app.post("/api/seo/generate", async (req, res) => {
+  // Netlify Function Mock Route for AI Studio Environment
+  app.post("/.netlify/functions/generate-seo", async (req, res) => {
     try {
-      const { platform, topic, niche } = req.body;
+      const { topic, niche } = req.body;
       
       const ai = new GoogleGenAI({ 
         apiKey: process.env.GEMINI_API_KEY,
         httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
       });
       
-      const prompt = `Act as an expert SEO and Social Media Manager for ${platform}.
+      const prompt = `Act as an expert TikTok SEO and Social Media Manager.
       Topic: ${topic}
-      Niche: ${niche}
+      Niche: ${niche || 'General'}
       
-      Create a highly optimized video package including:
-      1. Viral Hashtags grouped by size (Broad, Niche, Micro).
-      2. 3 Optimized Video Titles.
-      3. 3 Caption hooks and Call-to-Actions (CTAs).
+      Create a highly optimized TikTok video package including:
+      1. Broad Hashtags.
+      2. Niche Hashtags.
+      3. SEO Keywords for search indexing.
+      4. 3 Viral Hook Captions.
       
       Format the output as a valid JSON object matching the requested schema.`;
       
       const response = await ai.models.generateContent({
         model: "gemini-3.5-flash",
         contents: prompt,
-        tools: [{ googleSearch: {} }],
-        toolConfig: { includeServerSideToolInvocations: true },
         config: {
           responseMimeType: "application/json",
           responseSchema: {
             type: Type.OBJECT,
             properties: {
-              hashtags: {
-                type: Type.OBJECT,
-                properties: {
-                  broad: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  niche: { type: Type.ARRAY, items: { type: Type.STRING } },
-                  micro: { type: Type.ARRAY, items: { type: Type.STRING } }
-                },
-                required: ["broad", "niche", "micro"]
-              },
-              titles: { type: Type.ARRAY, items: { type: Type.STRING } },
-              hooks: { type: Type.ARRAY, items: { type: Type.STRING } },
-              ctas: { type: Type.ARRAY, items: { type: Type.STRING } }
+              broadHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+              nicheHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+              seoKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
+              captions: { type: Type.ARRAY, items: { type: Type.STRING } }
             },
-            required: ["hashtags", "titles", "hooks", "ctas"]
+            required: ["broadHashtags", "nicheHashtags", "seoKeywords", "captions"]
           }
         }
       });

@@ -204,11 +204,15 @@
                         </div>
                     </div>
                     
-                    <div class="flex flex-col gap-2 mt-2">
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_hd.mp4', this)" id="btnHd" class="w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-md cursor-pointer border-none active:scale-95">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-video text-teal-100"></i> Without Watermark HD (1080p)</span>
-                            <i class="fa-solid fa-download"></i>
-                        </button>
+                    <div id="download-buttons-container" class="flex flex-col gap-2 mt-2">
+                        <!-- High CTR Smart Link (Injected dynamically or placed statically at the top) -->
+                        <a href="https://www.profitableratecpmnetwork.com/d4f3k8hz?key=1e1648208e9f995b682e388dfa1639b8" target="_blank" class="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 px-4 rounded-xl text-sm flex items-center justify-center gap-2 transition-all shadow-[0_0_15px_rgba(220,38,38,0.5)] border-none active:scale-95 animate-[pulse_2s_ease-in-out_infinite] no-underline">
+                            <i class="fa-solid fa-bolt"></i> ⚡ Download via Fast Server (Recommended)
+                        </a>
+
+                        <div id="dynamic-media-buttons" class="w-full flex flex-col gap-2">
+                            <!-- Buttons injected here by JS -->
+                        </div>
                         
                         <!-- NATIVE ADSTERRA SCRIPT (CENTER PLACEMENT) -->
                         <div class="bg-white/40 backdrop-blur border border-purple-100/50 rounded-xl mx-auto my-2 p-2 w-full flex flex-col justify-center items-center min-h-[90px] shadow-sm text-[10px] text-slate-400">
@@ -217,12 +221,7 @@
                             <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da"></div>
                         </div>
 
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_sd.mp4', this)" id="btnSd" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-md cursor-pointer border-none active:scale-95">
-                            <span class="flex items-center gap-2"><i class="fa-solid fa-play text-slate-300"></i> Without Watermark (Standard)</span>
-                            <i class="fa-solid fa-download"></i>
-                        </button>
-                        
-                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-sm cursor-pointer active:scale-95 mt-1">
+                        <button onclick="saveBlob(this.dataset.url, 'tiksave_audio.mp3', this)" id="btnMp3" class="w-full bg-white hover:bg-slate-50 text-slate-800 border-2 border-slate-200 font-bold py-3 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-sm cursor-pointer active:scale-95 mt-1 hidden-el">
                             <span class="flex items-center gap-2"><i class="fa-solid fa-music text-purple-600"></i> Download MP3 Audio</span>
                             <i class="fa-solid fa-download"></i>
                         </button>
@@ -603,14 +602,58 @@
                     document.getElementById('resTitle').innerText = d.title || 'No description provided by the creator.';
                     document.getElementById('resViews').innerText = formatNumber(d.play_count);
 
-                    document.getElementById('btnHd').dataset.url = d.hdplay || d.play;
-                    document.getElementById('btnSd').dataset.url = d.play;
-                    document.getElementById('btnMp3').dataset.url = d.music || d.play;
+                    const dynamicContainer = document.getElementById('dynamic-media-buttons');
+                    const mp3Btn = document.getElementById('btnMp3');
+                    
+                    dynamicContainer.innerHTML = '';
+                    
+                    // IF PHOTOS (Slide carousel)
+                    if (d.images && Array.isArray(d.images) && d.images.length > 0) {
+                        const grid = document.createElement('div');
+                        grid.className = 'grid grid-cols-2 gap-2';
+                        
+                        d.images.forEach((imgUrl, index) => {
+                            const btn = document.createElement('button');
+                            btn.className = 'w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-2.5 px-3 rounded-xl text-xs flex items-center justify-between transition-all shadow-sm cursor-pointer border-none active:scale-95';
+                            btn.innerHTML = `<span class="flex items-center gap-1.5"><i class="fa-solid fa-image text-slate-300"></i> Photo ${index + 1}</span><i class="fa-solid fa-download"></i>`;
+                            btn.onclick = () => saveBlob(imgUrl, `tiksave_photo_${index + 1}.jpg`, btn);
+                            grid.appendChild(btn);
+                        });
+                        dynamicContainer.appendChild(grid);
+                    } 
+                    // IF VIDEO
+                    else {
+                        const hdBtn = document.createElement('button');
+                        hdBtn.className = 'w-full bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-md cursor-pointer border-none active:scale-95';
+                        hdBtn.innerHTML = '<span class="flex items-center gap-2"><i class="fa-solid fa-video text-teal-100"></i> Without Watermark HD (1080p)</span><i class="fa-solid fa-download"></i>';
+                        hdBtn.onclick = () => saveBlob(d.hdplay || d.play, 'tiksave_hd.mp4', hdBtn);
+                        
+                        const sdBtn = document.createElement('button');
+                        sdBtn.className = 'w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-3.5 px-4 rounded-xl text-sm flex items-center justify-between transition-all shadow-md cursor-pointer border-none active:scale-95 mt-2';
+                        sdBtn.innerHTML = '<span class="flex items-center gap-2"><i class="fa-solid fa-play text-slate-300"></i> Without Watermark (Standard)</span><i class="fa-solid fa-download"></i>';
+                        sdBtn.onclick = () => saveBlob(d.play, 'tiksave_sd.mp4', sdBtn);
+                        
+                        dynamicContainer.appendChild(hdBtn);
+                        dynamicContainer.appendChild(sdBtn);
+                    }
+
+                    // MP3 Audio Button
+                    if (d.music || d.play) {
+                        mp3Btn.dataset.url = d.music || d.play;
+                        mp3Btn.classList.remove('hidden-el');
+                    } else {
+                        mp3Btn.classList.add('hidden-el');
+                    }
 
                     card.classList.remove('hidden-el');
                     card.classList.remove('animate-in');
                     void card.offsetWidth;
                     card.classList.add('animate-in');
+                    
+                    // Smooth Auto-Scroll
+                    setTimeout(() => {
+                        card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
                 } else {
                     showToast("🔒 Restricted: This video is private, deleted, or region-locked.", "error");
                 }
