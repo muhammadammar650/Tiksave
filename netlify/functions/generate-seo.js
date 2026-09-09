@@ -1,67 +1,65 @@
-const { GoogleGenAI, Type } = require("@google/genai");
+const { GoogleGenAI } = require('@google/genai');
 
 exports.handler = async function(event, context) {
-  if (event.httpMethod !== "POST") {
-    return { statusCode: 405, body: "Method Not Allowed" };
-  }
-
-  try {
-    const { topic, niche } = JSON.parse(event.body);
-    
-    if (!topic) {
-      return { statusCode: 400, body: JSON.stringify({ error: "Topic is required" }) };
+    // Only allow POST requests
+    if (event.httpMethod !== 'POST') {
+        return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
     }
 
-    const ai = new GoogleGenAI({ 
-      apiKey: process.env.GEMINI_API_KEY 
-    });
-    
-    const prompt = `Act as an expert TikTok SEO and Social Media Manager.
-    Topic: ${topic}
-    Niche: ${niche || 'General'}
-    
-    Create a highly optimized TikTok video package including:
-    1. Broad Hashtags.
-    2. Niche Hashtags.
-    3. SEO Keywords for search indexing.
-    4. 3 Viral Hook Captions.
-    
-    Format the output as a valid JSON object matching the requested schema.`;
-    
-    const response = await ai.models.generateContent({
-      model: "gemini-3.5-flash",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: {
-          type: Type.OBJECT,
-          properties: {
-            broadHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-            nicheHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-            seoKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
-            captions: { type: Type.ARRAY, items: { type: Type.STRING } }
-          },
-          required: ["broadHashtags", "nicheHashtags", "seoKeywords", "captions"]
+    try {
+        const { topic, niche } = JSON.parse(event.body);
+        
+        if (!process.env.GEMINI_API_KEY) {
+            return { 
+                statusCode: 500, 
+                body: JSON.stringify({ error: 'Missing Gemini API Key in environment variables.' }) 
+            };
         }
-      }
-    });
-    
-    const resultText = response.text || "{}";
-    const data = JSON.parse(resultText);
-    
-    return {
-      statusCode: 200,
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(data)
-    };
 
-  } catch (error) {
-    console.error("Gemini API Error:", error);
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message || "Failed to generate SEO data." })
-    };
-  }
+        // Initialize Gemini SDK
+        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+        const prompt = `Act as an expert TikTok SEO and growth strategist.
+Topic: ${topic}
+Niche: ${niche || 'General'}
+
+Generate a viral SEO package for this TikTok video. Return ONLY a valid JSON object with this exact structure:
+{
+  "broadHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5", "#tag6"],
+  "nicheHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5", "#tag6"],
+  "searchKeywords": ["keyword phrase 1", "keyword phrase 2", "keyword phrase 3", "keyword phrase 4", "keyword phrase 5"],
+  "hookCaptions": ["Hook 1", "Hook 2", "Hook 3"]
+}
+
+Do not include markdown blocks, just the pure JSON string.`;
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents: prompt,
+            config: {
+                responseMimeType: "application/json",
+            }
+        });
+
+        const data = JSON.parse(response.text);
+
+        return {
+            statusCode: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(data)
+        };
+    } catch (error) {
+        console.error("AI Generation Error:", error);
+        return {
+            statusCode: 500,
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({ error: 'Failed to generate SEO data.', details: error.message })
+        };
+    }
 };
