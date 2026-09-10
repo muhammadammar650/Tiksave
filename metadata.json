@@ -1,6 +1,6 @@
 {
   "name": "Universal Video Downloader & SEO",
-  "description": "Download videos from TikTok, Instagram, Facebook, and YouTube, plus an AI-powered SEO Hashtag Creator.",
+  "description": "High-performance TikTok video and photo downloader without watermark in HD, powered by TikSave Core Engine with AI SEO hashtag generation.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

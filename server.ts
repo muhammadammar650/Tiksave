@@ -12,10 +12,10 @@ async function startServer() {
 
   // Security Middleware (CSP)
   app.use((req, res, next) => {
-    // Strict CSP to block malicious ads but allow the specified native ad network
+    // Comprehensive CSP to allow necessary CDNs, media, fonts, and advertising scripts
     res.setHeader(
       "Content-Security-Policy",
-      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://pl30778496.profitableratecpmnetwork.com; frame-src 'self' https://pl30778496.profitableratecpmnetwork.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: http:; connect-src 'self' https: http:;"
+      "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; frame-src 'self' data: about: blob: https: http:; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' https: data:; img-src 'self' data: https: http: blob:; media-src 'self' data: https: http: blob:; connect-src 'self' https: http:;"
     );
     // Anti-clickjacking
     res.setHeader("X-Frame-Options", "DENY");
@@ -62,27 +62,28 @@ async function startServer() {
   // Netlify Function Mock Route for AI Studio Environment
   app.post("/.netlify/functions/generate-seo", async (req, res) => {
     try {
-      const { topic, niche } = req.body;
+      const { topic, niche, audience } = req.body;
       
       const ai = new GoogleGenAI({ 
         apiKey: process.env.GEMINI_API_KEY,
         httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
       });
       
-      const prompt = `Act as an expert TikTok SEO and Social Media Manager.
-      Topic: ${topic}
-      Niche: ${niche || 'General'}
+      const prompt = `Act as an expert TikTok growth hacker and SEO strategist.
+      Video topic: "${topic}".
+      Niche: "${niche || 'General'}".
+      Target Audience: "${audience || 'General audience'}".
       
-      Create a highly optimized TikTok video package including:
-      1. Broad Hashtags.
-      2. Niche Hashtags.
-      3. SEO Keywords for search indexing.
-      4. 3 Viral Hook Captions.
+      Analyze the algorithm and return a pure JSON object with these exact keys:
+      "broadHashtags": [array of 7 strings representing high-volume hashtags],
+      "nicheHashtags": [array of 7 strings representing high-intent specific hashtags],
+      "hooks": [array of 3 strings representing highly engaging, high-CTR hook titles/text overlays],
+      "caption": "A single string containing a 3-4 sentence highly engaging, SEO-optimized TikTok caption/description including a Call-To-Action."
       
-      Format the output as a valid JSON object matching the requested schema.`;
+      Return ONLY valid JSON without markdown wrapping.`;
       
       const response = await ai.models.generateContent({
-        model: "gemini-3.5-flash",
+        model: "gemini-3.6-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
@@ -91,10 +92,10 @@ async function startServer() {
             properties: {
               broadHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
               nicheHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-              seoKeywords: { type: Type.ARRAY, items: { type: Type.STRING } },
-              captions: { type: Type.ARRAY, items: { type: Type.STRING } }
+              hooks: { type: Type.ARRAY, items: { type: Type.STRING } },
+              caption: { type: Type.STRING }
             },
-            required: ["broadHashtags", "nicheHashtags", "seoKeywords", "captions"]
+            required: ["broadHashtags", "nicheHashtags", "hooks", "caption"]
           }
         }
       });

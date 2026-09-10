@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Sparkles, Loader2, Copy, CheckCircle2 } from "lucide-react";
 import type { SEOData } from "../types";
 
@@ -13,7 +13,7 @@ export default function SEOGenerator() {
   const [data, setData] = useState<SEOData | null>(null);
   const [copied, setCopied] = useState(false);
 
-  const handleGenerate = async (e: React.FormEvent) => {
+  const handleGenerate = async (e: FormEvent) => {
     e.preventDefault();
     if (!topic || !niche) {
       setError("Please fill out the required fields.");

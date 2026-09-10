@@ -28,7 +28,7 @@ exports.handler = async function(event, context) {
         Return ONLY valid JSON without markdown wrapping.`;
 
         // We use the standard fetch API available in Node 18+ (Netlify's default)
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -39,13 +39,14 @@ exports.handler = async function(event, context) {
 
         if (!response.ok) {
             const errText = await response.text();
-            throw new Error(`Gemini API Error: ${errText}`);
+            throw new Error(`TikSave Core Engine Service Unavailable (${response.status})`);
         }
 
         const data = await response.json();
         
-        // Extract the JSON text response from the model
-        const jsonText = data.candidates[0].content.parts[0].text;
+        // Extract the JSON text response from the model and strip code fences if any
+        let jsonText = data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+        jsonText = jsonText.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim();
 
         return {
             statusCode: 200,

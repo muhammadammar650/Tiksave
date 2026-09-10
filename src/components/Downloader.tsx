@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import { Download, Loader2, Link as LinkIcon, Video, Music } from "lucide-react";
 import type { VideoData } from "../types";
 import NativeAd from "./NativeAd";
@@ -22,7 +22,7 @@ export default function Downloader({ platform }: DownloaderProps) {
     }
   };
 
-  const handleDownload = async (e: React.FormEvent) => {
+  const handleDownload = async (e: FormEvent) => {
     e.preventDefault();
     if (!url) {
       setError("⚠️ Invalid video link. Please check the URL and try again.");
