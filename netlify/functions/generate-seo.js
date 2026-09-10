@@ -1,65 +1,62 @@
-const { GoogleGenAI } = require('@google/genai');
-
 exports.handler = async function(event, context) {
-    // Only allow POST requests
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+        return { statusCode: 405, body: 'Method Not Allowed' };
+    }
+    
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+        return { 
+            statusCode: 500, 
+            body: JSON.stringify({ error: "Missing GEMINI_API_KEY environment variable." }) 
+        };
     }
 
     try {
-        const { topic, niche } = JSON.parse(event.body);
+        const { topic, niche, audience } = JSON.parse(event.body);
         
-        if (!process.env.GEMINI_API_KEY) {
-            return { 
-                statusCode: 500, 
-                body: JSON.stringify({ error: 'Missing Gemini API Key in environment variables.' }) 
-            };
-        }
+        const prompt = `Act as an expert TikTok growth hacker and SEO strategist. 
+        Video topic: "${topic}". 
+        Niche: "${niche}". 
+        Target Audience: "${audience}".
+        
+        Analyze the algorithm and return a pure JSON object with these exact keys:
+        "broadHashtags": [array of 7 strings representing high-volume hashtags],
+        "nicheHashtags": [array of 7 strings representing high-intent specific hashtags],
+        "hooks": [array of 3 strings representing highly engaging, high-CTR hook titles/text overlays],
+        "caption": "A single string containing a 3-4 sentence highly engaging, SEO-optimized TikTok caption/description including a Call-To-Action."
+        
+        Return ONLY valid JSON without markdown wrapping.`;
 
-        // Initialize Gemini SDK
-        const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-
-        const prompt = `Act as an expert TikTok SEO and growth strategist.
-Topic: ${topic}
-Niche: ${niche || 'General'}
-
-Generate a viral SEO package for this TikTok video. Return ONLY a valid JSON object with this exact structure:
-{
-  "broadHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5", "#tag6"],
-  "nicheHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5", "#tag6"],
-  "searchKeywords": ["keyword phrase 1", "keyword phrase 2", "keyword phrase 3", "keyword phrase 4", "keyword phrase 5"],
-  "hookCaptions": ["Hook 1", "Hook 2", "Hook 3"]
-}
-
-Do not include markdown blocks, just the pure JSON string.`;
-
-        const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
-            contents: prompt,
-            config: {
-                responseMimeType: "application/json",
-            }
+        // We use the standard fetch API available in Node 18+ (Netlify's default)
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                contents: [{ parts: [{ text: prompt }] }],
+                generationConfig: { response_mime_type: "application/json" }
+            })
         });
 
-        const data = JSON.parse(response.text);
+        if (!response.ok) {
+            const errText = await response.text();
+            throw new Error(`Gemini API Error: ${errText}`);
+        }
+
+        const data = await response.json();
+        
+        // Extract the JSON text response from the model
+        const jsonText = data.candidates[0].content.parts[0].text;
 
         return {
             statusCode: 200,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify(data)
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonText
         };
     } catch (error) {
-        console.error("AI Generation Error:", error);
-        return {
-            statusCode: 500,
-            headers: {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({ error: 'Failed to generate SEO data.', details: error.message })
+        console.error("Function Error:", error);
+        return { 
+            statusCode: 500, 
+            body: JSON.stringify({ error: error.message || "Failed to generate AI SEO content." }) 
         };
     }
 };
