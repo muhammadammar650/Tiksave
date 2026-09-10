@@ -28,7 +28,7 @@ exports.handler = async function(event, context) {
         Return ONLY valid JSON without markdown wrapping.`;
 
         // We use the standard fetch API available in Node 18+ (Netlify's default)
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${apiKey}`, {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({

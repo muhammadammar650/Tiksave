@@ -17,8 +17,8 @@ async function startServer() {
       "Content-Security-Policy",
       "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https: http:; frame-src 'self' data: about: blob: https: http:; style-src 'self' 'unsafe-inline' https: http:; font-src 'self' https: data:; img-src 'self' data: https: http: blob:; media-src 'self' data: https: http: blob:; connect-src 'self' https: http:;"
     );
-    // Anti-clickjacking
-    res.setHeader("X-Frame-Options", "DENY");
+    // Anti-clickjacking (Allow same-origin and platform iframe previews)
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
     res.setHeader("X-Content-Type-Options", "nosniff");
     next();
   });
@@ -83,7 +83,7 @@ async function startServer() {
       Return ONLY valid JSON without markdown wrapping.`;
       
       const response = await ai.models.generateContent({
-        model: "gemini-3.6-flash",
+        model: "gemini-3.8-flash",
         contents: prompt,
         config: {
           responseMimeType: "application/json",
