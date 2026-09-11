@@ -1,6 +1,6 @@
 {
-  "name": "Universal Video Downloader & SEO",
-  "description": "High-performance TikTok video and photo downloader without watermark in HD, powered by TikSave Core Engine with AI SEO hashtag generation.",
+  "name": "Viralora",
+  "description": "Download TikTok videos without watermark, save photo slideshows, extract lossless MP3 audio, and generate viral AI hashtags and captions for TikTok, Instagram, YouTube, and Facebook instantly with Viralora.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

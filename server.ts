@@ -1,7 +1,7 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -24,6 +24,11 @@ async function startServer() {
   });
 
   app.use(express.json());
+
+  // Health check
+  app.get("/api/health", (req, res) => {
+    res.json({ status: "ok" });
+  });
 
   // API Routes
   
@@ -63,7 +68,7 @@ async function startServer() {
   const handleMediaProxy = async (req: express.Request, res: express.Response) => {
     try {
       const targetUrl = (req.query.url as string) || (req.body && req.body.url);
-      const filename = (req.query.filename as string) || "TikSave_Media.mp4";
+      const filename = (req.query.filename as string) || "Viralora_Media.mp4";
 
       if (!targetUrl) {
         return res.status(400).send("Missing target url parameter");
@@ -102,10 +107,11 @@ async function startServer() {
 
   // Netlify Function & Express API Route for AI Studio Environment
   const handleGenerateSeo = async (req: express.Request, res: express.Response) => {
-    const { topic, niche, audience } = req.body || {};
-    const effectiveTopic = topic || 'Viral TikTok Trends';
-    const effectiveNiche = niche || 'General';
-    const effectiveAudience = audience || 'General audience';
+    const { platform, topic, niche, audience } = req.body || {};
+    const effectivePlatform = platform || 'TikTok';
+    const effectiveTopic = topic || 'Viral Social Media Trends';
+    const effectiveNiche = niche || 'General Entertainment';
+    const effectiveAudience = audience || 'Target Audience';
 
     const apiKey = process.env.GEMINI_API_KEY 
       || process.env.GOOGLE_API_KEY 
@@ -113,19 +119,83 @@ async function startServer() {
       || process.env.API_KEY 
       || process.env.GOOGLE_GENAI_API_KEY;
 
+    const cleanTopic = effectiveTopic.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+    const cleanNiche = effectiveNiche.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+
+    const getPlatformFallbacks = () => {
+      switch (effectivePlatform) {
+        case 'Instagram':
+          return {
+            broadHashtags: ["#reels", "#explorepage", "#viralreels", "#instadaily", "#trendingnow", "#reelsinstagram", "#igreels"],
+            nicheHashtags: [`#${cleanTopic || 'trending'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}reels`, `#${cleanNiche}tips`, `#creatorsofinstagram`, `#reelsoftheday`, `#viralcontent`],
+            hooks: [
+              `Save this reel before the Instagram algorithm changes! 📲`,
+              `The easiest way to level up your ${effectiveTopic} this week...`,
+              `Stop scrolling if you want to grow your ${effectiveNiche} page!`
+            ],
+            caption: `Here is everything you need to know about ${effectiveTopic} in the ${effectiveNiche} space! ✨\n\n📌 Save this reel so you don't lose it.\n💬 Drop your questions below & let's discuss!\n👉 Follow for daily ${effectiveNiche} growth tips & strategies.`
+          };
+        case 'YouTube Shorts':
+          return {
+            broadHashtags: ["#shorts", "#youtubeshorts", "#viralshorts", "#trending", "#shortsvideo", "#youtube", "#subscribe"],
+            nicheHashtags: [`#${cleanTopic || 'shorts'}`, `#${cleanNiche || 'tips'}`, `#${cleanTopic}shorts`, `#${cleanNiche}channel`, `#algorithm`, `#contentcreator`, `#creatoreconomy`],
+            hooks: [
+              `Watch this before you make your next YouTube video on ${effectiveTopic}!`,
+              `The viral YouTube Shorts formula for ${effectiveTopic} revealed:`,
+              `Why 99% of creators fail at ${effectiveTopic} (and how to fix it)!`
+            ],
+            caption: `Learn the essential secrets of ${effectiveTopic} for ${effectiveAudience} in the ${effectiveNiche} niche! 🚀\n\n🔔 Don't forget to LIKE and SUBSCRIBE for more daily shorts!\nShare your thoughts in the comments below!`
+          };
+        case 'Facebook':
+          return {
+            broadHashtags: ["#facebookreels", "#viral", "#trending", "#reelsvideo", "#facebookviral", "#reelsfb", "#fbreels"],
+            nicheHashtags: [`#${cleanTopic || 'viral'}`, `#${cleanNiche || 'video'}`, `#${cleanTopic}tips`, `#facebookcommunity`, `#creator`, `#viralstory`, `#trendingtopics`],
+            hooks: [
+              `Has anyone else noticed this happening with ${effectiveTopic}?`,
+              `3 things everyone should know about ${effectiveTopic} today!`,
+              `You won't believe how simple it is to master ${effectiveTopic}!`
+            ],
+            caption: `Everyone in the ${effectiveNiche} community has been asking about ${effectiveTopic}! Here's the complete breakdown you need to know. What are your thoughts on this? Let us know in the comments and share with a friend who needs to see this! 👇`
+          };
+        case 'LinkedIn':
+          return {
+            broadHashtags: ["#leadership", "#innovation", "#networking", "#marketing", "#professionaldevelopment", "#business", "#strategy"],
+            nicheHashtags: [`#${cleanTopic || 'industry'}`, `#${cleanNiche || 'growth'}`, `#${cleanTopic}trends`, `#futureofwork`, `#productivity`, `#careeradvice`, `#digitalstrategy`],
+            hooks: [
+              `The biggest misconception most professionals have about ${effectiveTopic}:`,
+              `How prioritizing ${effectiveTopic} transformed our approach to ${effectiveNiche}:`,
+              `3 key lessons I learned analyzing ${effectiveTopic} for ${effectiveAudience}:`
+            ],
+            caption: `In today's fast-evolving ${effectiveNiche} landscape, understanding ${effectiveTopic} is no longer optional for ${effectiveAudience}.\n\nKey takeaway: Focus on structured consistency, data-driven optimization, and genuine value.\n\nWhat has been your experience navigating this in your industry? Let's connect and discuss in the comments below.`
+          };
+        case 'Twitter/X':
+          return {
+            broadHashtags: ["#viral", "#trending", "#threads", "#techtwitter", "#buildinpublic", "#creator", "#x"],
+            nicheHashtags: [`#${cleanTopic || 'trends'}`, `#${cleanNiche || 'news'}`, `#${cleanTopic}tips`, `#xthreads`, `#growth`, `#insights`, `#dailyupdate`],
+            hooks: [
+              `A masterclass on ${effectiveTopic} that took me 3 years to learn (in 30 seconds): 🧵`,
+              `The single most overlooked strategy in ${effectiveNiche}: ${effectiveTopic}.`,
+              `If you care about ${effectiveTopic}, stop doing this immediately:`
+            ],
+            caption: `Everything you need to know about ${effectiveTopic} in 2026.\n\nBookmark this post 🔖\nRepost if you found this valuable 🔁\nFollow for more daily ${effectiveNiche} breakdowns.`
+          };
+        case 'TikTok':
+        default:
+          return {
+            broadHashtags: ["#fyp", "#viral", "#trending", "#foryou", "#foryoupage", "#tiktokviral", "#explore"],
+            nicheHashtags: [`#${cleanTopic || 'viral'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}tips`, `#trending${cleanNiche}`, `#${cleanTopic}hacks`, `#creatorgrowth`, `#contentstrategy`],
+            hooks: [
+              `You won't believe what happened when we tried ${effectiveTopic}!`,
+              `Stop scrolling if you want to know the truth about ${effectiveTopic}...`,
+              `3 secrets about ${effectiveTopic} that no one is telling you!`
+            ],
+            caption: `Here is everything you need to know about ${effectiveTopic}! Make sure to save this video and follow for daily viral ${effectiveNiche} updates. What do you think? Drop a comment below! 🔥 (Powered by Viralora Core Engine)`
+          };
+      }
+    };
+
     if (!apiKey) {
-      const cleanTopic = effectiveTopic.replace(/[^a-zA-Z0-9]/g, '');
-      const cleanNiche = effectiveNiche.replace(/[^a-zA-Z0-9]/g, '');
-      return res.json({
-        broadHashtags: ["#fyp", "#viral", "#trending", "#foryou", "#foryoupage", "#tiktokviral", "#explore"],
-        nicheHashtags: [`#${cleanTopic || 'viral'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}tips`, `#trending${cleanNiche}`, `#${cleanTopic}hacks`, `#creatorgrowth`, `#contentstrategy`],
-        hooks: [
-          `You won't believe what happened when we tried ${effectiveTopic}!`,
-          `Stop scrolling if you want to know the truth about ${effectiveTopic}...`,
-          `3 secrets about ${effectiveTopic} that no one is telling you!`
-        ],
-        caption: `Here is everything you need to know about ${effectiveTopic}! Make sure to save this video and follow for daily viral ${effectiveNiche} updates. What do you think? Drop a comment below! 🔥 (Note: Set GEMINI_API_KEY in Netlify settings for dynamic AI model synthesis.)`
-      });
+      return res.json(getPlatformFallbacks());
     }
 
     try {
@@ -134,54 +204,62 @@ async function startServer() {
         httpOptions: { headers: { 'User-Agent': 'aistudio-build' } }
       });
       
-      const prompt = `Act as an expert TikTok growth hacker and SEO strategist.
-Video topic: "${effectiveTopic}".
-Niche: "${effectiveNiche}".
+      const prompt = `Act as an expert social media growth hacker and SEO algorithm strategist for ${effectivePlatform}. 
+Platform: "${effectivePlatform}".
+Video/Content topic: "${effectiveTopic}". 
+Niche: "${effectiveNiche}". 
 Target Audience: "${effectiveAudience}".
 
-Analyze the algorithm and return a pure JSON object with these exact keys:
-"broadHashtags": [array of 7 strings representing high-volume hashtags],
-"nicheHashtags": [array of 7 strings representing high-intent specific hashtags],
-"hooks": [array of 3 strings representing highly engaging, high-CTR hook titles/text overlays],
-"caption": "A single string containing a 3-4 sentence highly engaging, SEO-optimized TikTok caption/description including a Call-To-Action."
+Analyze the modern 2026 ${effectivePlatform} recommendation algorithm and return a pure JSON object with these exact keys:
+"broadHashtags": [array of 7 strings representing high-volume, high-reach hashtags calibrated for ${effectivePlatform}],
+"nicheHashtags": [array of 7 strings representing high-intent specific hashtags for the ${effectiveNiche} niche on ${effectivePlatform}],
+"hooks": [array of 3 strings representing psychological, high-CTR hook titles/text overlays specifically optimized for ${effectivePlatform}],
+"caption": "A single string containing a high-converting, platform-specific caption formatted perfectly for ${effectivePlatform} (e.g. spacing, emojis, call-to-action suitable for ${effectivePlatform})."
 
 Return ONLY valid JSON without markdown wrapping.`;
       
-      const response = await ai.models.generateContent({
-        model: "gemini-2.5-flash",
-        contents: prompt,
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.OBJECT,
-            properties: {
-              broadHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-              nicheHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
-              hooks: { type: Type.ARRAY, items: { type: Type.STRING } },
-              caption: { type: Type.STRING }
-            },
-            required: ["broadHashtags", "nicheHashtags", "hooks", "caption"]
-          }
+      const candidateModels = ["gemini-3.6-flash", "gemini-3.8-flash", "gemini-flash-latest"];
+      let data: any = null;
+      let lastModelError: any = null;
+
+      for (const model of candidateModels) {
+        try {
+          const response = await ai.models.generateContent({
+            model,
+            contents: prompt,
+            config: {
+              thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
+              responseMimeType: "application/json",
+              responseSchema: {
+                type: Type.OBJECT,
+                properties: {
+                  broadHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  nicheHashtags: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  hooks: { type: Type.ARRAY, items: { type: Type.STRING } },
+                  caption: { type: Type.STRING }
+                },
+                required: ["broadHashtags", "nicheHashtags", "hooks", "caption"]
+              }
+            }
+          });
+          
+          const resultText = response.text || "{}";
+          data = JSON.parse(resultText);
+          break;
+        } catch (modelErr: any) {
+          lastModelError = modelErr;
+          console.warn(`Model ${model} failed, trying fallback:`, modelErr?.message || modelErr);
         }
-      });
+      }
+
+      if (data) {
+        return res.json(data);
+      }
       
-      const resultText = response.text || "{}";
-      const data = JSON.parse(resultText);
-      res.json(data);
+      throw lastModelError || new Error("All candidate Gemini models failed to generate a response");
     } catch (error: any) {
       console.error("Gemini API Error:", error);
-      const cleanTopic = effectiveTopic.replace(/[^a-zA-Z0-9]/g, '');
-      const cleanNiche = effectiveNiche.replace(/[^a-zA-Z0-9]/g, '');
-      res.json({
-        broadHashtags: ["#fyp", "#viral", "#trending", "#foryou", "#tiktok", "#explore", "#viralvideo"],
-        nicheHashtags: [`#${cleanTopic || 'tiktok'}`, `#${cleanNiche || 'tips'}`, `#${cleanTopic}viral`, `#${cleanNiche}growth`, `#algorithm`, `#contentcreator`, `#videooftheday`],
-        hooks: [
-          `Wait until you see how this affects your ${effectiveTopic}!`,
-          `The #1 mistake people make with ${effectiveTopic}...`,
-          `Try this simple ${effectiveTopic} strategy today!`
-        ],
-        caption: `Discover the top secrets about ${effectiveTopic} in the ${effectiveNiche} space! Hit bookmark to save for later and drop your thoughts in the comments! 🚀`
-      });
+      res.json(getPlatformFallbacks());
     }
   };
 

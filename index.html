@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TikSave - TikTok Downloader No Watermark & AI Hashtags</title>
-    <meta name="description" content="Download TikTok videos without watermark in 1080p HD. Convert photo slideshows and generate viral hashtags instantly with TikSave Core Engine.">
-    <meta name="keywords" content="tiktok downloader, tiktok no watermark, tiksave, ssstik, tiktok hd downloader, ai hashtags, tiksave core engine">
+    <title>Viralora - All-in-One Video Downloader & AI Hashtag Generator</title>
+    <meta name="description" content="Download watermark-free videos and audio in 1080p Ultra HD. Generate viral AI hashtags, psychological hooks, and SEO captions across TikTok, Instagram, YouTube, Facebook, LinkedIn, and Twitter/X with Viralora Core Engine.">
+    <meta name="keywords" content="viralora, video downloader, tiktok no watermark, instagram reels downloader, youtube shorts downloader, ai hashtags, viral hooks, viralora core engine">
     
     <!-- Open Graph / Meta -->
-    <meta property="og:title" content="TikSave - TikTok Downloader No Watermark & AI Hashtags">
-    <meta property="og:description" content="Download TikTok videos and photo slideshows in 1080p Ultra HD without watermark. Powered by TikSave Core Engine.">
+    <meta property="og:title" content="Viralora - All-in-One Video Downloader & AI Hashtag Generator">
+    <meta property="og:description" content="Download watermark-free videos and audio in 1080p Ultra HD. Generate viral AI hashtags, psychological hooks, and SEO captions with Viralora Core Engine.">
+    <meta property="og:url" content="https://viralora.netlify.app">
     <meta property="og:type" content="website">
 
     <!-- JSON-LD FAQ Schema (Whitelabeled for Google Search Rich Snippets) -->
@@ -20,26 +21,34 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "Are downloaded TikTok videos completely watermark-free?",
+          "name": "Are downloaded videos completely watermark-free on Viralora?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. TikSave Core Engine connects to raw TikTok CDN bitstreams before visual watermark branding layers are burned in, providing clean 1080p MP4 files."
+            "text": "Yes. Viralora Core Engine connects to raw media CDN bitstreams before visual watermark branding layers are burned in, providing clean 1080p MP4 files."
           }
         },
         {
           "@type": "Question",
-          "name": "How does the Photo Slideshow download work?",
+          "name": "How does the Photo Slideshow carousel download work?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "When a TikTok photo carousel URL is provided, TikSave automatically isolates each individual high-resolution image slide in an interactive swipe carousel. Tap 'Download Active Slide Photo' to instantly save whichever slide you are viewing."
+            "text": "When a photo carousel URL is provided, Viralora automatically isolates each individual high-resolution image slide in an interactive swipe carousel. Tap 'Download Active Slide Photo' to instantly save whichever slide you are viewing."
           }
         },
         {
           "@type": "Question",
-          "name": "Why do downloads trigger directly without freezing on 'Fetching'?",
+          "name": "Why do downloads trigger instantly without opening preview tabs?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "TikSave uses an asynchronous direct anchor bypass engine. Instead of buffering multi-megabyte blobs in browser RAM subject to CORS restrictions, media downloads initiate directly and natively in your browser."
+            "text": "Viralora features a high-speed CORS-bypassing blob engine. It routes media streams securely, converts them into local browser blobs, and forces a native file download directly into your device's downloads manager instead of opening and playing in a new tab."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Which social platforms does the Viralora AI Hashtag Engine support?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Viralora Core Engine supports TikTok, Instagram, YouTube Shorts, Facebook, LinkedIn, and Twitter/X, generating algorithmic niche hashtags, high-CTR hooks, and character-compliant captions."
           }
         },
         {
@@ -47,7 +56,7 @@
           "name": "Are my downloads anonymous?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Yes. We do not keep logs of videos you process, nor do we store media files on our servers. The application acts as a secure passthrough connecting directly to source CDN streams."
+            "text": "Yes. Viralora operates on a zero-logging architecture. We do not keep logs of URLs you process, nor do we store media files on our servers."
           }
         }
       ]
@@ -72,7 +81,7 @@
                         brand: {
                             slate: '#090d16',
                             card: 'rgba(15, 23, 42, 0.92)',
-                            cyan: '#06b6d4',
+                            cyan: '#00f0ff',
                             electric: '#c026d3',
                             purple: '#a855f7',
                             neon: '#38bdf8',
@@ -90,12 +99,32 @@
 
     <style>
         /* =====================================================================
-           ANTI-GLITCH & ANTI-WHITE-SCREEN SCROLL OPTIMIZATION (GPU HARDWARE ACCELERATION)
+           ANTI-BLUR & ANTI-GLITCH HARDWARE-ACCELERATED TEXT RENDERING
         ====================================================================== */
+        input, textarea, button, body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            text-rendering: optimizeLegibility;
+        }
+
         html, body {
             background-color: #0b0f19 !important;
             overscroll-behavior-y: none;
             -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Prevent glass blur inheritance on text inputs */
+        .search-input-field {
+            background: #0f172a !important;
+            color: #ffffff !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border: 2px solid rgba(168, 85, 247, 0.4);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+        }
+        .search-input-field:focus {
+            border-color: #00f0ff !important;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.4);
         }
 
         /* Disable heavy dynamic blur on mobile viewports to guarantee 60fps scrolling */
@@ -145,7 +174,7 @@
         }
 
         .gradient-text {
-            background: linear-gradient(to right, #38bdf8, #c026d3, #f472b6);
+            background: linear-gradient(to right, #00f0ff, #d946ef, #f472b6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -166,7 +195,7 @@
         }
 
         .hero-input-glow {
-            box-shadow: 0 0 35px rgba(192, 38, 211, 0.35), inset 0 0 15px rgba(6, 182, 212, 0.15);
+            box-shadow: 0 0 35px rgba(217, 70, 239, 0.35), inset 0 0 15px rgba(0, 240, 255, 0.15);
         }
         
         .hidden { display: none !important; }
@@ -218,7 +247,7 @@
         details > summary::-webkit-details-marker { display: none; }
         dialog::backdrop { background: rgba(5, 8, 15, 0.85); backdrop-filter: blur(10px); }
 
-        /* ADSTERRA UN-COLLAPSIBLE 2:1 NATIVE & 468PX BANNER SLOTS */
+        /* ADSTERRA UN-COLLAPSIBLE 1:2 NATIVE (480PX) & 468PX BANNER SLOTS */
         .ad-banner-slot { 
             background: transparent !important;
             min-height: 60px; 
@@ -244,7 +273,7 @@
             background: transparent !important;
             width: 100%; 
             max-width: 720px;
-            min-height: 350px !important;
+            min-height: 480px !important;
             display: flex; 
             justify-content: center; 
             align-items: center; 
@@ -255,10 +284,12 @@
         }
         .ad-native-slot iframe {
             width: 100% !important;
-            min-height: 350px !important;
+            height: 480px !important;
+            min-height: 480px !important;
             border: none !important;
             background: transparent !important;
             display: block;
+            overflow: hidden;
         }
 
         .lucide { width: 1.25rem; height: 1.25rem; }
@@ -271,36 +302,50 @@
     <div id="toast-container"></div>
 
     <!-- =====================================
-         HEADER & UNBREAKABLE INLINE SVG LOGO
+         HEADER & EXACT INLINE SVG LOGO (VIRALORA)
     ====================================== -->
     <header class="dark-glass-nav sticky top-0 z-50 transition-all duration-300 gpu-accelerated">
         <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between">
-            <!-- Header Logo (Unbreakable Inline SVG: Glowing Cyan-to-Purple Square with Down Arrow + TikSave Text) -->
-            <a href="#" onclick="resetApp(); return false;" class="flex items-center gap-3 no-underline group" id="brand-logo-link" title="TikSave Home">
-                <svg class="w-10 h-10 shrink-0 drop-shadow-[0_0_15px_rgba(192,38,211,0.65)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Header Logo (Exact Vector Inline SVG: Glowing Cyan-to-Magenta Container, White Down Arrow, 3D Orbital Ring, Sparkling Star) -->
+            <a href="#" onclick="resetApp(); return false;" class="flex items-center gap-3 no-underline group" id="brand-logo-link" title="Viralora Home">
+                <svg class="w-11 h-11 shrink-0 drop-shadow-[0_0_15px_rgba(0,240,255,0.45)] transition-transform group-hover:scale-105" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
-                        <linearGradient id="headerLogoGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#06b6d4" />
-                            <stop offset="50%" stop-color="#a855f7" />
-                            <stop offset="100%" stop-color="#c026d3" />
+                        <linearGradient id="viraloraBorder" x1="4" y1="8" x2="40" y2="44" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#00f0ff"/>
+                            <stop offset="50%" stop-color="#a855f7"/>
+                            <stop offset="100%" stop-color="#d946ef"/>
                         </linearGradient>
+                        <linearGradient id="viraloraOrbit" x1="8" y1="16" x2="36" y2="36" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#d946ef"/>
+                            <stop offset="100%" stop-color="#00f0ff"/>
+                        </linearGradient>
+                        <linearGradient id="viraloraStar" x1="43" y1="3" x2="43" y2="15" gradientUnits="userSpaceOnUse">
+                            <stop offset="0%" stop-color="#ffffff"/>
+                            <stop offset="100%" stop-color="#00f0ff"/>
+                        </linearGradient>
+                        <filter id="boxGlow" x="0" y="4" width="44" height="44" filterUnits="userSpaceOnUse">
+                            <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#00f0ff" flood-opacity="0.35"/>
+                        </filter>
                     </defs>
-                    <rect width="40" height="40" rx="10" fill="url(#headerLogoGrad)" />
-                    <!-- Bold White Down Arrow & Line -->
-                    <path d="M20 9V24M20 24L13.5 17.5M20 24L26.5 17.5M12 28.5H28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- Rounded Container with Glowing Cyan to Magenta Gradient Border -->
+                    <rect x="4" y="8" width="36" height="36" rx="10" fill="#0b0f19" stroke="url(#viraloraBorder)" stroke-width="2.5" filter="url(#boxGlow)"/>
+                    <!-- 3D Tilted Orbital Ring -->
+                    <ellipse cx="22" cy="26" rx="14" ry="5.5" transform="rotate(-30 22 26)" stroke="url(#viraloraOrbit)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <!-- Solid White Down-Arrow -->
+                    <path d="M 22 15 V 31 M 16.5 25.5 L 22 31 L 27.5 25.5" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <!-- 4-Point Sparkling Star at Top-Right Outside Box -->
+                    <path d="M 43 3 C 43 6.5 45.5 9 49 9 C 45.5 9 43 11.5 43 15 C 43 11.5 40.5 9 37 9 C 40.5 9 43 6.5 43 3 Z" fill="url(#viraloraStar)"/>
                 </svg>
-                <span class="text-2xl font-black tracking-tight flex items-center">
-                    <span class="text-white">Tik</span><span class="text-[#c026d3]">Save</span>
-                </span>
+                <span class="text-2xl sm:text-3xl font-black tracking-tight text-white drop-shadow-[0_0_12px_rgba(217,70,239,0.6)]">Viralora</span>
             </a>
             
             <!-- Desktop Nav (Clean Rectangular Tabs) -->
             <nav class="hidden md:flex items-center gap-3" id="desktop-nav">
                 <button onclick="showView('view-home')" class="rect-btn nav-btn text-sm font-bold text-white bg-slate-900/90 hover:bg-slate-800 border border-purple-500/30 px-5 py-2.5 flex items-center gap-2 cursor-pointer" id="nav-btn-home">
-                    <i data-lucide="download-cloud" class="w-4 h-4 text-cyan-400"></i> TikTok Downloader
+                    <i data-lucide="download-cloud" class="w-4 h-4 text-cyan-400"></i> Video Downloader
                 </button>
                 <button onclick="showView('view-seo')" class="rect-btn nav-btn text-sm font-bold text-slate-300 hover:text-white bg-transparent hover:bg-slate-900 border border-purple-500/20 px-5 py-2.5 flex items-center gap-2 cursor-pointer" id="nav-btn-seo">
-                    <i data-lucide="sparkles" class="w-4 h-4 text-[#c026d3]"></i> AI Hashtags
+                    <i data-lucide="sparkles" class="w-4 h-4 text-[#d946ef]"></i> AI Hashtag & Content Engine
                 </button>
                 <button onclick="resetApp()" class="rect-btn text-sm font-bold text-slate-400 hover:text-cyan-400 bg-transparent px-3 py-2 flex items-center gap-1.5 cursor-pointer ml-2" title="Clear & New Search">
                     <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
@@ -321,19 +366,14 @@
         <!-- Top Bar inside overlay with Logo and Close X Button -->
         <div class="flex items-center justify-between h-20 border-b border-purple-500/20 pb-2">
             <div class="flex items-center gap-3">
-                <svg class="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(192,38,211,0.65)]" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="mobLogoGrad" x1="0" y1="0" x2="40" y2="40" gradientUnits="userSpaceOnUse">
-                            <stop offset="0%" stop-color="#06b6d4" />
-                            <stop offset="50%" stop-color="#a855f7" />
-                            <stop offset="100%" stop-color="#c026d3" />
-                        </linearGradient>
-                    </defs>
-                    <rect width="40" height="40" rx="10" fill="url(#mobLogoGrad)" />
-                    <path d="M20 9V24M20 24L13.5 17.5M20 24L26.5 17.5M12 28.5H28" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                <svg class="w-10 h-10 shrink-0 drop-shadow-[0_0_12px_rgba(0,240,255,0.45)]" viewBox="0 0 52 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="4" y="8" width="36" height="36" rx="10" fill="#0b0f19" stroke="url(#viraloraBorder)" stroke-width="2.5"/>
+                    <ellipse cx="22" cy="26" rx="14" ry="5.5" transform="rotate(-30 22 26)" stroke="url(#viraloraOrbit)" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <path d="M 22 15 V 31 M 16.5 25.5 L 22 31 L 27.5 25.5" stroke="#ffffff" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M 43 3 C 43 6.5 45.5 9 49 9 C 45.5 9 43 11.5 43 15 C 43 11.5 40.5 9 37 9 C 40.5 9 43 6.5 43 3 Z" fill="url(#viraloraStar)"/>
                 </svg>
-                <span class="text-2xl font-black tracking-tight">
-                    <span class="text-white">Tik</span><span class="text-[#c026d3]">Save</span>
+                <span class="text-2xl font-black tracking-tight text-white drop-shadow-[0_0_10px_rgba(217,70,239,0.5)]">
+                    Viralora
                 </span>
             </div>
             <button onclick="toggleMobileMenu()" class="p-3 text-slate-300 hover:text-white bg-slate-900 rounded-xl border border-purple-500/30 cursor-pointer" aria-label="Close menu">
@@ -344,11 +384,11 @@
         <!-- Navigation Links (Solid, Clean, High Contrast) -->
         <div class="flex flex-col gap-4 py-8 flex-1 justify-center max-w-sm mx-auto w-full">
             <button onclick="showView('view-home'); toggleMobileMenu();" class="rect-btn text-left font-bold text-white bg-gradient-to-r from-purple-700/80 to-slate-900 border border-purple-500/40 px-6 py-5 w-full flex items-center justify-between text-lg shadow-lg">
-                <span class="flex items-center gap-3.5"><i data-lucide="download-cloud" class="w-6 h-6 text-cyan-400"></i> TikTok Downloader</span>
+                <span class="flex items-center gap-3.5"><i data-lucide="download-cloud" class="w-6 h-6 text-cyan-400"></i> Video Downloader</span>
                 <i data-lucide="chevron-right" class="w-5 h-5 text-purple-400"></i>
             </button>
             <button onclick="showView('view-seo'); toggleMobileMenu();" class="rect-btn text-left font-bold text-white bg-slate-900 hover:bg-slate-800 border border-purple-500/30 px-6 py-5 w-full flex items-center justify-between text-lg shadow-lg">
-                <span class="flex items-center gap-3.5"><i data-lucide="sparkles" class="w-6 h-6 text-[#c026d3]"></i> AI Hashtags Generator</span>
+                <span class="flex items-center gap-3.5"><i data-lucide="sparkles" class="w-6 h-6 text-[#d946ef]"></i> AI Hashtag & Content Engine</span>
                 <i data-lucide="chevron-right" class="w-5 h-5 text-purple-400"></i>
             </button>
             <button onclick="resetApp(); toggleMobileMenu();" class="rect-btn text-left font-bold text-slate-300 hover:text-white bg-slate-950 border border-white/10 px-6 py-5 w-full flex items-center justify-between text-lg shadow-lg">
@@ -359,7 +399,7 @@
 
         <!-- Mobile Footer Note -->
         <div class="text-center pt-4 border-t border-purple-500/10 text-xs text-slate-400 font-medium">
-            TikSave Core Engine • 100% Free Service
+            Viralora Core Engine • 100% Free Service
         </div>
     </div>
 
@@ -373,19 +413,19 @@
             <div class="max-w-4xl w-full relative z-10 text-center animate-in mb-8">
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-500/40 text-purple-300 text-xs font-bold mb-4 shadow-lg">
                     <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                    TikSave Core Engine 4.0 • Ultra HD 1080p Passthrough
+                    Viralora Core Engine 4.0 • Ultra HD 1080p Passthrough
                 </div>
                 
                 <h1 class="text-3xl sm:text-5xl md:text-6xl font-black tracking-tight text-white mb-4 leading-tight">
-                    Download TikTok Videos <br>
-                    <span class="gradient-text">Without Watermark</span>
+                    Download Watermark-Free Videos <br>
+                    <span class="gradient-text">& Extract Studio MP3</span>
                 </h1>
                 
                 <p class="text-slate-300 text-sm sm:text-base md:text-lg max-w-2xl mx-auto mb-8 font-medium">
-                    Fast, clean MP4 video downloads, high-resolution photo slideshows, and studio-grade MP3 audio extraction. 100% free with direct browser bypass.
+                    Fast, clean MP4 video downloads, high-resolution photo slideshows, and studio-grade MP3 audio extraction. 100% free with instant browser bypass.
                 </p>
 
-                <!-- Clean Rectangular Search & Action Box (Zero Skew) -->
+                <!-- Clean Rectangular Search & Action Box (Zero Skew, Anti-Blur) -->
                 <div class="glass-card p-3 sm:p-4 mb-6 hero-input-glow">
                     <form id="download-form" onsubmit="handleDownload(event)" class="flex flex-col sm:flex-row gap-3">
                         <div class="relative flex-1 flex items-center">
@@ -393,11 +433,11 @@
                             <input 
                                 type="url" 
                                 id="url-input" 
-                                placeholder="Paste TikTok video or photo carousel link here..." 
+                                placeholder="Paste video or photo carousel link here..." 
                                 required
                                 autocomplete="off"
                                 spellcheck="false"
-                                class="w-full bg-slate-950/90 text-white placeholder-slate-400 text-sm sm:text-base rounded-xl pl-12 pr-24 py-4 border border-purple-500/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all"
+                                class="search-input-field w-full text-white placeholder-slate-400 text-sm sm:text-base rounded-xl pl-12 pr-24 py-4 focus:outline-none transition-all"
                             />
                             <div class="absolute right-3 flex items-center gap-1.5">
                                 <button type="button" onclick="clearInput()" id="clear-btn" class="hidden p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800 transition-colors" title="Clear input">
@@ -413,13 +453,13 @@
                         <button 
                             type="submit" 
                             id="submit-btn" 
-                            class="rect-btn bg-gradient-to-r from-cyan-500 via-purple-600 to-[#c026d3] hover:from-cyan-400 hover:to-purple-500 text-white font-black px-8 py-4 text-base shadow-[0_0_25px_rgba(192,38,211,0.5)] border border-purple-400/40 flex items-center justify-center gap-2 cursor-pointer shrink-0"
+                            class="rect-btn bg-gradient-to-r from-cyan-500 via-purple-600 to-[#d946ef] hover:from-cyan-400 hover:to-purple-500 text-white font-black px-8 py-4 text-base shadow-[0_0_25px_rgba(217,70,239,0.5)] border border-purple-400/40 flex items-center justify-center gap-2 cursor-pointer shrink-0"
                         >
                             <span id="btn-text" class="flex items-center gap-2">
                                 <i data-lucide="download" class="w-5 h-5"></i> Download
                             </span>
                             <span id="btn-spinner" class="hidden flex items-center gap-2">
-                                <i data-lucide="loader-2" class="w-5 h-5 spin"></i> Demuxing CDN...
+                                <i data-lucide="loader-2" class="w-5 h-5 spin"></i> Demuxing Stream...
                             </span>
                         </button>
                     </form>
@@ -464,7 +504,7 @@
                         </div>
                         <h3 class="text-lg font-bold text-white mb-2">Pristine 1080p HD</h3>
                         <p class="text-slate-400 text-xs md:text-sm leading-relaxed">
-                            Original high-bitrate video streams direct from TikTok CDN servers without downscaling, compression artifacts, or blurred logos.
+                            Original high-bitrate video streams direct from CDN servers without downscaling, compression artifacts, or blurred logos.
                         </p>
                     </div>
 
@@ -489,7 +529,7 @@
                     </div>
                 </div>
 
-                <!-- NATIVE AD 1: Center of Main Home View (Un-collapsible 2:1 Format, min-height: 350px) -->
+                <!-- NATIVE AD 1: Center of Main Home View (Un-collapsible 1:2 Format, min-height: 480px) -->
                 <div id="native-ad-home" class="w-full max-w-[720px] mx-auto ad-native-slot my-8"></div>
 
                 <!-- BANNER AD 2: Middle Home (468x60 Standard Sizing) -->
@@ -498,16 +538,16 @@
                 <!-- How To Download Step-by-Step Guide -->
                 <div class="glass-card p-6 md:p-10 border border-purple-500/30">
                     <h2 class="text-2xl md:text-3xl font-black mb-6 text-white text-center">
-                        How to Download TikTok Videos Without Watermark
+                        How to Download Videos Without Watermark
                     </h2>
 
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                         <div class="bg-slate-950/80 rounded-xl p-5 border border-purple-500/30 flex flex-col justify-between">
                             <div>
                                 <span class="w-8 h-8 rounded-lg bg-cyan-950 text-cyan-400 font-black flex items-center justify-center text-sm mb-3 border border-cyan-500/40">1</span>
-                                <h4 class="font-bold text-white text-base mb-2">Copy Video Link</h4>
+                                <h4 class="font-bold text-white text-base mb-2">Copy Media Link</h4>
                                 <p class="text-slate-400 text-xs leading-relaxed">
-                                    Open the TikTok app or website. Tap the <strong>Share</strong> icon on the video or photo carousel and select <strong>Copy Link</strong>.
+                                    Open your video app or website. Tap the <strong>Share</strong> icon on the video or photo carousel and select <strong>Copy Link</strong>.
                                 </p>
                             </div>
                         </div>
@@ -515,7 +555,7 @@
                         <div class="bg-slate-950/80 rounded-xl p-5 border border-purple-500/30 flex flex-col justify-between">
                             <div>
                                 <span class="w-8 h-8 rounded-lg bg-purple-950 text-purple-400 font-black flex items-center justify-center text-sm mb-3 border border-purple-500/40">2</span>
-                                <h4 class="font-bold text-white text-base mb-2">Paste into TikSave</h4>
+                                <h4 class="font-bold text-white text-base mb-2">Paste into Viralora</h4>
                                 <p class="text-slate-400 text-xs leading-relaxed">
                                     Paste your URL into the input field above. Our intelligent parser detects whether it is a standard video or photo carousel.
                                 </p>
@@ -525,9 +565,9 @@
                         <div class="bg-slate-950/80 rounded-xl p-5 border border-purple-500/30 flex flex-col justify-between">
                             <div>
                                 <span class="w-8 h-8 rounded-lg bg-pink-950 text-pink-400 font-black flex items-center justify-center text-sm mb-3 border border-pink-500/40">3</span>
-                                <h4 class="font-bold text-white text-base mb-2">Direct Save</h4>
+                                <h4 class="font-bold text-white text-base mb-2">Instant Save</h4>
                                 <p class="text-slate-400 text-xs leading-relaxed">
-                                    Choose HD Video, Active Slide Photo, or MP3 Audio. The direct anchor engine initiates the download instantly to your device.
+                                    Choose HD Video, Active Slide Photo, or MP3 Audio. The direct blob engine initiates the download instantly to your device.
                                 </p>
                             </div>
                         </div>
@@ -571,9 +611,9 @@
                     
                     <!-- Creator Profile Strip -->
                     <div class="flex items-center gap-3.5 mb-5 pb-4 border-b border-purple-500/20">
-                        <img id="resAvatar" src="" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#c026d3] shadow-md shrink-0">
+                        <img id="resAvatar" src="" alt="Avatar" class="w-12 h-12 rounded-full object-cover border-2 border-[#d946ef] shadow-md shrink-0">
                         <div class="overflow-hidden">
-                            <h3 id="resName" class="font-extrabold text-white text-base md:text-lg truncate">TikTok Creator</h3>
+                            <h3 id="resName" class="font-extrabold text-white text-base md:text-lg truncate">Video Creator</h3>
                             <p id="resHandle" class="text-xs text-purple-300 font-semibold truncate">@creator</p>
                         </div>
                     </div>
@@ -607,7 +647,7 @@
                     <div id="dynamic-buttons" class="flex flex-col gap-3"></div>
                 </div>
 
-                <!-- NATIVE AD 2: Download View (Directly Below the 3 Action Buttons, min-height: 350px) -->
+                <!-- NATIVE AD 2: Download View (Directly Below the 3 Action Buttons, min-height: 480px) -->
                 <div id="native-ad-result" class="w-full max-w-[720px] mx-auto ad-native-slot my-6"></div>
 
                 <!-- BANNER AD 4: Result View (468x60 Standard Sizing) -->
@@ -617,30 +657,58 @@
         </section>
 
         <!-- =====================================
-             VIEW 3: AI HASHTAG GENERATOR (#view-seo)
+             VIEW 3: MULTI-PLATFORM AI HASHTAG & CONTENT ENGINE (#view-seo)
         ====================================== -->
         <section id="view-seo" class="hidden w-full flex-1 flex flex-col items-center px-4 pt-10 md:pt-16">
             
             <div class="max-w-4xl w-full relative z-10 text-center animate-in mb-8">
                 <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-950/70 border border-purple-500/40 text-purple-300 text-xs font-bold mb-4 shadow-lg">
-                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#c026d3]"></i>
-                    TikSave Core Engine • Algorithmic SEO Synthesizer
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-[#d946ef]"></i>
+                    Viralora Core Engine • Multi-Platform AI SEO Synthesizer
                 </div>
                 
                 <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-white mb-4 leading-tight">
-                    Viral TikTok <span class="gradient-text">AI Hashtag & Hook</span> Generator
+                    Viral Multi-Platform <br><span class="gradient-text">AI Hashtag & Content</span> Engine
                 </h1>
                 
                 <p class="text-slate-300 text-sm sm:text-base max-w-2xl mx-auto mb-8 font-medium">
-                    Reverse-engineer TikTok's algorithm. Generate high-velocity broad tags, niche discovery tags, psychological title hooks, and SEO captions engineered for 2026.
+                    Generate platform-tailored viral tags, psychological retention hooks, and character-compliant captions engineered for maximum organic reach.
                 </p>
 
                 <!-- TOP BANNER IN AI VIEW (468x60 Standard Sizing) -->
                 <div id="banner-ad-seo-top" class="w-full max-w-[468px] mx-auto ad-banner-slot my-6"></div>
 
-                <!-- AI SEO Form Box (Clean Rectangular, Zero Skew) -->
+                <!-- AI SEO Form Box (Clean Rectangular, Anti-Blur) -->
                 <div class="glass-card p-6 md:p-8 text-left hero-input-glow mb-8">
+                    
+                    <!-- Platform Selector Toggle Pills -->
+                    <div class="mb-6">
+                        <label class="block text-xs uppercase font-extrabold tracking-wider text-purple-300 mb-3">Select Social Media Platform *</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2" id="platform-selector-group">
+                            <button type="button" onclick="selectPlatform('tiktok')" id="plat-btn-tiktok" class="rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-gradient-to-r from-purple-700 to-slate-900 border-cyan-400 text-white shadow-md">
+                                <span>🎵</span> TikTok
+                            </button>
+                            <button type="button" onclick="selectPlatform('instagram')" id="plat-btn-instagram" class="rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-slate-950/80 border-purple-500/30 text-slate-300 hover:text-white hover:border-purple-400">
+                                <span>📸</span> Instagram
+                            </button>
+                            <button type="button" onclick="selectPlatform('youtube')" id="plat-btn-youtube" class="rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-slate-950/80 border-purple-500/30 text-slate-300 hover:text-white hover:border-purple-400">
+                                <span>🎥</span> YT Shorts
+                            </button>
+                            <button type="button" onclick="selectPlatform('facebook')" id="plat-btn-facebook" class="rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-slate-950/80 border-purple-500/30 text-slate-300 hover:text-white hover:border-purple-400">
+                                <span>📘</span> Facebook
+                            </button>
+                            <button type="button" onclick="selectPlatform('linkedin')" id="plat-btn-linkedin" class="rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-slate-950/80 border-purple-500/30 text-slate-300 hover:text-white hover:border-purple-400">
+                                <span>💼</span> LinkedIn
+                            </button>
+                            <button type="button" onclick="selectPlatform('twitter')" id="plat-btn-twitter" class="rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-slate-950/80 border-purple-500/30 text-slate-300 hover:text-white hover:border-purple-400">
+                                <span>🐦</span> Twitter/X
+                            </button>
+                        </div>
+                    </div>
+
                     <form id="seo-form" onsubmit="handleSeoSubmit(event)" class="space-y-4">
+                        <input type="hidden" id="seo-platform" value="tiktok">
+
                         <div>
                             <label for="seo-topic" class="block text-xs uppercase font-extrabold tracking-wider text-purple-300 mb-2">Video Topic or Description *</label>
                             <input 
@@ -648,7 +716,7 @@
                                 id="seo-topic" 
                                 placeholder="e.g. 5 quick morning habits to boost dopamine and energy" 
                                 required
-                                class="w-full bg-slate-950/90 text-white placeholder-slate-400 text-sm md:text-base rounded-xl px-4 py-3.5 border border-purple-500/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all"
+                                class="search-input-field w-full text-white placeholder-slate-400 text-sm md:text-base rounded-xl px-4 py-3.5 focus:outline-none transition-all"
                             />
                         </div>
 
@@ -659,7 +727,7 @@
                                     type="text" 
                                     id="seo-niche" 
                                     placeholder="e.g. Fitness & Productivity" 
-                                    class="w-full bg-slate-950/90 text-white placeholder-slate-400 text-sm rounded-xl px-4 py-3.5 border border-purple-500/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all"
+                                    class="search-input-field w-full text-white placeholder-slate-400 text-sm rounded-xl px-4 py-3.5 focus:outline-none transition-all"
                                 />
                             </div>
                             <div>
@@ -668,7 +736,7 @@
                                     type="text" 
                                     id="seo-audience" 
                                     placeholder="e.g. Busy professionals, Gen Z students" 
-                                    class="w-full bg-slate-950/90 text-white placeholder-slate-400 text-sm rounded-xl px-4 py-3.5 border border-purple-500/40 focus:outline-none focus:border-cyan-400 focus:ring-2 focus:ring-cyan-400/20 transition-all"
+                                    class="search-input-field w-full text-white placeholder-slate-400 text-sm rounded-xl px-4 py-3.5 focus:outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -676,13 +744,13 @@
                         <button 
                             type="submit" 
                             id="seo-submit-btn" 
-                            class="rect-btn w-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black py-4 px-6 text-base md:text-lg shadow-[0_0_25px_rgba(192,38,211,0.5)] border border-purple-400/50 flex items-center justify-center gap-2 cursor-pointer mt-4"
+                            class="rect-btn w-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black py-4 px-6 text-base md:text-lg shadow-[0_0_25px_rgba(217,70,239,0.5)] border border-purple-400/50 flex items-center justify-center gap-2 cursor-pointer mt-4"
                         >
                             <span id="seo-btn-text" class="flex items-center gap-2">
                                 <i data-lucide="sparkles" class="w-5 h-5 text-yellow-300"></i> Synthesize Viral Strategy
                             </span>
                             <span id="seo-btn-spinner" class="hidden flex items-center gap-2">
-                                <i data-lucide="loader-2" class="w-5 h-5 spin"></i> TikSave AI Engine Processing...
+                                <i data-lucide="loader-2" class="w-5 h-5 spin"></i> Viralora AI Engine Processing...
                             </span>
                         </button>
                     </form>
@@ -714,7 +782,7 @@
                             <span class="p-2 rounded-lg bg-cyan-950/80 text-cyan-400 border border-cyan-500/40"><i data-lucide="trending-up" class="w-5 h-5"></i></span>
                             <div>
                                 <h3 class="font-extrabold text-white text-lg">Broad Viral Hashtags</h3>
-                                <p class="text-xs text-slate-400">High-volume category anchors for top-of-funnel reach.</p>
+                                <p class="text-xs text-slate-400">High-volume category anchors for broad exploratory distribution.</p>
                             </div>
                         </div>
                         <button onclick="copyElementText('broad-tags-container')" class="rect-btn px-3 py-1.5 bg-cyan-950 hover:bg-cyan-900 border border-cyan-400/40 text-cyan-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer">
@@ -731,7 +799,7 @@
                             <span class="p-2 rounded-lg bg-purple-950/80 text-purple-400 border border-purple-500/40"><i data-lucide="crosshair" class="w-5 h-5"></i></span>
                             <div>
                                 <h3 class="font-extrabold text-white text-lg">Targeted Niche Hashtags</h3>
-                                <p class="text-xs text-slate-400">High-relevance search tags that trigger FYP micro-communities.</p>
+                                <p class="text-xs text-slate-400">High-relevance search tags that trigger algorithm micro-communities.</p>
                             </div>
                         </div>
                         <button onclick="copyElementText('niche-tags-container')" class="rect-btn px-3 py-1.5 bg-purple-950 hover:bg-purple-900 border border-purple-400/40 text-purple-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer">
@@ -743,12 +811,17 @@
 
                 <!-- High-CTR Hooks Card -->
                 <div class="glass-card p-6 border border-fuchsia-500/40">
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="p-2 rounded-lg bg-fuchsia-950/80 text-fuchsia-400 border border-fuchsia-500/40"><i data-lucide="zap" class="w-5 h-5"></i></span>
-                        <div>
-                            <h3 class="font-extrabold text-white text-lg">High-CTR Title Hooks (0-3s Retention)</h3>
-                            <p class="text-xs text-slate-400">Tested psychological text overlays to prevent viewer swipe-away.</p>
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="p-2 rounded-lg bg-fuchsia-950/80 text-fuchsia-400 border border-fuchsia-500/40"><i data-lucide="zap" class="w-5 h-5"></i></span>
+                            <div>
+                                <h3 class="font-extrabold text-white text-lg">Optimized Title Hooks (0-3s Retention)</h3>
+                                <p class="text-xs text-slate-400">Tested psychological text overlays to prevent viewer swipe-away.</p>
+                            </div>
                         </div>
+                        <button onclick="copyAllHooks()" class="rect-btn px-3 py-1.5 bg-fuchsia-950 hover:bg-fuchsia-900 border border-fuchsia-400/40 text-fuchsia-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer">
+                            <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy All Hooks
+                        </button>
                     </div>
                     <div id="hooks-container" class="space-y-2.5"></div>
                 </div>
@@ -759,19 +832,24 @@
                         <div class="flex items-center gap-2">
                             <span class="p-2 rounded-lg bg-pink-950/80 text-pink-400 border border-pink-500/40"><i data-lucide="message-square" class="w-5 h-5"></i></span>
                             <div>
-                                <h3 class="font-extrabold text-white text-lg">SEO Optimized Caption & CTA</h3>
-                                <p class="text-xs text-slate-400">Pre-formatted caption with high comment engagement prompt.</p>
+                                <h3 class="font-extrabold text-white text-lg">SEO Platform Description & CTA</h3>
+                                <p class="text-xs text-slate-400">Character-compliant caption with engagement question to trigger comments.</p>
                             </div>
                         </div>
                         <button onclick="copyElementText('caption-container')" class="rect-btn px-3 py-1.5 bg-pink-950 hover:bg-pink-900 border border-pink-400/40 text-pink-300 text-xs font-bold flex items-center gap-1.5 cursor-pointer">
                             <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copy Caption
                         </button>
                     </div>
-                    <div id="caption-container" class="bg-slate-950/90 rounded-xl p-4 text-xs md:text-sm text-slate-200 border border-white/10 font-medium leading-relaxed"></div>
+                    <div id="caption-container" class="bg-slate-950/90 rounded-xl p-4 text-xs md:text-sm text-slate-200 border border-white/10 font-medium leading-relaxed whitespace-pre-wrap"></div>
+                </div>
+
+                <!-- Engine Branding Footer -->
+                <div class="text-center text-xs text-purple-300 font-bold py-2">
+                    ⚡ Generated by Viralora Core Engine
                 </div>
             </div>
 
-            <!-- NATIVE AD 3: AI Hashtags View (Below Outputs, min-height: 350px) -->
+            <!-- NATIVE AD 3: AI Hashtags View (Below Outputs, min-height: 480px) -->
             <div id="native-ad-seo" class="w-full max-w-[720px] mx-auto ad-native-slot my-8"></div>
 
             <!-- BOTTOM BANNER IN AI VIEW (468x60 Standard Sizing) -->
@@ -782,7 +860,7 @@
                 <div class="glass-card p-6 md:p-8 border border-purple-500/30">
                     <h2 class="text-xl md:text-2xl font-black mb-3 text-white">The 70/30 Viral Tag Ratio</h2>
                     <p class="text-xs md:text-sm text-slate-300 leading-relaxed mb-4">
-                        TikTok's 2026 indexing algorithm prioritizes high-intent categorization over spammy trending tags. TikSave generates 70% targeted niche tags to rank on the internal search engine, combined with 30% broad tags to trigger exploratory FYP recommendations.
+                        Modern indexing algorithms prioritize high-intent categorization over spammy trending tags. Viralora generates 70% targeted niche tags to rank in search discovery, combined with 30% broad tags to trigger exploratory feed recommendations.
                     </p>
                     <div class="p-4 rounded-xl bg-purple-950/40 border border-purple-500/30 flex items-start gap-3">
                         <i data-lucide="lightbulb" class="w-5 h-5 text-yellow-300 shrink-0 mt-0.5"></i>
@@ -809,7 +887,7 @@
             </div>
             
             <p class="text-slate-400 text-xs md:text-sm font-semibold tracking-wide">
-                Copyright ©️ 2026 TikSave (tiksave.netlify.app) - 100% Free Service. Created by Muhammad Ammar.
+                Copyright ©️ 2026 Viralora (viralora.netlify.app) - 100% Free Service. Created by Muhammad Ammar.
             </p>
         </div>
     </footer>
@@ -849,19 +927,19 @@
                 sections: [
                     {
                         heading: "Zero-Logging Architecture",
-                        content: "TikSave operates on a strict zero-logging architecture. Media requests are processed edge-to-edge in temporary runtime memory without writing IP addresses, TikTok account handles, video URLs, or download histories to persistent databases."
+                        content: "Viralora operates on a strict zero-logging architecture. Media requests are processed edge-to-edge in temporary runtime memory without writing IP addresses, user account handles, video URLs, or download histories to persistent databases."
                     },
                     {
                         heading: "Direct CDN Streaming",
-                        content: "When you initiate a download, TikSave contacts public TikTok CDN endpoints directly. Video bitstreams and audio tracks are channeled straight to your browser's local download manager. We do not store, mirror, or cache user media on our servers."
+                        content: "When you initiate a download, Viralora contacts public CDN endpoints directly. Video bitstreams and audio tracks are channeled straight to your browser's local download manager. We do not store, mirror, or cache user media on our servers."
                     },
                     {
                         heading: "Third-Party Analytics & Advertising",
-                        content: "TikSave does not deploy first-party tracking cookies or personal fingerprinting. Third-party advertising networks operating on our service deliver contextual, non-personalized advertising under standard web protocols to support infrastructure costs."
+                        content: "Viralora does not deploy first-party tracking cookies or personal fingerprinting. Third-party advertising networks operating on our service deliver contextual, non-personalized advertising under standard web protocols to support infrastructure costs."
                     },
                     {
                         heading: "GDPR, CCPA & Global User Rights",
-                        content: "Because TikSave retains zero personal identity profiles, cookies, or video request logs, we do not have personal data to sell, broker, or disclose. Inquiries regarding data processing standards may be directed to privacy@tiksave.netlify.app."
+                        content: "Because Viralora retains zero personal identity profiles, cookies, or video request logs, we do not have personal data to sell, broker, or disclose. Inquiries regarding data processing standards may be directed to privacy@viralora.netlify.app."
                     }
                 ]
             },
@@ -871,48 +949,48 @@
                 sections: [
                     {
                         heading: "Acceptance of Terms",
-                        content: "By accessing or using TikSave Core Engine (tiksave.netlify.app), you acknowledge and agree to comply with these Terms of Service, our Privacy Policy, and all applicable global intellectual property laws."
+                        content: "By accessing or using Viralora Core Engine (viralora.netlify.app), you acknowledge and agree to comply with these Terms of Service, our Privacy Policy, and all applicable global intellectual property laws."
                     },
                     {
                         heading: "Permitted Personal & Fair Use",
-                        content: "TikSave is an independent web utility built strictly for personal archiving, backup, and fair use research. Users are solely responsible for respecting the copyright, trademark, and intellectual property rights of original TikTok content creators."
+                        content: "Viralora is an independent web utility built strictly for personal archiving, backup, and fair use research. Users are solely responsible for respecting the copyright, trademark, and intellectual property rights of original content creators."
                     },
                     {
                         heading: "Intellectual Property Rights & DMCA",
-                        content: "TikSave does not host, curate, or monetize copyrighted media files. All TikTok logos, trademarks, and audiovisual content remain the sole property of their respective creators and ByteDance Ltd. Legitimate DMCA requests can be submitted to legal@tiksave.netlify.app."
+                        content: "Viralora does not host, curate, or monetize copyrighted media files. All social platform logos, trademarks, and audiovisual content remain the sole property of their respective creators and owners. Legitimate DMCA requests can be submitted to legal@viralora.netlify.app."
                     },
                     {
                         heading: "Disclaimer of Warranties",
-                        content: "TikSave is provided on an 'as is' and 'as available' basis without warranties of any kind. TikSave is an independent web utility and is not endorsed by, directly affiliated with, or sponsored by TikTok or ByteDance."
+                        content: "Viralora is provided on an 'as is' and 'as available' basis without warranties of any kind. Viralora is an independent web utility and is not endorsed by, directly affiliated with, or sponsored by any third-party social media platform."
                     }
                 ]
             },
             aboutUs: {
-                title: "About TikSave",
+                title: "About Viralora",
                 subtitle: "Next-Generation Media Demuxing & AI SEO Suite",
                 sections: [
                     {
                         heading: "Engineering Mission",
-                        content: "TikSave was built by an independent engineering team to provide creators, marketers, and researchers with a lightning-fast, watermark-free tool for archiving viral content and optimizing discovery."
+                        content: "Viralora was built by an independent engineering team to provide creators, marketers, and researchers with a lightning-fast, watermark-free tool for archiving viral content and optimizing organic social discovery."
                     },
                     {
-                        heading: "TikSave Core Engine",
-                        content: "Powered by high-throughput edge proxies and our proprietary AI Hashtag Intelligence engine, TikSave decodes TikTok algorithm indexing patterns to help creators accelerate organic reach and audience growth."
+                        heading: "Viralora Core Engine",
+                        content: "Powered by high-throughput edge proxies and our proprietary AI Hashtag Intelligence engine, Viralora decodes social algorithm indexing patterns across TikTok, Instagram, YouTube, and more to help creators accelerate organic reach and audience retention."
                     },
                     {
                         heading: "Contact & Support",
-                        content: "Have feedback, partnership inquiries, or feature suggestions? Contact our engineering team at support@tiksave.netlify.app."
+                        content: "Have feedback, partnership inquiries, or feature suggestions? Contact our engineering team at support@viralora.netlify.app."
                     }
                 ]
             },
             faqs: [
                 {
-                    q: "Are downloaded TikTok videos truly watermark-free?",
-                    a: "Yes. TikSave Core Engine connects to raw TikTok CDN bitstreams before visual watermark branding layers are burned in, providing clean 1080p MP4 files."
+                    q: "Are downloaded videos truly watermark-free?",
+                    a: "Yes. Viralora Core Engine connects to raw CDN bitstreams before visual watermark branding layers are burned in, providing clean 1080p MP4 files."
                 },
                 {
                     q: "How does the Photo Slideshow download work?",
-                    a: "When a TikTok photo carousel URL is provided, TikSave automatically isolates each individual high-resolution image slide in an interactive swipe carousel. Tap 'Download Active Slide Photo' to instantly save whichever slide you are currently viewing."
+                    a: "When a photo carousel URL is provided, Viralora automatically isolates each individual high-resolution image slide in an interactive swipe carousel. Tap 'Download Active Slide Photo' to instantly save whichever slide you are currently viewing."
                 },
                 {
                     q: "Can I download just the MP3 audio soundtrack?",
@@ -920,11 +998,11 @@
                 },
                 {
                     q: "Why do downloads save directly without opening preview tabs?",
-                    a: "TikSave uses a high-speed CORS-bypassing blob engine. It routes media streams securely, converts them into local browser blobs, and forces a native file download directly into your device's downloads manager instead of opening and playing in a new tab."
+                    a: "Viralora uses a high-speed CORS-bypassing blob engine. It routes media streams securely, converts them into local browser blobs, and forces a native file download directly into your device's downloads manager instead of opening and playing in a new tab."
                 },
                 {
-                    q: "Is TikSave free, and does it require account registration?",
-                    a: "TikSave is 100% free with no usage limits, no paywalls, and zero registration requirements. You can use it across desktop, Android, and iOS anytime."
+                    q: "Is Viralora free, and does it require account registration?",
+                    a: "Viralora is 100% free with no usage limits, no paywalls, and zero registration requirements. You can use it across desktop, Android, and iOS anytime."
                 },
                 {
                     q: "How do I save videos to Camera Roll on iPhone / iOS?",
@@ -984,7 +1062,7 @@
                 lucide.createIcons();
             }
 
-            const targetFilename = filename || `TikSave_${Date.now()}.mp4`;
+            const targetFilename = filename || `Viralora_${Date.now()}.mp4`;
             let downloaded = false;
 
             // Strategy: Use local server proxy, Netlify function proxy, direct CDN fetch, or public mirrors
@@ -1060,7 +1138,7 @@
         }
 
         // =====================================================================
-        // 3. ADSTERRA UN-COLLAPSIBLE 2:1 NATIVE & 468PX BANNER ISOLATION ENGINE
+        // 3. ADSTERRA UN-COLLAPSIBLE 1:2 NATIVE & 468PX BANNER ISOLATION ENGINE
         // =====================================================================
         function renderIsolatedNativeAd(containerId) {
             const parent = document.getElementById(containerId);
@@ -1069,10 +1147,12 @@
 
             const iframe = document.createElement('iframe');
             iframe.style.width = '100%';
-            // CRITICAL FIX: Set min-height to 350px to prevent 9px collapse for 2:1 layouts
-            iframe.style.minHeight = '350px'; 
+            // CRITICAL REQUIREMENT: Fixed 480px height for 1:2 Native Ad layout, scrolling="no"
+            iframe.style.height = '480px';
+            iframe.style.minHeight = '480px'; 
             iframe.style.border = 'none';
             iframe.style.overflow = 'hidden';
+            iframe.setAttribute('scrolling', 'no');
             iframe.style.background = 'transparent';
             iframe.setAttribute('title', 'Sponsored Content');
 
@@ -1081,12 +1161,31 @@
             const nativeAdHtml = `<!DOCTYPE html>
 <html>
 <head>
+  <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     * { box-sizing: border-box; }
-    body { margin: 0; padding: 10px; display: flex; justify-content: center; align-items: center; background: transparent; }
-    #container-052876bc9fe7b0dc10dd2194cdf2a6da { width: 100% !important; min-height: 330px !important; display: block; margin: 0 auto; text-align: center; }
-    iframe { max-width: 100% !important; }
+    html, body { 
+      margin: 0; 
+      padding: 0; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      background: transparent; 
+      overflow: hidden; 
+      height: 480px; 
+      width: 100%; 
+    }
+    #container-052876bc9fe7b0dc10dd2194cdf2a6da { 
+      width: 100% !important; 
+      min-height: 480px !important; 
+      height: 480px !important;
+      display: block; 
+      margin: 0 auto; 
+      text-align: center; 
+      overflow: hidden;
+    }
+    iframe { max-width: 100% !important; height: 480px !important; }
     /* Anti-Cancel / Anti-Dismiss Protection */
     [class*="close"], [id*="close"], [class*="dismiss"], [id*="dismiss"], .ad-close, [aria-label*="close"], .btn-close, a[href*="close"] {
       display: none !important;
@@ -1098,7 +1197,7 @@
     }
   </style>
 </head>
-<body>
+<body style="overflow:hidden;">
   <script async="async" data-cfasync="false" src="https://pl30778496.profitableratecpmnetwork.com/052876bc9fe7b0dc10dd2194cdf2a6da/invoke.js"><\/script>
   <div id="container-052876bc9fe7b0dc10dd2194cdf2a6da"></div>
 </body>
@@ -1276,13 +1375,51 @@
 
         function resetApp() {
             clearInput();
+            const seoTopic = document.getElementById('seo-topic');
+            if (seoTopic) seoTopic.value = '';
+            const seoNiche = document.getElementById('seo-niche');
+            if (seoNiche) seoNiche.value = '';
+            const seoAudience = document.getElementById('seo-audience');
+            if (seoAudience) seoAudience.value = '';
+            
             const videoPlayer = document.getElementById('video-player');
             if (videoPlayer) {
                 videoPlayer.pause();
                 videoPlayer.src = "";
             }
             stopCarouselAutoPlay();
+            slideImagesArray = [];
+            currentSlideIndex = 0;
+            const track = document.getElementById('carousel-track');
+            if (track) track.innerHTML = '';
+            const dynBtns = document.getElementById('dynamic-buttons');
+            if (dynBtns) dynBtns.innerHTML = '';
+            const seoResults = document.getElementById('seo-results');
+            if (seoResults) seoResults.classList.add('hidden');
+            const loadingState = document.getElementById('loading-state');
+            if (loadingState) loadingState.classList.add('hidden');
+
+            selectPlatform('tiktok');
             showView('view-home');
+        }
+
+        let currentSelectedPlatform = 'tiktok';
+        function selectPlatform(platform) {
+            currentSelectedPlatform = platform;
+            const input = document.getElementById('seo-platform');
+            if (input) input.value = platform;
+            
+            const platforms = ['tiktok', 'instagram', 'youtube', 'facebook', 'linkedin', 'twitter'];
+            platforms.forEach(p => {
+                const btn = document.getElementById(`plat-btn-${p}`);
+                if (btn) {
+                    if (p === platform) {
+                        btn.className = 'rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-gradient-to-r from-purple-700 to-slate-900 border-cyan-400 text-white shadow-md cursor-pointer';
+                    } else {
+                        btn.className = 'rect-btn py-2.5 px-3 text-xs font-bold rounded-xl border flex items-center justify-center gap-1.5 bg-slate-950/80 border-purple-500/30 text-slate-300 hover:text-white hover:border-purple-400 cursor-pointer';
+                    }
+                }
+            });
         }
 
         function toggleMobileMenu() {
@@ -1424,7 +1561,7 @@
                 url = 'https://www.tikwm.com' + url;
             }
             const timestamp = Date.now().toString(36);
-            forceInstantDownload(url, `TikSave_Photo_Slide_${currentSlideIndex + 1}_${timestamp}.jpg`, buttonElement);
+            forceInstantDownload(url, `Viralora_Photo_Slide_${currentSlideIndex + 1}_${timestamp}.jpg`, buttonElement);
         }
 
         // =====================================================================
@@ -1508,14 +1645,14 @@
                     
                     btnContainer.innerHTML = smartLinkHTML + `
                         <!-- Button 2: Download Active Slide Photo -->
-                        <button onclick="downloadCurrentSlide(this)" class="rect-btn w-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black py-4 px-5 text-base md:text-lg shadow-[0_0_25px_rgba(192,38,211,0.45)] border border-purple-400/50 cursor-pointer">
+                        <button onclick="downloadCurrentSlide(this)" class="rect-btn w-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black py-4 px-5 text-base md:text-lg shadow-[0_0_25px_rgba(217,70,239,0.45)] border border-purple-400/50 cursor-pointer">
                             <div class="flex items-center justify-between w-full">
                                 <span class="flex items-center gap-2.5"><i data-lucide="image" class="w-5 h-5 text-purple-200"></i> 🖼️ Download Active Slide Photo</span>
                                 <i data-lucide="download" class="w-4 h-4 text-pink-200"></i>
                             </div>
                         </button>
                         <!-- Button 3: Download MP3 Audio -->
-                        <button onclick="forceInstantDownload('${musicUrl}', 'TikSave_Soundtrack_${Date.now()}.mp3', this)" class="rect-btn w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-5 text-sm md:text-base shadow-lg border border-purple-500/30 cursor-pointer">
+                        <button onclick="forceInstantDownload('${musicUrl}', 'Viralora_Soundtrack_${Date.now()}.mp3', this)" class="rect-btn w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-5 text-sm md:text-base shadow-lg border border-purple-500/30 cursor-pointer">
                             <div class="flex items-center justify-between w-full">
                                 <span class="flex items-center gap-2.5"><i data-lucide="music" class="w-5 h-5 text-pink-400"></i> 🎵 Download MP3 Audio</span>
                                 <i data-lucide="download" class="w-4 h-4 text-slate-300"></i>
@@ -1547,14 +1684,14 @@
                     
                     btnContainer.innerHTML = smartLinkHTML + `
                         <!-- Button 2: Download HD Video (No Watermark) -->
-                        <button onclick="forceInstantDownload('${hdUrl}', 'TikSave_HD_Video_${Date.now()}.mp4', this)" class="rect-btn w-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black py-4 px-5 text-base md:text-lg shadow-[0_0_25px_rgba(192,38,211,0.45)] border border-purple-400/50 cursor-pointer">
+                        <button onclick="forceInstantDownload('${hdUrl}', 'Viralora_HD_Video_${Date.now()}.mp4', this)" class="rect-btn w-full bg-gradient-to-r from-purple-600 via-fuchsia-600 to-pink-600 hover:from-purple-500 hover:to-fuchsia-500 text-white font-black py-4 px-5 text-base md:text-lg shadow-[0_0_25px_rgba(217,70,239,0.45)] border border-purple-400/50 cursor-pointer">
                             <div class="flex items-center justify-between w-full">
                                 <span class="flex items-center gap-2.5"><i data-lucide="video" class="w-5 h-5 text-purple-200"></i> 🎬 Download HD Video (No Watermark)</span>
                                 <span class="text-[11px] uppercase bg-black/40 px-2 py-0.5 rounded border border-purple-300/40 tracking-wider font-bold">1080p HD</span>
                             </div>
                         </button>
                         <!-- Button 3: Download MP3 Audio -->
-                        <button onclick="forceInstantDownload('${musicUrl}', 'TikSave_Soundtrack_${Date.now()}.mp3', this)" class="rect-btn w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-5 text-sm md:text-base shadow-lg border border-purple-500/30 cursor-pointer">
+                        <button onclick="forceInstantDownload('${musicUrl}', 'Viralora_Soundtrack_${Date.now()}.mp3', this)" class="rect-btn w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-4 px-5 text-sm md:text-base shadow-lg border border-purple-500/30 cursor-pointer">
                             <div class="flex items-center justify-between w-full">
                                 <span class="flex items-center gap-2.5"><i data-lucide="music" class="w-5 h-5 text-pink-400"></i> 🎵 Download MP3 Audio</span>
                                 <i data-lucide="download" class="w-4 h-4 text-slate-300"></i>
@@ -1579,13 +1716,14 @@
         }
 
         // =====================================================================
-        // 8. AI HASHTAG & HOOK GENERATOR (#view-seo)
+        // 8. MULTI-PLATFORM AI HASHTAG & CONTENT ENGINE (#view-seo)
         // =====================================================================
         async function handleSeoSubmit(event) {
             event.preventDefault();
             const topic = document.getElementById('seo-topic').value.trim();
             const niche = document.getElementById('seo-niche').value.trim() || 'General';
             const audience = document.getElementById('seo-audience').value.trim() || 'General Audience';
+            const platform = document.getElementById('seo-platform')?.value || currentSelectedPlatform || 'tiktok';
 
             if (!topic) {
                 showToast("Please provide a video topic or description");
@@ -1613,7 +1751,7 @@
                         const res = await fetch(ep, {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify({ topic, niche, audience })
+                            body: JSON.stringify({ topic, niche, audience, platform })
                         });
                         if (res.ok) {
                             response = res;
@@ -1652,7 +1790,7 @@
                     <div class="bg-slate-950/80 p-3.5 rounded-xl border border-white/10 flex items-center justify-between gap-3 group">
                         <div class="flex items-center gap-2.5">
                             <span class="w-6 h-6 rounded-md bg-fuchsia-950 text-fuchsia-300 font-black text-xs flex items-center justify-center shrink-0">${idx + 1}</span>
-                            <span class="text-xs md:text-sm text-slate-100 font-semibold">${hook}</span>
+                            <span class="text-xs md:text-sm text-slate-100 font-semibold hook-text">${hook}</span>
                         </div>
                         <button onclick="copyRawText('${hook.replace(/'/g, "\\'")}')" class="rect-btn px-2.5 py-1 bg-slate-900 hover:bg-slate-800 text-fuchsia-300 text-xs font-bold border border-fuchsia-400/30 shrink-0 cursor-pointer">
                             Copy
@@ -1669,7 +1807,7 @@
 
             } catch (err) {
                 console.error("AI Generation Error:", err);
-                showToast("TikSave Core Engine was unable to generate SEO strategy. Please try again.");
+                showToast("Viralora Core Engine was unable to generate SEO strategy. Please try again.");
             } finally {
                 btn.disabled = false;
                 btnText.classList.remove('hidden');
@@ -1695,6 +1833,17 @@
         function copyRawText(text) {
             navigator.clipboard.writeText(text);
             showToast("Copied Hook to clipboard!", "success");
+        }
+
+        function copyAllHooks() {
+            const hookEls = Array.from(document.querySelectorAll('#hooks-container .hook-text'));
+            if (hookEls.length > 0) {
+                const combined = hookEls.map((el, i) => `${i + 1}. ${el.innerText.trim()}`).join('\n');
+                navigator.clipboard.writeText(combined);
+                showToast("Copied all hooks to clipboard!", "success");
+            } else {
+                copyElementText('hooks-container');
+            }
         }
 
         // =====================================================================

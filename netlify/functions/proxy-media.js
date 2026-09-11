@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
     }
 
     const targetUrl = event.queryStringParameters?.url || (event.body ? JSON.parse(event.body).url : null);
-    const filename = event.queryStringParameters?.filename || 'TikSave_Media.mp4';
+    const filename = event.queryStringParameters?.filename || 'Viralora_Media.mp4';
 
     if (!targetUrl) {
         return {
