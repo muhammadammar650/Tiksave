@@ -1,32 +1,36 @@
+/**
+ * Viralora - Real Gemini AI Social SEO & Content Synthesizer
+ * Netlify Serverless Function
+ * Generates platform-specific titles, descriptions, and hashtags using Google Gemini API
+ */
+
 exports.handler = async function(event, context) {
-    // Handle CORS preflight
+    // 1. CORS Headers
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+        'Content-Type': 'application/json'
+    };
+
+    // Handle preflight requests
     if (event.httpMethod === 'OPTIONS') {
         return {
             statusCode: 200,
-            headers: {
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-                'Access-Control-Allow-Methods': 'POST, OPTIONS'
-            },
+            headers,
             body: ''
         };
     }
 
     if (event.httpMethod !== 'POST') {
-        return { 
-            statusCode: 405, 
-            headers: { 'Access-Control-Allow-Origin': '*' },
-            body: 'Method Not Allowed' 
+        return {
+            statusCode: 405,
+            headers,
+            body: JSON.stringify({ error: 'Method Not Allowed' })
         };
     }
 
-    // Support all standard Netlify environment variable naming variants
-    const apiKey = process.env.GEMINI_API_KEY 
-        || process.env.GOOGLE_API_KEY 
-        || process.env.VITE_GEMINI_API_KEY 
-        || process.env.API_KEY 
-        || process.env.GOOGLE_GENAI_API_KEY;
-
+    // 2. Parse incoming payload
     let payload = {};
     try {
         payload = event.body ? JSON.parse(event.body) : {};
@@ -35,130 +39,133 @@ exports.handler = async function(event, context) {
     }
 
     const platform = payload.platform || 'TikTok';
-    const topic = payload.topic || 'Viral Social Media Trends';
-    const niche = payload.niche || 'General Entertainment';
-    const audience = payload.audience || 'Target Audience';
+    const topic = payload.topic || 'Trending Viral Video';
+    const niche = payload.niche || 'Entertainment';
+    const audience = payload.audience || 'General Audience';
 
-    const defaultHeaders = {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-    };
+    // 3. Retrieve Google Gemini API Key from environment
+    const apiKey = process.env.GEMINI_API_KEY 
+        || process.env.GOOGLE_API_KEY 
+        || process.env.VITE_GEMINI_API_KEY 
+        || process.env.API_KEY 
+        || process.env.GOOGLE_GENAI_API_KEY;
 
-    const cleanTopic = topic.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-    const cleanNiche = niche.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
-
-    // Platform-specific defaults and rules
+    // Platform-tailored fallback generator if API key is missing or quota exceeded
     const getPlatformFallbacks = () => {
-        switch (platform) {
-            case 'Instagram':
+        const cleanTopic = topic.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        const cleanNiche = niche.replace(/[^a-zA-Z0-9]/g, '').toLowerCase();
+        
+        switch (platform.toLowerCase()) {
+            case 'instagram':
                 return {
-                    broadHashtags: ["#reels", "#explorepage", "#viralreels", "#instadaily", "#trendingnow", "#reelsinstagram", "#igreels"],
-                    nicheHashtags: [`#${cleanTopic || 'trending'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}reels`, `#${cleanNiche}tips`, `#creatorsofinstagram`, `#reelsoftheday`, `#viralcontent`],
+                    titles: [
+                        `Save this Reel before the algorithm changes! 📲`,
+                        `The easiest way to master ${topic} this week...`,
+                        `Stop scrolling if you want to grow your ${niche} page!`
+                    ],
+                    description: `Here is everything you need to know about ${topic} in the ${niche} space! ✨\n\n📌 Save this reel so you don't lose it.\n💬 Drop your questions below & let's discuss!\n👉 Follow for daily ${niche} growth tips & strategies.`,
+                    hashtags: `#reels #explorepage #viralreels #${cleanTopic || 'trending'} #${cleanNiche || 'creator'} #${cleanTopic}reels #${cleanNiche}tips #creatorsofinstagram #reelsoftheday #viralcontent`,
+                    broadHashtags: ["#reels", "#explorepage", "#viralreels", "#instadaily", "#trendingnow"],
+                    nicheHashtags: [`#${cleanTopic || 'trending'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}reels`, `#${cleanNiche}tips`, `#creatorsofinstagram`],
                     hooks: [
-                        `Save this reel before the Instagram algorithm changes! 📲`,
-                        `The easiest way to level up your ${topic} this week...`,
+                        `Save this Reel before the algorithm changes! 📲`,
+                        `The easiest way to master ${topic} this week...`,
                         `Stop scrolling if you want to grow your ${niche} page!`
                     ],
                     caption: `Here is everything you need to know about ${topic} in the ${niche} space! ✨\n\n📌 Save this reel so you don't lose it.\n💬 Drop your questions below & let's discuss!\n👉 Follow for daily ${niche} growth tips & strategies.`
                 };
-            case 'YouTube Shorts':
+            case 'youtube':
+            case 'youtube shorts':
                 return {
-                    broadHashtags: ["#shorts", "#youtubeshorts", "#viralshorts", "#trending", "#shortsvideo", "#youtube", "#subscribe"],
-                    nicheHashtags: [`#${cleanTopic || 'shorts'}`, `#${cleanNiche || 'tips'}`, `#${cleanTopic}shorts`, `#${cleanNiche}channel`, `#algorithm`, `#contentcreator`, `#creatoreconomy`],
+                    titles: [
+                        `Watch this before you make your next video on ${topic}!`,
+                        `The viral YouTube Shorts formula for ${topic} revealed:`,
+                        `Why 99% of creators fail at ${topic} (and how to fix it)!`
+                    ],
+                    description: `Learn the essential secrets of ${topic} for ${audience} in the ${niche} niche! 🚀\n\n🔔 Don't forget to LIKE and SUBSCRIBE for more daily shorts!\nShare your thoughts in the comments below!`,
+                    hashtags: `#shorts #youtubeshorts #viralshorts #${cleanTopic || 'shorts'} #${cleanNiche || 'tips'} #${cleanTopic}shorts #algorithm #creatoreconomy #trending`,
+                    broadHashtags: ["#shorts", "#youtubeshorts", "#viralshorts", "#trending", "#shortsvideo"],
+                    nicheHashtags: [`#${cleanTopic || 'shorts'}`, `#${cleanNiche || 'tips'}`, `#${cleanTopic}shorts`, `#${cleanNiche}channel`, `#algorithm`],
                     hooks: [
-                        `Watch this before you make your next YouTube video on ${topic}!`,
+                        `Watch this before you make your next video on ${topic}!`,
                         `The viral YouTube Shorts formula for ${topic} revealed:`,
                         `Why 99% of creators fail at ${topic} (and how to fix it)!`
                     ],
                     caption: `Learn the essential secrets of ${topic} for ${audience} in the ${niche} niche! 🚀\n\n🔔 Don't forget to LIKE and SUBSCRIBE for more daily shorts!\nShare your thoughts in the comments below!`
                 };
-            case 'Facebook':
-                return {
-                    broadHashtags: ["#facebookreels", "#viral", "#trending", "#reelsvideo", "#facebookviral", "#reelsfb", "#fbreels"],
-                    nicheHashtags: [`#${cleanTopic || 'viral'}`, `#${cleanNiche || 'video'}`, `#${cleanTopic}tips`, `#facebookcommunity`, `#creator`, `#viralstory`, `#trendingtopics`],
-                    hooks: [
-                        `Has anyone else noticed this happening with ${topic}?`,
-                        `3 things everyone should know about ${topic} today!`,
-                        `You won't believe how simple it is to master ${topic}!`
-                    ],
-                    caption: `Everyone in the ${niche} community has been asking about ${topic}! Here's the complete breakdown you need to know. What are your thoughts on this? Let us know in the comments and share with a friend who needs to see this! 👇`
-                };
-            case 'LinkedIn':
-                return {
-                    broadHashtags: ["#leadership", "#innovation", "#networking", "#marketing", "#professionaldevelopment", "#business", "#strategy"],
-                    nicheHashtags: [`#${cleanTopic || 'industry'}`, `#${cleanNiche || 'growth'}`, `#${cleanTopic}trends`, `#futureofwork`, `#productivity`, `#careeradvice`, `#digitalstrategy`],
-                    hooks: [
-                        `The biggest misconception most professionals have about ${topic}:`,
-                        `How prioritizing ${topic} transformed our approach to ${niche}:`,
-                        `3 key lessons I learned analyzing ${topic} for ${audience}:`
-                    ],
-                    caption: `In today's fast-evolving ${niche} landscape, understanding ${topic} is no longer optional for ${audience}.\n\nKey takeaway: Focus on structured consistency, data-driven optimization, and genuine value.\n\nWhat has been your experience navigating this in your industry? Let's connect and discuss in the comments below.`
-                };
-            case 'Twitter/X':
-                return {
-                    broadHashtags: ["#viral", "#trending", "#threads", "#techtwitter", "#buildinpublic", "#creator", "#x"],
-                    nicheHashtags: [`#${cleanTopic || 'trends'}`, `#${cleanNiche || 'news'}`, `#${cleanTopic}tips`, `#xthreads`, `#growth`, `#insights`, `#dailyupdate`],
-                    hooks: [
-                        `A masterclass on ${topic} that took me 3 years to learn (in 30 seconds): 🧵`,
-                        `The single most overlooked strategy in ${niche}: ${topic}.`,
-                        `If you care about ${topic}, stop doing this immediately:`
-                    ],
-                    caption: `Everything you need to know about ${topic} in 2026.\n\nBookmark this post 🔖\nRepost if you found this valuable 🔁\nFollow for more daily ${niche} breakdowns.`
-                };
-            case 'TikTok':
+            case 'tiktok':
             default:
                 return {
-                    broadHashtags: ["#fyp", "#viral", "#trending", "#foryou", "#foryoupage", "#tiktokviral", "#explore"],
-                    nicheHashtags: [`#${cleanTopic || 'viral'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}tips`, `#trending${cleanNiche}`, `#${cleanTopic}hacks`, `#creatorgrowth`, `#contentstrategy`],
+                    titles: [
+                        `You won't believe what happened when we tried ${topic}!`,
+                        `Stop scrolling if you want to know the truth about ${topic}...`,
+                        `3 secrets about ${topic} that no one is telling you!`
+                    ],
+                    description: `Here is everything you need to know about ${topic}! Make sure to save this video and follow for daily viral ${niche} updates. What do you think? Drop a comment below! 🔥`,
+                    hashtags: `#fyp #viral #trending #foryou #${cleanTopic || 'viral'} #${cleanNiche || 'creator'} #${cleanTopic}tips #trending${cleanNiche} #${cleanTopic}hacks #creatorgrowth`,
+                    broadHashtags: ["#fyp", "#viral", "#trending", "#foryou", "#foryoupage"],
+                    nicheHashtags: [`#${cleanTopic || 'viral'}`, `#${cleanNiche || 'creator'}`, `#${cleanTopic}tips`, `#trending${cleanNiche}`, `#${cleanTopic}hacks`],
                     hooks: [
                         `You won't believe what happened when we tried ${topic}!`,
                         `Stop scrolling if you want to know the truth about ${topic}...`,
                         `3 secrets about ${topic} that no one is telling you!`
                     ],
-                    caption: `Here is everything you need to know about ${topic}! Make sure to save this video and follow for daily viral ${niche} updates. What do you think? Drop a comment below! 🔥 (Powered by Viralora Core Engine)`
+                    caption: `Here is everything you need to know about ${topic}! Make sure to save this video and follow for daily viral ${niche} updates. What do you think? Drop a comment below! 🔥`
                 };
         }
     };
 
-    // If no API key is present in Netlify environment variables yet, provide curated viral fallback
     if (!apiKey) {
+        console.warn("GEMINI_API_KEY environment variable is not configured. Serving platform-curated fallback.");
         return {
             statusCode: 200,
-            headers: defaultHeaders,
+            headers,
             body: JSON.stringify(getPlatformFallbacks())
         };
     }
 
     try {
-        const prompt = `Act as an expert social media growth hacker and SEO algorithm strategist for ${platform}. 
+        const prompt = `Act as an elite social media content strategist and viral growth algorithm specialist for ${platform}.
 Platform: "${platform}".
-Video/Content topic: "${topic}". 
-Niche: "${niche}". 
+Video/Content Topic: "${topic}".
+Niche Category: "${niche}".
 Target Audience: "${audience}".
 
-Analyze the modern 2026 ${platform} recommendation algorithm and return a pure JSON object with these exact keys:
-"broadHashtags": [array of 7 strings representing high-volume, high-reach hashtags calibrated for ${platform}],
-"nicheHashtags": [array of 7 strings representing high-intent specific hashtags for the ${niche} niche on ${platform}],
-"hooks": [array of 3 strings representing psychological, high-CTR hook titles/text overlays specifically optimized for ${platform}],
-"caption": "A single string containing a high-converting, platform-specific caption formatted perfectly for ${platform} (e.g. spacing, emojis, call-to-action suitable for ${platform})."
+Analyze the current 2026 recommendation algorithm for ${platform} and generate a high-performing, authentic content strategy.
+You MUST return a STRICT VALID JSON object with EXACTLY these keys:
+{
+  "titles": ["High-converting Title/Hook 1", "High-converting Title/Hook 2", "High-converting Title/Hook 3"],
+  "description": "Engaging, platform-tailored caption and description formatted for ${platform} with an interactive question or call to action.",
+  "hashtags": "#tag1 #tag2 #tag3 #tag4 #tag5 #tag6 #tag7 #tag8 #tag9 #tag10",
+  "broadHashtags": ["#tag1", "#tag2", "#tag3", "#tag4", "#tag5"],
+  "nicheHashtags": ["#tag6", "#tag7", "#tag8", "#tag9", "#tag10"]
+}
 
-Return ONLY valid JSON without markdown wrapping.`;
+Guidelines:
+- Titles: 3 psychological, high-CTR hook lines or video title text overlays to maximize 0-3 second retention.
+- Description: High-retention caption formatted cleanly with appropriate emojis and clear call to action.
+- Hashtags: 10 relevant hashtags starting with '#' and space-separated.
+- Return ONLY the JSON object. Do not include markdown code fences (no \`\`\`json).`;
 
         // Model fallback chain: gemini-3.6-flash -> gemini-3.8-flash -> gemini-flash-latest
-        const models = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-flash-latest'];
+        const candidateModels = ['gemini-3.6-flash', 'gemini-3.8-flash', 'gemini-flash-latest'];
         let successData = null;
         let lastError = null;
 
-        for (const model of models) {
+        for (const model of candidateModels) {
             try {
                 const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'User-Agent': 'aistudio-build'
+                    },
                     body: JSON.stringify({
                         contents: [{ parts: [{ text: prompt }] }],
                         generationConfig: { 
                             response_mime_type: "application/json",
-                            thinking_config: { thinking_level: "LOW" }
+                            thinking_config: { thinking_level: "LOW" },
+                            temperature: 0.7
                         }
                     })
                 });
@@ -171,27 +178,67 @@ Return ONLY valid JSON without markdown wrapping.`;
                     break;
                 } else {
                     const errText = await response.text();
-                    lastError = `${model} returned ${response.status}: ${errText}`;
+                    lastError = `Model ${model} responded ${response.status}: ${errText}`;
                 }
-            } catch (err) {
-                lastError = err.message;
+            } catch (modelErr) {
+                lastError = modelErr.message;
             }
         }
 
-        if (successData && successData.broadHashtags) {
+        if (successData) {
+            // Normalize properties
+            const titles = Array.isArray(successData.titles) 
+                ? successData.titles 
+                : (Array.isArray(successData.hooks) ? successData.hooks : []);
+            
+            const description = successData.description || successData.caption || '';
+
+            let hashtagsStr = '';
+            if (typeof successData.hashtags === 'string') {
+                hashtagsStr = successData.hashtags.trim();
+            } else if (Array.isArray(successData.hashtags)) {
+                hashtagsStr = successData.hashtags.join(' ');
+            }
+
+            let tagsList = hashtagsStr ? hashtagsStr.split(/\s+/).filter(t => t.startsWith('#')) : [];
+            if (!tagsList.length && (successData.broadHashtags || successData.nicheHashtags)) {
+                tagsList = [...(successData.broadHashtags || []), ...(successData.nicheHashtags || [])];
+                hashtagsStr = tagsList.join(' ');
+            }
+
+            const mid = Math.ceil(tagsList.length / 2);
+            const broadHashtags = (Array.isArray(successData.broadHashtags) && successData.broadHashtags.length)
+                ? successData.broadHashtags
+                : tagsList.slice(0, mid);
+
+            const nicheHashtags = (Array.isArray(successData.nicheHashtags) && successData.nicheHashtags.length)
+                ? successData.nicheHashtags
+                : tagsList.slice(mid);
+
+            const finalPayload = {
+                titles: titles.length ? titles : ["Title 1", "Title 2", "Title 3"],
+                description: description || `Trending content strategy for ${topic}.`,
+                hashtags: hashtagsStr || "#viral #trending #explore",
+                // Backwards-compatible aliases
+                hooks: titles.length ? titles : ["Title 1", "Title 2", "Title 3"],
+                caption: description || `Trending content strategy for ${topic}.`,
+                broadHashtags: broadHashtags.length ? broadHashtags : ["#viral", "#trending"],
+                nicheHashtags: nicheHashtags.length ? nicheHashtags : ["#content", "#creator"]
+            };
+
             return {
                 statusCode: 200,
-                headers: defaultHeaders,
-                body: JSON.stringify(successData)
+                headers,
+                body: JSON.stringify(finalPayload)
             };
         }
 
-        throw new Error(lastError || "Could not generate content with available Gemini models");
+        throw new Error(lastError || "All Gemini candidate models failed to return content.");
     } catch (error) {
-        console.error("Function Error:", error);
-        return { 
-            statusCode: 200, 
-            headers: defaultHeaders,
+        console.error("Netlify Function Error:", error);
+        return {
+            statusCode: 200,
+            headers,
             body: JSON.stringify(getPlatformFallbacks())
         };
     }

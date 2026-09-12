@@ -253,6 +253,14 @@ Return ONLY valid JSON without markdown wrapping.`;
       }
 
       if (data) {
+        if (!data.titles && data.hooks) data.titles = data.hooks;
+        if (!data.hooks && data.titles) data.hooks = data.titles;
+        if (!data.description && data.caption) data.description = data.caption;
+        if (!data.caption && data.description) data.caption = data.description;
+        if (!data.hashtags) {
+          const combined = [...(data.broadHashtags || []), ...(data.nicheHashtags || [])];
+          data.hashtags = combined.join(' ');
+        }
         return res.json(data);
       }
       
